@@ -8,25 +8,25 @@
 
 import Foundation
 
-enum Type {
+enum Type : String, Codable {
     case academic
     case dining
     case gym
 }
 
-struct Space {
+struct Space : Decodable {
     public let id: Int
     public let name: String
-    public let capacity: Int
+    public let congestionRating: Int
     
-    fileprivate init(id: Int, name: String, capacity: Int) {
+    fileprivate init(id: Int, name: String, congestionRating: Int) {
         self.id = id
         self.name = name
-        self.capacity = capacity
+        self.congestionRating = congestionRating
     }
 }
 
-class Location {
+struct Location : Decodable {
     public let id: Int
     public let name: String
     public let type: Type
@@ -40,11 +40,11 @@ class Location {
     }
 }
 
-class CrowdedData {
+class CrowdedData : Decodable {
     public static let singleton: CrowdedData = CrowdedData();
     
     private var filter: Type?
-    private var locations: [Location]
+    public private(set) var locations: [Location]
     public private(set) var filteredLocations: [Location]
     
     private init() {
@@ -53,58 +53,29 @@ class CrowdedData {
         filteredLocations = [Location]()
     }
     
-    private func generateNoise(avg: Int) -> Int {
-       return Int.random(in: avg-7...avg+7)
-    }
-    
-    func update() {
-        locations.removeAll()
+    func update(onSuccess: @escaping ()->()) {
+        let url = URL(string: "http://cwruded.herokuapp.com/api/locations")!
         
-        var spaces = [Space]()
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+            guard error == nil else {
+                print("HTTP request error...")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data to decode...")
+                return
+            }
+            
+            guard let locations = try? JSONDecoder().decode([Location].self, from: data) else {
+                print("Error: Couldn't decode data into Blog")
+                return
+            }
+            self.locations = locations
+            onSuccess()
+        }
         
-        spaces.append(Space(id: 1, name: "1st Floor", capacity: generateNoise(avg: 20)))
-        spaces.append(Space(id: 2, name: "2nd Floor", capacity: generateNoise(avg: 75)))
-        spaces.append(Space(id: 3, name: "3rd Floor", capacity: generateNoise(avg: 90)))
-        let location1: Location = Location(id: 1, name: "Kelvin Smith Library", type: .academic, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 50)))
-        let location2: Location = Location(id: 2, name: "Olin", type: .academic, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 33)))
-        let location3: Location = Location(id: 3, name: "Veale Athletic Center", type: .gym, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 10)))
-        let location4: Location = Location(id: 4, name: "Fribley Dining Hall", type: .dining, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 99)))
-        let location5: Location = Location(id: 5, name: "Nord", type: .academic, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 66)))
-        let location6: Location = Location(id: 6, name: "Strosacker", type: .academic, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 15)))
-        let location7: Location = Location(id: 7, name: "Wyant Athletic Center", type: .gym, spaces: spaces)
-        
-        spaces.removeAll()
-        spaces.append(Space(id: 4, name: "General", capacity: generateNoise(avg: 43)))
-        let location8: Location = Location(id: 8, name: "Leutner Dining Hall", type: .dining, spaces: spaces)
-        
-        locations.append(location1)
-        locations.append(location2)
-        locations.append(location3)
-        locations.append(location4)
-        locations.append(location5)
-        locations.append(location6)
-        locations.append(location7)
-        locations.append(location8)
-        
-        order()
+        task.resume()
     }
     
     func filter(type: Type?) {
@@ -117,9 +88,9 @@ class CrowdedData {
         }
     }
     
-    private func order() {
-        for location in locations {
-            location.spaces = location.spaces.sorted(by: { $0.name < $1.name })
+    func order() {
+        for i in 0..<locations.count {
+            locations[i].spaces = locations[i].spaces.sorted(by: { $0.name < $1.name })
         }
         locations = locations.sorted(by: { $0.name < $1.name })
     }

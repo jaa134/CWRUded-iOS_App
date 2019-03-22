@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F6R-mi-IDc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -33,21 +33,6 @@
                                     <action selector="showAllButtonPressedUpInside:" destination="9pv-A4-QxB" eventType="touchUpInside" id="asJ-uz-a8J"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXW-CI-cbT">
-                                <rect key="frame" x="32.5" y="30" width="70" height="70"/>
-                                <color key="backgroundColor" red="0.039215686274509803" green="0.18823529411764706" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="DHR-Ee-NTE"/>
-                                    <constraint firstAttribute="width" constant="70" id="LCT-En-fm3"/>
-                                </constraints>
-                                <state key="normal">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="academicButtonPressedDown:" destination="9pv-A4-QxB" eventType="touchDown" id="t3O-Ed-AkS"/>
-                                    <action selector="academicButtonPressedUpInside:" destination="9pv-A4-QxB" eventType="touchUpInside" id="JSm-63-xlj"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sr-R0-jxu">
                                 <rect key="frame" x="152.5" y="30" width="70" height="70"/>
                                 <color key="backgroundColor" red="0.039215686274509803" green="0.18823529411764706" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -61,6 +46,21 @@
                                 <connections>
                                     <action selector="diningButtonPressedDown:" destination="9pv-A4-QxB" eventType="touchDown" id="zlm-DU-EPc"/>
                                     <action selector="diningButtonPressedUpInside:" destination="9pv-A4-QxB" eventType="touchUpInside" id="dcd-3B-tlj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXW-CI-cbT">
+                                <rect key="frame" x="32.5" y="30" width="70" height="70"/>
+                                <color key="backgroundColor" red="0.039215686274509803" green="0.18823529411764706" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="DHR-Ee-NTE"/>
+                                    <constraint firstAttribute="width" constant="70" id="LCT-En-fm3"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="academicButtonPressedDown:" destination="9pv-A4-QxB" eventType="touchDown" id="t3O-Ed-AkS"/>
+                                    <action selector="academicButtonPressedUpInside:" destination="9pv-A4-QxB" eventType="touchUpInside" id="JSm-63-xlj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dqd-wC-w0W">
@@ -259,6 +259,44 @@
             </objects>
             <point key="canvasLocation" x="782" y="358"/>
         </scene>
+        <!--Loading View Controller-->
+        <scene sceneID="kN5-aH-YjC">
+            <objects>
+                <viewController id="F6R-mi-IDc" customClass="LoadingViewController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cbu-Pb-All">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="universitylogo" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-as-0n8">
+                                <rect key="frame" x="10" y="290" width="355" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="B6R-as-0n8" secondAttribute="height" multiplier="406:122" id="7uw-af-2Ue"/>
+                                </constraints>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zKN-UF-EyN">
+                                <rect key="frame" x="169" y="415" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="B6R-as-0n8" firstAttribute="centerX" secondItem="Z1J-Is-FYi" secondAttribute="centerX" id="H8f-M1-Qg9"/>
+                            <constraint firstItem="B6R-as-0n8" firstAttribute="centerY" secondItem="Z1J-Is-FYi" secondAttribute="centerY" id="QHv-jp-a4L"/>
+                            <constraint firstItem="zKN-UF-EyN" firstAttribute="centerY" secondItem="Z1J-Is-FYi" secondAttribute="centerY" constant="90" id="db5-2D-2JA"/>
+                            <constraint firstItem="B6R-as-0n8" firstAttribute="leading" secondItem="Z1J-Is-FYi" secondAttribute="leading" constant="10" id="fhV-Vh-kai"/>
+                            <constraint firstItem="B6R-as-0n8" firstAttribute="width" secondItem="B6R-as-0n8" secondAttribute="height" multiplier="406:122" id="gRw-n5-ta8"/>
+                            <constraint firstItem="zKN-UF-EyN" firstAttribute="centerX" secondItem="Z1J-Is-FYi" secondAttribute="centerX" id="ocX-FA-v11"/>
+                            <constraint firstItem="Z1J-Is-FYi" firstAttribute="trailing" secondItem="B6R-as-0n8" secondAttribute="trailing" constant="10" id="sba-8C-fEL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Z1J-Is-FYi"/>
+                    </view>
+                    <connections>
+                        <segue destination="49e-Tb-3d3" kind="show" identifier="toHome" id="wyR-Cj-ozO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u3w-FA-Xhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-810.39999999999998" y="-0.44977511244377816"/>
+        </scene>
         <!--App Navigation Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -283,5 +321,6 @@
         <image name="cog" width="25" height="25"/>
         <image name="home" width="25" height="25"/>
         <image name="question-circle" width="25" height="25"/>
+        <image name="universitylogo" width="406" height="122"/>
     </resources>
 </document>

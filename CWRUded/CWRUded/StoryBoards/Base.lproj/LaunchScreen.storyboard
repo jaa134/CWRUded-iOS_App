@@ -18,8 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="universitylogo" translatesAutoresizingMaskIntoConstraints="NO" id="lld-p0-Pss">
-                                <rect key="frame" x="10" y="300" width="355" height="110"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="universitylogo" translatesAutoresizingMaskIntoConstraints="NO" id="lld-p0-Pss">
+                                <rect key="frame" x="10" y="290" width="355" height="107"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="lld-p0-Pss" secondAttribute="height" multiplier="406:122" id="1Kb-FR-cEk"/>
                                 </constraints>
@@ -27,8 +27,10 @@
                         </subviews>
                         <color key="backgroundColor" red="0.039215686274509803" green="0.18823529411764706" blue="0.30588235294117649" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="lld-p0-Pss" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="7P9-3K-VaI"/>
                             <constraint firstItem="lld-p0-Pss" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Irg-T3-UAS"/>
                             <constraint firstItem="lld-p0-Pss" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="SPO-zf-mbI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lld-p0-Pss" secondAttribute="trailing" constant="10" id="h3Q-0r-D2x"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -15,16 +15,17 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var gymButton: UIButton!
     @IBOutlet weak var showAllButton: UIButton!
     
-    private var selectedFilterButton: UIButton?
-    
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    private var crowdedDataView: CrowdedDataView?
+    private var selectedFilterButton: UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addFilterButtonIcons()
         roundFilterButtons()
         selectInitialButton(button: showAllButton)
-        updateScrollViewContent()
+        placeScrollViewContent()
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(updateScrollViewContent), userInfo: nil, repeats: true)
     }
     
@@ -59,9 +60,9 @@ class HomeViewController: UIViewController {
     }
     
     func placeScrollViewContent() {
-        let crowdedDataView = CrowdedDataView()
+        crowdedDataView = CrowdedDataView()
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        scrollView.addSubview(crowdedDataView)
+        scrollView.addSubview(crowdedDataView!)
     }
     
     func getTypeFromSelectedButton() -> Type? {
@@ -74,10 +75,14 @@ class HomeViewController: UIViewController {
     }
     
     @objc func updateScrollViewContent() {
-        CrowdedData.singleton.update()
-        let type = getTypeFromSelectedButton()
-        CrowdedData.singleton.filter(type: type)
-        placeScrollViewContent()
+        CrowdedData.singleton.update(onSuccess: {
+            let type = self.getTypeFromSelectedButton()
+            CrowdedData.singleton.filter(type: type)
+            CrowdedData.singleton.order()
+            DispatchQueue.main.async {
+                self.crowdedDataView!.update()
+            }
+        })
     }
     
     func pressButton(button: UIButton) {

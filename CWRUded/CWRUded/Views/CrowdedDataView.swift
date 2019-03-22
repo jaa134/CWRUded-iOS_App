@@ -15,10 +15,12 @@ class CongestionView : UIView {
     private static let yellowColor: [CGFloat] = [250.0, 220.0, 22.0]
     private static let redColor: [CGFloat] = [204.0, 50.0, 50.0]
     
-    private let capacity: Int
+    private var rating: Int
+    private var colorView: UIView
     
-    fileprivate init(x: CGFloat, y: CGFloat, width: CGFloat, capacity: Int) {
-        self.capacity = max(1, min(capacity, 100))
+    fileprivate init(x: CGFloat, y: CGFloat, width: CGFloat, rating: Int) {
+        self.rating = max(1, min(rating, 100))
+        self.colorView = UIView()
         super.init(frame: CGRect(x: x, y: y, width: width, height: CongestionView.height))
         setupView()
     }
@@ -32,7 +34,7 @@ class CongestionView : UIView {
         setOptions()
         setColor()
         roundCorners()
-        addMask()
+        addColorView()
     }
     
     private func setOptions() {
@@ -56,14 +58,14 @@ class CongestionView : UIView {
         let b: CGFloat
         
         let step: CGFloat
-        if (capacity <= 50) {
-            step = CGFloat(capacity) / 50.0
+        if (rating <= 50) {
+            step = CGFloat(rating) / 50.0
             r = (CongestionView.greenColor[0] + ((CongestionView.yellowColor[0] - CongestionView.greenColor[0]) * step)) / 255.0
             g = (CongestionView.greenColor[1] + ((CongestionView.yellowColor[1] - CongestionView.greenColor[1]) * step)) / 255.0
             b = (CongestionView.greenColor[2] + ((CongestionView.yellowColor[2] - CongestionView.greenColor[2]) * step)) / 255.0
         }
         else {
-            step = CGFloat(capacity - 50) / 50.0
+            step = CGFloat(rating - 50) / 50.0
             r = (CongestionView.yellowColor[0] + ((CongestionView.redColor[0] - CongestionView.yellowColor[0]) * step)) / 255.0
             g = (CongestionView.yellowColor[1] + ((CongestionView.redColor[1] - CongestionView.yellowColor[1]) * step)) / 255.0
             b = (CongestionView.yellowColor[2] + ((CongestionView.redColor[2] - CongestionView.yellowColor[2]) * step)) / 255.0
@@ -72,15 +74,27 @@ class CongestionView : UIView {
         return UIColor(red: r, green: g, blue: b, alpha: 1)
     }
     
-    private func addMask() {
-        let mask = UIView()
-        mask.isHidden = false
-        mask.isOpaque = false
-        mask.isUserInteractionEnabled = false
-        mask.frame = CGRect(x: 0, y: 0, width: (frame.width * CGFloat(capacity) / 100), height: CongestionView.height)
-        mask.backgroundColor = getMaskColor()
+    private func getColorViewRect() -> CGRect {
+        return CGRect(x: 0, y: 0, width: (frame.width * CGFloat(rating) / 100), height: CongestionView.height)
+    }
+    
+    private func addColorView() {
+        colorView.isHidden = false
+        colorView.isOpaque = false
+        colorView.isUserInteractionEnabled = false
+        colorView.frame = getColorViewRect()
+        colorView.backgroundColor = getMaskColor()
         
-        addSubview(mask)
+        addSubview(colorView)
+    }
+    
+    fileprivate func update(rating: Int) {
+        self.rating = rating
+        UIView.animate(withDuration: 0.15,
+                       animations: {
+                        self.colorView.frame = self.getColorViewRect()
+                        self.colorView.backgroundColor = self.getMaskColor()
+        })
     }
 }
 
@@ -91,10 +105,12 @@ class SpaceView : UIView {
     public static let padding_h: CGFloat = 10;
     public static let titleBarHeight: CGFloat = 25;
     
-    private let space: Space
+    fileprivate let space: Space
+    private var congestionView: CongestionView?
     
     fileprivate init(space: Space) {
         self.space = space
+        self.congestionView = nil
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
@@ -139,8 +155,12 @@ class SpaceView : UIView {
     }
     
     private func placeProgressView() {
-        let congestionView = CongestionView(x: 0, y: SpaceView.titleBarHeight + 3, width: frame.width, capacity: space.capacity)
-        addSubview(congestionView)
+        congestionView = CongestionView(x: 0, y: SpaceView.titleBarHeight + 3, width: frame.width, rating: space.congestionRating)
+        addSubview(congestionView!)
+    }
+    
+    fileprivate func update(space: Space) {
+        congestionView!.update(rating: space.congestionRating)
     }
 }
 
@@ -151,7 +171,7 @@ class LocationView : UIView {
     public static let padding_h: CGFloat = 10;
     public static let titleBarHeight: CGFloat = 40;
     
-    private let location: Location
+    fileprivate let location: Location
     private var spaceViews: [SpaceView]
     
     fileprivate init(location: Location) {
@@ -247,6 +267,17 @@ class LocationView : UIView {
             height += spaceView.frame.height + SpaceView.padding_v
         }
     }
+    
+    fileprivate func update(location: Location) {
+        for space in location.spaces {
+            for spaceView in spaceViews {
+                if (spaceView.space.id == space.id) {
+                    spaceView.update(space: space)
+                    break
+                }
+            }
+        }
+    }
 }
 
 
@@ -322,6 +353,17 @@ class CrowdedDataView : UIView {
             locationView.frame.origin.y = height
             addSubview(locationView)
             height += locationView.frame.height + LocationView.padding_v
+        }
+    }
+    
+    public func update() {
+        for location in CrowdedData.singleton.locations {
+            for locationView in locationViews {
+                if (locationView.location.id == location.id) {
+                    locationView.update(location: location)
+                    break
+                }
+            }
         }
     }
 }
