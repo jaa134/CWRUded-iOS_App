@@ -10,6 +10,10 @@ import UIKit
 
 class LoadingViewController: UIViewController {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var retryButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -17,21 +21,73 @@ class LoadingViewController: UIViewController {
     
     private func setupView() {
         setBackgroundColor()
-        setLoadFinishedTransition()
+        loadAppData()
     }
     
     private func setBackgroundColor() {
         view.backgroundColor = ColorPallete.navyBlue
     }
     
-    private func setLoadFinishedTransition() {
-        CrowdedData.singleton.update(onSuccess: {
-            CrowdedData.singleton.filter(type: nil)
-            CrowdedData.singleton.order()            
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "toHome", sender: self)
-            }
-        })
+    private func loadAppData() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)
+    }
+    
+    private func showErrorHandlers(text: String) {
+        errorLabel.numberOfLines = 5
+        errorLabel.text = text
+        errorLabel.textColor = ColorPallete.white
+        errorLabel.backgroundColor = ColorPallete.transparent
+        errorLabel.textAlignment = .center
+        errorLabel.sizeToFit()
+        errorLabel.isHidden = false
+        
+        retryButton.layer.cornerRadius = 10
+        retryButton.clipsToBounds = true
+        retryButton.backgroundColor = ColorPallete.white
+        retryButton.setTitleColor(ColorPallete.black, for: .normal)
+        retryButton.isHidden = false
+    }
+    
+    private func hideErrorHandlers() {
+        errorLabel.isHidden = true
+        retryButton.isHidden = true
+    }
+    
+    func onUpdateNetworkError() {
+        DispatchQueue.main.async {
+            let message = "The server could not be reached at this time. Would you like to try again?"
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
+            let alert = UIAlertController(title: "Network Error", message: message, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: { action in self.loadAppData() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers(text: message)}))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func onUpdateDataError() {
+        DispatchQueue.main.async {
+            let message = "The server encountered an error. Would you like to try again?"
+            let alert = UIAlertController(title: "Server Error", message: message, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: { action in self.loadAppData() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers(text: message)}))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func onUpdateSuccess() {
+        CrowdedData.singleton.filter(type: nil)
+        CrowdedData.singleton.order()
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toHome", sender: self)
+        }
+    }
+    
+    @IBAction func retryButtonPressed(_ sender: Any) {
+        hideErrorHandlers()
+        loadAppData()
     }
 }
 

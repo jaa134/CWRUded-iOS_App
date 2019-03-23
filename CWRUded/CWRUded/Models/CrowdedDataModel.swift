@@ -40,9 +40,10 @@ struct Location : Decodable {
     }
 }
 
-class CrowdedData : Decodable {
+class CrowdedData {
     public static let singleton: CrowdedData = CrowdedData();
     
+    private var urlSessionConfig: URLSessionConfiguration
     private var filter: Type?
     public private(set) var locations: [Location]
     public private(set) var filteredLocations: [Location]
@@ -51,24 +52,29 @@ class CrowdedData : Decodable {
         filter = nil
         locations = [Location]()
         filteredLocations = [Location]()
+        urlSessionConfig = URLSessionConfiguration.default
+        urlSessionConfig.timeoutIntervalForRequest = 20
+        urlSessionConfig.timeoutIntervalForResource = 10
     }
     
-    func update(onSuccess: @escaping ()->()) {
+    func update(onNetworkError: @escaping ()->(), onDataError: @escaping ()->(), onSuccess: @escaping ()->()) {
         let url = URL(string: "http://cwruded.herokuapp.com/api/locations")!
         
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let session = URLSession(configuration: urlSessionConfig)
+        let task = session.dataTask(with: url) {(data, response, error) in
             guard error == nil else {
                 print("HTTP request error...")
+                onNetworkError()
                 return
             }
-            
             guard let data = data else {
                 print("No data to decode...")
+                onDataError()
                 return
             }
-            
             guard let locations = try? JSONDecoder().decode([Location].self, from: data) else {
-                print("Error: Couldn't decode data into Blog")
+                print("Error: Couldn't decode data into Locations set...")
+                onDataError()
                 return
             }
             self.locations = locations

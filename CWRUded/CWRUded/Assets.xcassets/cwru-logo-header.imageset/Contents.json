@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "universitylogo.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "cwru-logo-header@2x.png",
       "scale" : "2x"
     },
     {

@@ -267,29 +267,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="universitylogo" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-as-0n8">
-                                <rect key="frame" x="10" y="290" width="355" height="107"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zKN-UF-EyN">
+                                <rect key="frame" x="169" y="404" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eA0-nl-t7C">
+                                <rect key="frame" x="30" y="404" width="315" height="0.0"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLY-xL-u2x">
+                                <rect key="frame" x="127.5" y="419" width="120" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="B6R-as-0n8" secondAttribute="height" multiplier="406:122" id="7uw-af-2Ue"/>
+                                    <constraint firstAttribute="width" constant="120" id="YRn-Tn-VXy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Try Again"/>
+                                <connections>
+                                    <action selector="retryButtonPressed:" destination="F6R-mi-IDc" eventType="touchUpInside" id="l6Z-wE-d0r"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cwru-logo-header" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-as-0n8">
+                                <rect key="frame" x="10" y="313" width="355" height="61"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="B6R-as-0n8" secondAttribute="height" multiplier="1154:198" id="ycs-Hd-Op9"/>
                                 </constraints>
                             </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zKN-UF-EyN">
-                                <rect key="frame" x="169" y="415" width="37" height="37"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="B6R-as-0n8" firstAttribute="centerX" secondItem="Z1J-Is-FYi" secondAttribute="centerX" id="H8f-M1-Qg9"/>
+                            <constraint firstItem="eA0-nl-t7C" firstAttribute="top" secondItem="B6R-as-0n8" secondAttribute="bottom" constant="30" id="6rj-oU-HCi"/>
+                            <constraint firstItem="Z1J-Is-FYi" firstAttribute="trailing" secondItem="eA0-nl-t7C" secondAttribute="trailing" constant="30" id="6xn-Fe-Tw1"/>
+                            <constraint firstItem="eA0-nl-t7C" firstAttribute="leading" secondItem="Z1J-Is-FYi" secondAttribute="leading" constant="30" id="7Ug-5f-Nfr"/>
+                            <constraint firstItem="VLY-xL-u2x" firstAttribute="top" secondItem="eA0-nl-t7C" secondAttribute="bottom" constant="15" id="Kom-JC-4Lm"/>
+                            <constraint firstItem="zKN-UF-EyN" firstAttribute="top" secondItem="B6R-as-0n8" secondAttribute="bottom" constant="30" id="PxD-2G-V3B"/>
                             <constraint firstItem="B6R-as-0n8" firstAttribute="centerY" secondItem="Z1J-Is-FYi" secondAttribute="centerY" id="QHv-jp-a4L"/>
-                            <constraint firstItem="zKN-UF-EyN" firstAttribute="centerY" secondItem="Z1J-Is-FYi" secondAttribute="centerY" constant="90" id="db5-2D-2JA"/>
                             <constraint firstItem="B6R-as-0n8" firstAttribute="leading" secondItem="Z1J-Is-FYi" secondAttribute="leading" constant="10" id="fhV-Vh-kai"/>
-                            <constraint firstItem="B6R-as-0n8" firstAttribute="width" secondItem="B6R-as-0n8" secondAttribute="height" multiplier="406:122" id="gRw-n5-ta8"/>
+                            <constraint firstItem="VLY-xL-u2x" firstAttribute="centerX" secondItem="Z1J-Is-FYi" secondAttribute="centerX" id="iHf-ON-3dJ"/>
                             <constraint firstItem="zKN-UF-EyN" firstAttribute="centerX" secondItem="Z1J-Is-FYi" secondAttribute="centerX" id="ocX-FA-v11"/>
                             <constraint firstItem="Z1J-Is-FYi" firstAttribute="trailing" secondItem="B6R-as-0n8" secondAttribute="trailing" constant="10" id="sba-8C-fEL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Z1J-Is-FYi"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="zKN-UF-EyN" id="bXk-xY-a1h"/>
+                        <outlet property="errorLabel" destination="eA0-nl-t7C" id="AI6-lA-GD6"/>
+                        <outlet property="retryButton" destination="VLY-xL-u2x" id="YzZ-0c-8JB"/>
                         <segue destination="49e-Tb-3d3" kind="show" identifier="toHome" id="wyR-Cj-ozO"/>
                     </connections>
                 </viewController>
@@ -319,8 +343,8 @@
     </scenes>
     <resources>
         <image name="cog" width="25" height="25"/>
+        <image name="cwru-logo-header" width="577" height="99"/>
         <image name="home" width="25" height="25"/>
         <image name="question-circle" width="25" height="25"/>
-        <image name="universitylogo" width="406" height="122"/>
     </resources>
 </document>

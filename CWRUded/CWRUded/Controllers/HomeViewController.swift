@@ -75,14 +75,34 @@ class HomeViewController: UIViewController {
     }
     
     @objc func updateScrollViewContent() {
-        CrowdedData.singleton.update(onSuccess: {
-            let type = self.getTypeFromSelectedButton()
-            CrowdedData.singleton.filter(type: type)
-            CrowdedData.singleton.order()
-            DispatchQueue.main.async {
-                self.crowdedDataView!.update()
-            }
-        })
+        CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)
+    }
+    
+    func onUpdateNetworkError() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Network Error", message: "The server could not be reached at this time. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateScrollViewContent() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func onUpdateDataError() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Server Error", message: "The server encountered an error. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateScrollViewContent() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func onUpdateSuccess() {
+        let type = self.getTypeFromSelectedButton()
+        CrowdedData.singleton.filter(type: type)
+        CrowdedData.singleton.order()
+        DispatchQueue.main.async {
+            self.crowdedDataView!.update()
+        }
     }
     
     func pressButton(button: UIButton) {

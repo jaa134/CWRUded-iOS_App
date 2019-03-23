@@ -18,10 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="universitylogo" translatesAutoresizingMaskIntoConstraints="NO" id="lld-p0-Pss">
-                                <rect key="frame" x="10" y="290" width="355" height="107"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cwru-logo-header" translatesAutoresizingMaskIntoConstraints="NO" id="lld-p0-Pss">
+                                <rect key="frame" x="10" y="313" width="355" height="61"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="lld-p0-Pss" secondAttribute="height" multiplier="406:122" id="1Kb-FR-cEk"/>
+                                    <constraint firstAttribute="width" secondItem="lld-p0-Pss" secondAttribute="height" multiplier="1154:198" id="1Kb-FR-cEk"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -41,6 +41,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="universitylogo" width="406" height="122"/>
+        <image name="cwru-logo-header" width="577" height="99"/>
     </resources>
 </document>
