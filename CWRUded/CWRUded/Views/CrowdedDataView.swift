@@ -253,7 +253,7 @@ class LocationView : UIView {
     
     private func setTitle() {
         let titleLabel = UILabel(frame: CGRect(x: 60, y: 7, width: frame.width - 60 - SpaceView.padding_h, height: LocationView.titleBarHeight))
-        titleLabel.font = UIFont.systemFont(ofSize: 30)
+        titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .medium)
         titleLabel.text = location.name
         titleLabel.textColor = ColorPallete.white
         addSubview(titleLabel)

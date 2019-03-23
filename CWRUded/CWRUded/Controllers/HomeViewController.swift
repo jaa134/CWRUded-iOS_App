@@ -9,76 +9,133 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
-    @IBOutlet weak var academicButton: UIButton!
-    @IBOutlet weak var diningButton: UIButton!
-    @IBOutlet weak var gymButton: UIButton!
-    @IBOutlet weak var showAllButton: UIButton!
     
+    @IBOutlet weak var titleIconLabel: UILabel!
+    @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var filterView: UIView!
+    @IBOutlet weak var filterIcon: UILabel!
+    @IBOutlet weak var filterText: UILabel!
+    @IBOutlet weak var filterTypeIcon: UILabel!
+    @IBOutlet weak var filterTypeText: UILabel!
     
     private var crowdedDataView: CrowdedDataView?
-    private var selectedFilterButton: UIButton?
+    private var selectedFilter: Type?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addFilterButtonIcons()
-        roundFilterButtons()
-        selectInitialButton(button: showAllButton)
+        setupView()
+    }
+    
+    private func setupView() {
+        setTitle()
+        setScrollView()
+        setInitialFilter()
+        addFilterTapGesture()
         placeScrollViewContent()
         Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(updateScrollViewContent), userInfo: nil, repeats: true)
     }
     
-    func addFilterButtonIcons() {
-        academicButton.titleLabel?.font = UIFont(name: "FontAwesome5Free-Solid", size: 35)
-        diningButton.titleLabel?.font = UIFont(name: "FontAwesome5Free-Solid", size: 35)
-        gymButton.titleLabel?.font = UIFont(name: "FontAwesome5Free-Solid", size: 35)
+    private func setTitle() {
+        titleIconLabel.backgroundColor = ColorPallete.navyBlue
+        titleIconLabel.layer.cornerRadius = 0.5 * titleIconLabel.bounds.size.width
+        titleIconLabel.clipsToBounds = true
+        titleIconLabel.font = UIFont(name: "FontAwesome5Free-Solid", size: 35)
+        titleIconLabel.text = "\u{f015}"
+        titleIconLabel.textColor = ColorPallete.white
         
-        academicButton.setTitle("\u{f02d}", for: .normal)
-        diningButton.setTitle("\u{f2e7}", for: .normal)
-        gymButton.setTitle("\u{f44b}", for: .normal)
+        titleTextLabel.backgroundColor = ColorPallete.grey
+        titleTextLabel.layer.cornerRadius = 5
+        titleTextLabel.clipsToBounds = true
+        titleTextLabel.textColor = ColorPallete.white
+    }
+    
+    private func setScrollView() {
+        scrollView.backgroundColor = ColorPallete.clay
+    }
+    
+    private func setInitialFilter() {
+        filterView.backgroundColor = ColorPallete.darkGrey
         
-        academicButton.setTitleColor(ColorPallete.white, for: .normal)
-        diningButton.setTitleColor(ColorPallete.white, for: .normal)
-        gymButton.setTitleColor(ColorPallete.white, for: .normal)
+        filterIcon.font = UIFont(name: "FontAwesome5Free-Solid", size: 20)
+        filterIcon.textColor = ColorPallete.white
+        filterIcon.text = "\u{f0b0}"
+        
+        filterText.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
+        filterText.textColor = ColorPallete.white
+        filterText.text = "Filter"
+        
+        
+        filterTypeIcon.font = UIFont(name: "FontAwesome5Free-Solid", size: 16)
+        filterTypeIcon.textColor = ColorPallete.clay
+        
+        filterTypeText.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
+        filterTypeText.textColor = ColorPallete.clay
+        
+        setFilter(type: nil)
     }
     
-    func roundFilterButtons() {
-        academicButton.layer.cornerRadius = 0.5 * academicButton.bounds.size.width
-        academicButton.clipsToBounds = true
-        diningButton.layer.cornerRadius = 0.5 * diningButton.bounds.size.width
-        diningButton.clipsToBounds = true
-        gymButton.layer.cornerRadius = 0.5 * gymButton.bounds.size.width
-        gymButton.clipsToBounds = true
-        showAllButton.layer.cornerRadius = 0.125 * showAllButton.bounds.height
-        showAllButton.clipsToBounds = true
-    }
-    
-    func selectInitialButton(button: UIButton) {
-        button.backgroundColor = ColorPallete.darkGrey
-        selectedFilterButton = button
-    }
-    
-    func placeScrollViewContent() {
-        crowdedDataView = CrowdedDataView()
-        scrollView.subviews.forEach { $0.removeFromSuperview() }
-        scrollView.addSubview(crowdedDataView!)
-    }
-    
-    func getTypeFromSelectedButton() -> Type? {
-        switch (selectedFilterButton) {
-        case academicButton: return .academic
-        case diningButton: return .dining
-        case gymButton: return .gym
-        default: return nil
+    private func setFilter(type: Type?) {
+        selectedFilter = type
+        CrowdedData.singleton.filter(type: selectedFilter)
+        placeScrollViewContent()
+        
+        if let type = type {
+            if (type == .academic) {
+                filterTypeIcon.text = "\u{f02d}"
+                filterTypeText.text = "Academic"
+            }
+            else if (type == .dining) {
+                filterTypeIcon.text = "\u{f2e7}"
+                filterTypeText.text = "Dining"
+            }
+            else if (type == .gym) {
+                filterTypeIcon.text = "\u{f44b}"
+                filterTypeText.text = "Gym"
+            }
+        }
+        else {
+            filterTypeText.text = ""
+            filterTypeIcon.text = ""
         }
     }
     
-    @objc func updateScrollViewContent() {
+    private func addFilterTapGesture() {
+        var tap: UITapGestureRecognizer
+        tap = UITapGestureRecognizer(target: self, action: #selector(filterTapped))
+        tap.numberOfTapsRequired = 1
+        filterView.addGestureRecognizer(tap)
+    }
+    
+    @objc private func filterTapped() {
+        let filterActionSheet = UIAlertController(title: "Filter", message: "Select an option to filter locations.", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let allAction = UIAlertAction(title: "All", style: UIAlertAction.Style.default) { (action) in self.setFilter(type: nil) }
+        let academicAction = UIAlertAction(title: "Academic", style: UIAlertAction.Style.default) { (action) in self.setFilter(type: .academic) }
+        let diningAction = UIAlertAction(title: "Dining", style: UIAlertAction.Style.default) { (action) in self.setFilter(type: .dining) }
+        let gymAction = UIAlertAction(title: "Gym", style: UIAlertAction.Style.default) { (action) in self.setFilter(type: .gym) }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+        
+        filterActionSheet.addAction(allAction)
+        filterActionSheet.addAction(academicAction)
+        filterActionSheet.addAction(diningAction)
+        filterActionSheet.addAction(gymAction)
+        filterActionSheet.addAction(cancelAction)
+        
+        self.present(filterActionSheet, animated: true, completion: nil)
+    }
+    
+    private func placeScrollViewContent() {
+        scrollView.subviews.forEach { $0.removeFromSuperview() }
+        crowdedDataView = CrowdedDataView()
+        scrollView.addSubview(crowdedDataView!)
+    }
+    
+    @objc private func updateScrollViewContent() {
         CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)
     }
     
-    func onUpdateNetworkError() {
+    private func onUpdateNetworkError() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Network Error", message: "The server could not be reached at this time. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateScrollViewContent() }))
@@ -87,7 +144,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func onUpdateDataError() {
+    private func onUpdateDataError() {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Server Error", message: "The server encountered an error. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateScrollViewContent() }))
@@ -96,68 +153,24 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func onUpdateSuccess() {
-        let type = self.getTypeFromSelectedButton()
-        CrowdedData.singleton.filter(type: type)
+    private func onUpdateSuccess() {
+        CrowdedData.singleton.filter(type: selectedFilter)
         CrowdedData.singleton.order()
         DispatchQueue.main.async {
             self.crowdedDataView!.update()
         }
     }
     
-    func pressButton(button: UIButton) {
+    private func pressButton(button: UIButton) {
         button.backgroundColor = ColorPallete.grey
     }
     
-    func animateToColor(button: UIButton?, color: UIColor) {
+    private func animateToColor(button: UIButton?, color: UIColor) {
         if let button = button {
             UIView.transition(with: button, duration: 0.25, options: .curveEaseInOut, animations: {
                 button.backgroundColor = color
             })
         }
-    }
-    
-    func selectButton(button: UIButton) {
-        if (selectedFilterButton != button) {
-            animateToColor(button: selectedFilterButton, color: ColorPallete.navyBlue)
-            selectedFilterButton = button
-            let type = getTypeFromSelectedButton()
-            CrowdedData.singleton.filter(type: type)
-            placeScrollViewContent()
-        }
-        animateToColor(button: button, color: ColorPallete.darkGrey)
-    }
-    
-    @IBAction func academicButtonPressedDown(_ sender: Any) {
-        pressButton(button: academicButton)
-    }
-    
-    @IBAction func diningButtonPressedDown(_ sender: Any) {
-        pressButton(button: diningButton)
-    }
-    
-    @IBAction func gymButtonPressedDown(_ sender: Any) {
-        pressButton(button: gymButton)
-    }
-    
-    @IBAction func showAllButtonPressedDown(_ sender: Any) {
-        pressButton(button: showAllButton)
-    }
-    
-    @IBAction func academicButtonPressedUpInside(_ sender: Any) {
-        selectButton(button: academicButton)
-    }
-    
-    @IBAction func diningButtonPressedUpInside(_ sender: Any) {
-        selectButton(button: diningButton)
-    }
-    
-    @IBAction func gymButtonPressedUpInside(_ sender: Any) {
-        selectButton(button: gymButton)
-    }
-    
-    @IBAction func showAllButtonPressedUpInside(_ sender: Any) {
-        selectButton(button: showAllButton)
     }
     
 }

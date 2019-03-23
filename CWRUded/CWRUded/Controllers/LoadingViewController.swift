@@ -21,14 +21,22 @@ class LoadingViewController: UIViewController {
     
     private func setupView() {
         setBackgroundColor()
-        loadAppData()
+        delayLoadAppData()
     }
     
     private func setBackgroundColor() {
         view.backgroundColor = ColorPallete.navyBlue
     }
     
-    private func loadAppData() {
+    //My brother and I spent a lot of time making the custom loading screen artwork
+    //Yall gonna have to appreciate to it
+    private func delayLoadAppData() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(loadAppData), userInfo: nil, repeats: false)
+    }
+    
+    @objc private func loadAppData() {
         activityIndicator.startAnimating()
         activityIndicator.isHidden = false
         CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)

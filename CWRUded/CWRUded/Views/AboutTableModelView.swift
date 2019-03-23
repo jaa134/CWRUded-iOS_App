@@ -146,7 +146,7 @@ class AboutTableItemView : UIView {
         addGestureRecognizer(tap)
     }
     
-    @objc func tapped() {
+    @objc private func tapped() {
         if let parent = superview as? AboutTableDataView {
             parent.toggleItem(itemView: self)
         }
