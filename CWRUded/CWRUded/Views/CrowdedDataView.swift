@@ -284,9 +284,11 @@ class LocationView : UIView {
 
 class CrowdedDataView : UIView {
     private var locationViews: [LocationView]
+    private var filter: Type?
     
-    init() {
-        locationViews = [LocationView]()
+    init(filter: Type?) {
+        self.locationViews = [LocationView]()
+        self.filter = filter
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
@@ -320,7 +322,7 @@ class CrowdedDataView : UIView {
     }
     
     private func createChildViews() {
-        for location in CrowdedData.singleton.filteredLocations {
+        for location in CrowdedData.singleton.filteredLocations(filter: filter) {
             locationViews.append(LocationView(location: location))
         }
     }

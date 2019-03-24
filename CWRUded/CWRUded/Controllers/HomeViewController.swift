@@ -77,7 +77,6 @@ class HomeViewController: UIViewController {
     
     private func setFilter(type: Type?) {
         selectedFilter = type
-        CrowdedData.singleton.filter(type: selectedFilter)
         placeScrollViewContent()
         
         if let type = type {
@@ -127,7 +126,7 @@ class HomeViewController: UIViewController {
     
     private func placeScrollViewContent() {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        crowdedDataView = CrowdedDataView()
+        crowdedDataView = CrowdedDataView(filter: selectedFilter)
         scrollView.addSubview(crowdedDataView!)
     }
     
@@ -154,7 +153,6 @@ class HomeViewController: UIViewController {
     }
     
     private func onUpdateSuccess() {
-        CrowdedData.singleton.filter(type: selectedFilter)
         CrowdedData.singleton.order()
         DispatchQueue.main.async {
             self.crowdedDataView!.update()

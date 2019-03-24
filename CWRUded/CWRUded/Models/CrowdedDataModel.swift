@@ -46,12 +46,10 @@ class CrowdedData {
     private var urlSessionConfig: URLSessionConfiguration
     private var filter: Type?
     public private(set) var locations: [Location]
-    public private(set) var filteredLocations: [Location]
     
     private init() {
         filter = nil
         locations = [Location]()
-        filteredLocations = [Location]()
         urlSessionConfig = URLSessionConfiguration.default
         urlSessionConfig.timeoutIntervalForRequest = 20
         urlSessionConfig.timeoutIntervalForResource = 10
@@ -84,14 +82,14 @@ class CrowdedData {
         task.resume()
     }
     
-    func filter(type: Type?) {
-        filter = type
-        filteredLocations.removeAll()
+    func filteredLocations(filter: Type?) -> [Location] {
+        var filteredLocations = [Location]()
         for location in locations {
             if (filter == nil || location.type == filter) {
                 filteredLocations.append(location)
             }
         }
+        return filteredLocations
     }
     
     func order() {

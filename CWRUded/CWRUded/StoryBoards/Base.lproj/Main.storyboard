@@ -138,7 +138,79 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="781.60000000000002" y="-322.48875562218893"/>
+            <point key="canvasLocation" x="-1231" y="824"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="FLp-4W-J1v">
+            <objects>
+                <viewController id="FAu-EL-ECK" customClass="MapViewController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iuq-ba-EzF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text=" Map" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="aeU-jO-8TE">
+                                <rect key="frame" x="85" y="30" width="280" height="60"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="HSH-6I-Fgm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="50"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lwx-JF-gHC">
+                                <rect key="frame" x="0.0" y="110" width="375" height="508"/>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2f-tJ-Xig">
+                                <rect key="frame" x="315" y="558" width="50" height="50"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="N1d-xj-GQO"/>
+                                    <constraint firstAttribute="width" constant="50" id="uBD-C3-Fcu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciJ-E7-T9e">
+                                <rect key="frame" x="10" y="30" width="60" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="HXL-s1-e9P"/>
+                                    <constraint firstAttribute="height" constant="60" id="eqN-07-hx3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ciJ-E7-T9e" firstAttribute="leading" secondItem="ElP-HD-IU5" secondAttribute="leading" constant="10" id="2Kl-OM-i5P"/>
+                            <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="aeU-jO-8TE" secondAttribute="trailing" constant="10" id="55Q-U9-v7K"/>
+                            <constraint firstItem="ElP-HD-IU5" firstAttribute="bottom" secondItem="f2f-tJ-Xig" secondAttribute="bottom" constant="10" id="684-2a-Wbz"/>
+                            <constraint firstItem="aeU-jO-8TE" firstAttribute="leading" secondItem="ciJ-E7-T9e" secondAttribute="trailing" constant="15" id="9wA-6H-W6D"/>
+                            <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="f2f-tJ-Xig" secondAttribute="trailing" constant="10" id="ET2-M3-HFT"/>
+                            <constraint firstItem="ciJ-E7-T9e" firstAttribute="top" secondItem="ElP-HD-IU5" secondAttribute="top" constant="10" id="FwS-1f-ggJ"/>
+                            <constraint firstItem="Lwx-JF-gHC" firstAttribute="top" secondItem="ElP-HD-IU5" secondAttribute="top" constant="90" id="G0b-HT-1VZ"/>
+                            <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="Lwx-JF-gHC" secondAttribute="trailing" id="LEN-1B-xnR"/>
+                            <constraint firstItem="aeU-jO-8TE" firstAttribute="top" secondItem="ElP-HD-IU5" secondAttribute="top" constant="10" id="OBz-MZ-caT"/>
+                            <constraint firstItem="Lwx-JF-gHC" firstAttribute="leading" secondItem="ElP-HD-IU5" secondAttribute="leading" id="eIB-ri-YMm"/>
+                            <constraint firstItem="ElP-HD-IU5" firstAttribute="bottom" secondItem="Lwx-JF-gHC" secondAttribute="bottom" id="mF5-8M-Ahc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ElP-HD-IU5"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" id="4Es-hj-NCN"/>
+                    <connections>
+                        <outlet property="filterButton" destination="f2f-tJ-Xig" id="cqV-5v-wYn"/>
+                        <outlet property="mapView" destination="Lwx-JF-gHC" id="XEW-OO-9hz"/>
+                        <outlet property="titleIconLabel" destination="ciJ-E7-T9e" id="mwp-nX-FVi"/>
+                        <outlet property="titleTextLabel" destination="aeU-jO-8TE" id="ohd-JT-4aR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8yI-bK-8xH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-412" y="824"/>
         </scene>
         <!--Settings-->
         <scene sceneID="wg7-f3-ORb">
@@ -209,7 +281,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1488.8" y="-0.44977511244377816"/>
+            <point key="canvasLocation" x="418" y="824"/>
         </scene>
         <!--About-->
         <scene sceneID="GCJ-7Y-U0z">
@@ -280,7 +352,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKJ-fm-reM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="782" y="358"/>
+            <point key="canvasLocation" x="1231" y="824"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="kN5-aH-YjC">
@@ -355,6 +427,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="FAu-EL-ECK" kind="relationship" relationship="viewControllers" id="xFc-4z-zNJ"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="rea-UP-iMF" kind="relationship" relationship="viewControllers" id="fDa-pX-AeI"/>
                     </connections>
@@ -368,6 +441,7 @@
         <image name="cog" width="25" height="25"/>
         <image name="cwru-logo-header" width="577" height="99"/>
         <image name="home" width="25" height="25"/>
+        <image name="map" width="25" height="25"/>
         <image name="question-circle" width="25" height="25"/>
     </resources>
 </document>

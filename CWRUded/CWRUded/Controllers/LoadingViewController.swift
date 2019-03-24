@@ -86,7 +86,6 @@ class LoadingViewController: UIViewController {
     }
     
     private func onUpdateSuccess() {
-        CrowdedData.singleton.filter(type: nil)
         CrowdedData.singleton.order()
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "toHome", sender: self)
