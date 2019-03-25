@@ -43,4 +43,3 @@ class SettingsViewController: UIViewController {
         scrollView.backgroundColor = ColorPallete.clay
     }
 }
-

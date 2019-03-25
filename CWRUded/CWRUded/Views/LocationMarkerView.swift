@@ -10,11 +10,11 @@ import Foundation
 import MapKit
 
 class LocationAnnotation: NSObject, MKAnnotation {
-    fileprivate let location: Location
+    public let location: Location
     
     var title: String? { return location.name }
     var subtitle: String? { return String(location.spaces.count) + " " + (location.spaces.count != 1 ? "locations" : "location") }
-    var coordinate: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 41.508303, longitude: -81.606210) }
+    var coordinate: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude) }
     var markerTintColor: UIColor
     
     init(location: Location) {
@@ -31,10 +31,11 @@ class LocationMarkerView: MKMarkerAnnotationView {
         willSet {
             guard let annotation = newValue as? LocationAnnotation else { return }
             canShowCallout = true
-            calloutOffset = CGPoint(x: 0, y: 0)
+            calloutOffset = CGPoint(x: 0, y: 20)
             rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             markerTintColor = annotation.markerTintColor
             glyphText = ""
+            displayPriority = .required
             
             if let icon = icon {
                 icon.removeFromSuperview()

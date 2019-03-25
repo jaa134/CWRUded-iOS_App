@@ -174,7 +174,7 @@ class LocationView : UIView {
     fileprivate let location: Location
     private var spaceViews: [SpaceView]
     
-    fileprivate init(location: Location) {
+    init(location: Location) {
         self.location = location
         spaceViews = [SpaceView]()
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -268,7 +268,7 @@ class LocationView : UIView {
         }
     }
     
-    fileprivate func update(location: Location) {
+    public func update(location: Location) {
         for space in location.spaces {
             for spaceView in spaceViews {
                 if (spaceView.space.id == space.id) {

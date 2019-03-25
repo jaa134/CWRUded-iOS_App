@@ -12,7 +12,6 @@ class LoadingViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +20,12 @@ class LoadingViewController: UIViewController {
     
     private func setupView() {
         setBackgroundColor()
+        addRetryTapGesture()
         delayLoadAppData()
+    }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     private func setBackgroundColor() {
@@ -42,25 +46,33 @@ class LoadingViewController: UIViewController {
         CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)
     }
     
-    private func showErrorHandlers(text: String) {
-        errorLabel.numberOfLines = 5
-        errorLabel.text = text
+    private func showErrorHandlers() {
+        let text = NSMutableAttributedString(string: "There was a problem communicating with the server. Would you like to ")
+        let toUnderLineText = NSAttributedString(string: "try again?", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        text.append(toUnderLineText)
+        errorLabel.attributedText = text
         errorLabel.textColor = ColorPallete.white
         errorLabel.backgroundColor = ColorPallete.transparent
         errorLabel.textAlignment = .center
+        errorLabel.numberOfLines = 5
         errorLabel.sizeToFit()
         errorLabel.isHidden = false
-        
-        retryButton.layer.cornerRadius = 10
-        retryButton.clipsToBounds = true
-        retryButton.backgroundColor = ColorPallete.white
-        retryButton.setTitleColor(ColorPallete.black, for: .normal)
-        retryButton.isHidden = false
     }
     
     private func hideErrorHandlers() {
         errorLabel.isHidden = true
-        retryButton.isHidden = true
+    }
+    
+    private func addRetryTapGesture() {
+        errorLabel.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(retryTapped))
+        tap.numberOfTapsRequired = 1
+        errorLabel.addGestureRecognizer(tap)
+    }
+    
+    @objc private func retryTapped() {
+        hideErrorHandlers()
+        loadAppData()
     }
     
     func onUpdateNetworkError() {
@@ -70,7 +82,7 @@ class LoadingViewController: UIViewController {
             self.activityIndicator.stopAnimating()
             let alert = UIAlertController(title: "Network Error", message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: { action in self.loadAppData() }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers(text: message)}))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers()}))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -80,7 +92,7 @@ class LoadingViewController: UIViewController {
             let message = "The server encountered an error. Would you like to try again?"
             let alert = UIAlertController(title: "Server Error", message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: { action in self.loadAppData() }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers(text: message)}))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers()}))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -90,11 +102,6 @@ class LoadingViewController: UIViewController {
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "toHome", sender: self)
         }
-    }
-    
-    @IBAction func retryButtonPressed(_ sender: Any) {
-        hideErrorHandlers()
-        loadAppData()
     }
 }
 

@@ -16,6 +16,7 @@ class AppNavigationController: UITabBarController {
         super.viewDidLoad()
         self.delegate = self
         changeTabFont()
+        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
     }
     
     override func viewWillLayoutSubviews() {
@@ -37,6 +38,32 @@ class AppNavigationController: UITabBarController {
         newFrame.size.height = newTabBarHeight
         newFrame.origin.y = view.frame.size.height - newTabBarHeight
         tabBar.frame = newFrame
+    }
+    
+    @objc private func updateData() {
+        CrowdedData.singleton.update(onNetworkError: onUpdateNetworkError, onDataError: onUpdateDataError, onSuccess: onUpdateSuccess)
+    }
+    
+    private func onUpdateNetworkError() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Network Error", message: "The server could not be reached at this time. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateData() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func onUpdateDataError() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Server Error", message: "The server encountered an error. Would you like to try again?", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { action in self.updateData() }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func onUpdateSuccess() {
+        CrowdedData.singleton.order()
     }
 }
 

@@ -31,12 +31,16 @@ struct Location : Decodable {
     public let name: String
     public let type: Type
     public fileprivate(set) var spaces: [Space]
+    public let longitude: Double
+    public let latitude: Double
     
-    fileprivate init(id: Int, name: String, type: Type, spaces: [Space]) {
+    fileprivate init(id: Int, name: String, type: Type, spaces: [Space], longitude: Double, latitude: Double) {
         self.id = id
         self.name = name
         self.type = type
         self.spaces = spaces
+        self.longitude = longitude
+        self.latitude = latitude
     }
 }
 

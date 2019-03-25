@@ -24,9 +24,15 @@ class MapViewController: UIViewController {
         setupView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     private func setupView() {
         setTitle()
         setFilterButton()
+        mapView.delegate = self
         registerCustomPins()
         setInitialMapLocation()
         placeLocationAnnotations()
@@ -125,5 +131,38 @@ class MapViewController: UIViewController {
             mapView.addAnnotation(annotation)
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toInfo" {
+            guard let infoViewController = segue.destination as? LocationInfoViewController else { return }
+            guard let markerView = sender as? LocationMarkerView else { return }
+            guard let annotation = markerView.annotation as? LocationAnnotation else { return }
+            infoViewController.location = annotation.location
+        }
+    }
 }
 
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let view = view as? LocationMarkerView else { return }
+        view.icon?.isHidden = true
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        guard let view = view as? LocationMarkerView else { return }
+        view.icon?.isHidden = false
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let view = view as? LocationMarkerView else { return }
+        performSegue(withIdentifier: "toInfo", sender: view)
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let annotations = self.mapView.annotations
+        for annotation in annotations {
+            //if map becomes too cluttered with annotations, then uncomment out this line
+            self.mapView.view(for: annotation)?.isHidden = false //self.mapView.region.span.latitudeDelta > 0.010
+        }
+    }
+}
