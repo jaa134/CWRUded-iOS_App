@@ -27,6 +27,19 @@ class AboutViewController: UIViewController {
     }
     
     private func setTitle() {
+        titleView.backgroundColor = ColorPallete.white
+        titleView.layer.masksToBounds = false
+        titleView.layer.shadowColor = UIColor.black.cgColor
+        titleView.layer.shadowOpacity = 0.5
+        titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        titleView.layer.shadowRadius = 1
+        var rect = titleView.bounds
+        rect.size.width = UIScreen.main.bounds.width
+        titleView.layer.shadowPath = UIBezierPath(rect: rect).cgPath
+        titleView.layer.shouldRasterize = true
+        titleView.layer.rasterizationScale = UIScreen.main.scale
+        titleView.layer.zPosition = 1000
+        
         titleIconLabel.backgroundColor = ColorPallete.navyBlue
         titleIconLabel.layer.cornerRadius = 0.5 * titleIconLabel.bounds.size.width
         titleIconLabel.clipsToBounds = true

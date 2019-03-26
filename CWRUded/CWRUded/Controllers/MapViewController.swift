@@ -12,12 +12,11 @@ import MapKit
 
 class MapViewController: UIViewController {
     
+    @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleIconLabel: UILabel!
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var filterButton: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-
-    private var selectedFilter: Type?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +38,19 @@ class MapViewController: UIViewController {
     }
     
     private func setTitle() {
+        titleView.backgroundColor = ColorPallete.white
+        titleView.layer.masksToBounds = false
+        titleView.layer.shadowColor = UIColor.black.cgColor
+        titleView.layer.shadowOpacity = 0.5
+        titleView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        titleView.layer.shadowRadius = 1
+        var rect = titleView.bounds
+        rect.size.width = UIScreen.main.bounds.width
+        titleView.layer.shadowPath = UIBezierPath(rect: rect).cgPath
+        titleView.layer.shouldRasterize = true
+        titleView.layer.rasterizationScale = UIScreen.main.scale
+        titleView.layer.zPosition = 1000
+        
         titleIconLabel.backgroundColor = ColorPallete.navyBlue
         titleIconLabel.layer.cornerRadius = 0.5 * titleIconLabel.bounds.size.width
         titleIconLabel.clipsToBounds = true
@@ -65,8 +77,7 @@ class MapViewController: UIViewController {
     }
     
     private func setFilter(type: Type?) {
-        selectedFilter = type
-        placeLocationAnnotations()
+        filterLocationAnnotations(filter: type)
         
         if let type = type {
             if (type == .academic) {
@@ -125,10 +136,17 @@ class MapViewController: UIViewController {
     }
     
     private func placeLocationAnnotations() {
-        mapView.removeAnnotations(mapView.annotations)
-        for location in CrowdedData.singleton.filteredLocations(filter: selectedFilter) {
+        for location in CrowdedData.singleton.locations {
             let annotation = LocationAnnotation(location: location)
             mapView.addAnnotation(annotation)
+        }
+    }
+    
+    private func filterLocationAnnotations(filter: Type?) {
+        for annotation in mapView.annotations {
+            guard let annotation = annotation as? LocationAnnotation else { continue }
+            guard let annotationView = mapView.view(for: annotation) else { continue }
+            annotationView.isHidden = filter != nil && annotation.location.type != filter
         }
     }
     

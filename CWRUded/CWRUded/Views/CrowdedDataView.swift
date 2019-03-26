@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class CongestionView : UIView {
-    public static let height: CGFloat = 16;
+    public static let height: CGFloat = 12;
     private static let greenColor: [CGFloat] = [51.0, 165.0, 50.0]
     private static let yellowColor: [CGFloat] = [250.0, 220.0, 22.0]
     private static let redColor: [CGFloat] = [204.0, 50.0, 50.0]
