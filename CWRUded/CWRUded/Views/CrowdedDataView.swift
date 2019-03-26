@@ -284,11 +284,9 @@ class LocationView : UIView {
 
 class CrowdedDataView : UIView {
     private var locationViews: [LocationView]
-    private var filter: Type?
     
-    init(filter: Type?) {
+    init() {
         self.locationViews = [LocationView]()
-        self.filter = filter
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
@@ -296,16 +294,6 @@ class CrowdedDataView : UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported")
-    }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        if let parent = superview as? UIScrollView {
-            let screensize: CGRect = UIScreen.main.bounds
-            let scrollWidth: CGFloat = screensize.width
-            let scrollHeight: CGFloat = frame.height
-            parent.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
-        }
     }
     
     private func setupView() {
@@ -322,7 +310,7 @@ class CrowdedDataView : UIView {
     }
     
     private func createChildViews() {
-        for location in CrowdedData.singleton.filteredLocations(filter: filter) {
+        for location in CrowdedData.singleton.locations {
             locationViews.append(LocationView(location: location))
         }
     }
@@ -330,7 +318,9 @@ class CrowdedDataView : UIView {
     private func calcHeight() -> CGFloat {
         var height: CGFloat = 0
         for locationView in locationViews {
-            height += locationView.frame.height
+            if (!locationView.isHidden) {
+                height += locationView.frame.height
+            }
         }
         height += CGFloat(locationViews.count + 1) * LocationView.padding_v
         return height
@@ -352,9 +342,11 @@ class CrowdedDataView : UIView {
     private func placeChildViews() {
         var height: CGFloat = LocationView.padding_v
         for locationView in locationViews {
-            locationView.frame.origin.y = height
-            addSubview(locationView)
-            height += locationView.frame.height + LocationView.padding_v
+            if (!locationView.isHidden) {
+                locationView.frame.origin.y = height
+                addSubview(locationView)
+                height += locationView.frame.height + LocationView.padding_v
+            }
         }
     }
     
@@ -367,5 +359,13 @@ class CrowdedDataView : UIView {
                 }
             }
         }
+    }
+    
+    public func filter(filter: Type?) {
+        for locationView in locationViews {
+            locationView.isHidden = filter != nil && locationView.location.type != filter
+        }
+        placeChildViews()
+        setSize()
     }
 }

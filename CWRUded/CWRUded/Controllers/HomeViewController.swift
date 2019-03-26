@@ -20,7 +20,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var filterTypeText: UILabel!
     
     private var crowdedDataView: CrowdedDataView?
-    private var selectedFilter: Type?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +34,9 @@ class HomeViewController: UIViewController {
     private func setupView() {
         setTitle()
         setScrollView()
+        placeScrollViewContent()
         setInitialFilter()
         addFilterTapGesture()
-        placeScrollViewContent()
         Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateScrollViewContent), userInfo: nil, repeats: true)
     }
     
@@ -81,8 +80,8 @@ class HomeViewController: UIViewController {
     }
     
     private func setFilter(type: Type?) {
-        selectedFilter = type
-        placeScrollViewContent()
+        crowdedDataView?.filter(filter: type)
+        updateScrollHeight()
         
         if let type = type {
             if (type == .academic) {
@@ -102,6 +101,7 @@ class HomeViewController: UIViewController {
             filterTypeText.text = ""
             filterTypeIcon.text = ""
         }
+        filterTypeText.sizeToFit()
     }
     
     private func addFilterTapGesture() {
@@ -131,8 +131,16 @@ class HomeViewController: UIViewController {
     
     private func placeScrollViewContent() {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        crowdedDataView = CrowdedDataView(filter: selectedFilter)
+        crowdedDataView = CrowdedDataView()
         scrollView.addSubview(crowdedDataView!)
+        updateScrollHeight()
+    }
+    
+    private func updateScrollHeight() {
+        let screensize: CGRect = UIScreen.main.bounds
+        let scrollWidth: CGFloat = screensize.width
+        let scrollHeight: CGFloat = crowdedDataView!.frame.height
+        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
     }
     
     @objc private func updateScrollViewContent() {
@@ -150,6 +158,5 @@ class HomeViewController: UIViewController {
             })
         }
     }
-    
 }
 
