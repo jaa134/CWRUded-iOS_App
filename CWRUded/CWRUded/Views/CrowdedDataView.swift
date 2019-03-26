@@ -316,13 +316,12 @@ class CrowdedDataView : UIView {
     }
     
     private func calcHeight() -> CGFloat {
-        var height: CGFloat = 0
+        var height: CGFloat = LocationView.padding_v
         for locationView in locationViews {
             if (!locationView.isHidden) {
-                height += locationView.frame.height
+                height += locationView.frame.height + LocationView.padding_v
             }
         }
-        height += CGFloat(locationViews.count + 1) * LocationView.padding_v
         return height
     }
     
@@ -365,7 +364,7 @@ class CrowdedDataView : UIView {
         for locationView in locationViews {
             locationView.isHidden = filter != nil && locationView.location.type != filter
         }
-        placeChildViews()
         setSize()
+        placeChildViews()
     }
 }
