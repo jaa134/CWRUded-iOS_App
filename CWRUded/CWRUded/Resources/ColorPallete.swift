@@ -9,7 +9,6 @@
 import UIKit
 
 class ColorPallete {
-    
     static let transparent = UIColor(white: 1, alpha: 0)
     static let white = UIColor.white
     static let black = UIColor.black

@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: "\u{f013}",
+                 icon: Icons.cog,
                  title: " Settings")
     }
     

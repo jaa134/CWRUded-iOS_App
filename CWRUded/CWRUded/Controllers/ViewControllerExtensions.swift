@@ -27,7 +27,7 @@ extension UIViewController {
         iconLabel.backgroundColor = ColorPallete.navyBlue
         iconLabel.layer.cornerRadius = 0.5 * iconLabel.bounds.size.width
         iconLabel.clipsToBounds = true
-        iconLabel.font = UIFont(name: "FontAwesome5Free-Solid", size: 35)
+        iconLabel.font = Fonts.fontAwesome(size: 35)
         iconLabel.text = icon
         iconLabel.textColor = ColorPallete.white
         

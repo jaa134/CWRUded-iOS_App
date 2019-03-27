@@ -44,7 +44,7 @@ class LocationInfoViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: "\u{f129}",
+                 icon: Icons.info,
                  title: " Info")
     }
     
@@ -77,7 +77,7 @@ class LocationInfoViewController: UIViewController {
         button.setTitle("Directions", for: .normal)
         button.setTitleColor(ColorPallete.white, for: .normal)
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        button.titleLabel?.font = Fonts.app(size: 23, weight: .bold)
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(directionsButtonTapped), for: .touchUpInside)

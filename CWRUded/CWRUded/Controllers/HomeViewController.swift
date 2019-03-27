@@ -45,7 +45,7 @@ class HomeViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: "\u{f015}",
+                 icon: Icons.home,
                  title: " Home")
     }
     
@@ -56,19 +56,19 @@ class HomeViewController: UIViewController {
     private func setInitialFilter() {
         filterView.backgroundColor = ColorPallete.darkGrey
         
-        filterIcon.font = UIFont(name: "FontAwesome5Free-Solid", size: 20)
+        filterIcon.font = Fonts.fontAwesome(size: 20)
         filterIcon.textColor = ColorPallete.white
-        filterIcon.text = "\u{f0b0}"
+        filterIcon.text = Icons.filter
         
-        filterText.font = UIFont.systemFont(ofSize: 30, weight: .heavy)
+        filterText.font = Fonts.app(size: 30, weight: .heavy)
         filterText.textColor = ColorPallete.white
         filterText.text = "Filter"
         
         
-        filterTypeIcon.font = UIFont(name: "FontAwesome5Free-Solid", size: 16)
+        filterTypeIcon.font = Fonts.fontAwesome(size: 20)
         filterTypeIcon.textColor = ColorPallete.clay
         
-        filterTypeText.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
+        filterTypeText.font = Fonts.app(size: 20, weight: .heavy)
         filterTypeText.textColor = ColorPallete.clay
         
         setFilter(type: nil)
@@ -79,18 +79,12 @@ class HomeViewController: UIViewController {
         updateScrollHeight()
         
         if let type = type {
-            if (type == .academic) {
-                filterTypeIcon.text = "\u{f02d}"
-                filterTypeText.text = "Academic"
+            switch (type) {
+            case .academic: filterTypeText.text = "Academic"
+            case .dining: filterTypeText.text = "Dining"
+            case .gym: filterTypeText.text = "Gym"
             }
-            else if (type == .dining) {
-                filterTypeIcon.text = "\u{f2e7}"
-                filterTypeText.text = "Dining"
-            }
-            else if (type == .gym) {
-                filterTypeIcon.text = "\u{f44b}"
-                filterTypeText.text = "Gym"
-            }
+            filterTypeIcon.text = Icons.from(type: type)
         }
         else {
             filterTypeText.text = ""

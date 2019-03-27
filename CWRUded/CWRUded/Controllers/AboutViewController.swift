@@ -30,7 +30,7 @@ class AboutViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: "\u{f128}",
+                 icon: Icons.question,
                  title: " About")
     }
     

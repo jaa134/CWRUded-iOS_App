@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CWRUded/Views/CrowdedDataView.swift"
-            timestampString = "575306638.257663"
+            timestampString = "575405093.813412"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374">
+            startingLineNumber = "363"
+            endingLineNumber = "363">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

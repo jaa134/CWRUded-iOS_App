@@ -148,7 +148,7 @@ class SpaceView : UIView {
     
     private func setTitle() {
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: SpaceView.titleBarHeight))
-        titleLabel.font = UIFont.systemFont(ofSize: 22)
+        titleLabel.font = Fonts.app(size: 22)
         titleLabel.text = space.name
         titleLabel.textColor = ColorPallete.white
         addSubview(titleLabel)
@@ -235,25 +235,17 @@ class LocationView : UIView {
         clipsToBounds = true
     }
     
-    private func getIcon() -> String {
-        switch location.type {
-        case .academic: return "\u{f02d}"
-        case .dining:   return "\u{f2e7}"
-        case .gym:      return "\u{f44b}"
-        }
-    }
-    
     private func setIcon() {
         let iconLabel = UILabel(frame: CGRect(x: SpaceView.padding_h, y: 7, width: 50, height: LocationView.titleBarHeight))
-        iconLabel.font = UIFont(name: "FontAwesome5Free-Solid", size: 30)
-        iconLabel.text = getIcon()
+        iconLabel.font = Fonts.fontAwesome(size: 30)
+        iconLabel.text = Icons.from(type: location.type)
         iconLabel.textColor = ColorPallete.white
         addSubview(iconLabel)
     }
     
     private func setTitle() {
         let titleLabel = UILabel(frame: CGRect(x: 60, y: 7, width: frame.width - 60 - SpaceView.padding_h, height: LocationView.titleBarHeight))
-        titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .medium)
+        titleLabel.font = Fonts.app(size: 30, weight: .medium)
         titleLabel.text = location.name
         titleLabel.textColor = ColorPallete.white
         addSubview(titleLabel)

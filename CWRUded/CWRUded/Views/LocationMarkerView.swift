@@ -43,22 +43,16 @@ class LocationMarkerView: MKMarkerAnnotationView {
             
             icon = UILabel()
             icon!.isUserInteractionEnabled = true
-            icon!.font = UIFont(name: "FontAwesome5Free-Solid", size: 15)
+            icon!.font = Fonts.fontAwesome(size: 15)
             icon!.textColor = ColorPallete.white
             icon!.layer.zPosition = 9999
             
-            if (annotation.location.type == .academic) {
-                icon!.frame = CGRect(x: 7, y: 1.5, width: 20, height: 15)
-                icon!.text = "\u{f02d}"
+            switch annotation.location.type {
+            case .academic: icon!.frame = CGRect(x: 7, y: 1.5, width: 20, height: 15)
+            case .dining: icon!.frame = CGRect(x: 7, y: 1.5, width: 20, height: 15)
+            case .gym: icon!.frame = CGRect(x: 4.5, y: 1.5, width: 20, height: 15)
             }
-            else if (annotation.location.type == .dining) {
-                icon!.frame = CGRect(x: 7, y: 1.5, width: 20, height: 15)
-                icon!.text = "\u{f2e7}"
-            }
-            else if (annotation.location.type == .gym) {
-                icon!.frame = CGRect(x: 4.5, y: 1.5, width: 20, height: 15)
-                icon!.text = "\u{f44b}"
-            }
+            icon!.text = Icons.from(type: annotation.location.type)
             
             addSubview(icon!)
         }

@@ -20,6 +20,9 @@
 		69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279B92247DF9E0072D899 /* MapViewController.swift */; };
 		69D279BC2247F3430072D899 /* LocationMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279BB2247F3430072D899 /* LocationMarkerView.swift */; };
 		69DE6F05224ACCC500D71A8C /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F04224ACCC500D71A8C /* ViewControllerExtensions.swift */; };
+		69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F06224BF34D00D71A8C /* ActionButton.swift */; };
+		69DE6F09224BF3BF00D71A8C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F08224BF3BF00D71A8C /* Fonts.swift */; };
+		69DE6F0B224BF40100D71A8C /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F0A224BF40100D71A8C /* Icons.swift */; };
 		69E35F7F224282E100065B9A /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69E35F7E224282E100065B9A /* fa-solid-900.ttf */; };
 		69E35F872242AA1F00065B9A /* CrowdedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E35F862242AA1F00065B9A /* CrowdedDataModel.swift */; };
 		69E35F8D2242B1BF00065B9A /* CrowdedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */; };
@@ -44,6 +47,9 @@
 		69D279B92247DF9E0072D899 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		69D279BB2247F3430072D899 /* LocationMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMarkerView.swift; sourceTree = "<group>"; };
 		69DE6F04224ACCC500D71A8C /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
+		69DE6F06224BF34D00D71A8C /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		69DE6F08224BF3BF00D71A8C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		69DE6F0A224BF40100D71A8C /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		69E35F7E224282E100065B9A /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
 		69E35F862242AA1F00065B9A /* CrowdedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdedDataModel.swift; sourceTree = "<group>"; };
 		69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdedDataView.swift; sourceTree = "<group>"; };
@@ -112,7 +118,10 @@
 		69E35F822242A8FF00065B9A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				69E35F942244053500065B9A /* ColorPallete.swift */,
 				69E35F7E224282E100065B9A /* fa-solid-900.ttf */,
+				69DE6F0A224BF40100D71A8C /* Icons.swift */,
+				69DE6F08224BF3BF00D71A8C /* Fonts.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -138,8 +147,8 @@
 		69E35F892242AD3F00065B9A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				69E35F942244053500065B9A /* ColorPallete.swift */,
 				69D279BB2247F3430072D899 /* LocationMarkerView.swift */,
+				69DE6F06224BF34D00D71A8C /* ActionButton.swift */,
 				69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */,
 				69E35F9822441DBC00065B9A /* AboutTableModelView.swift */,
 			);
@@ -225,11 +234,14 @@
 				69E35F952244053500065B9A /* ColorPallete.swift in Sources */,
 				69E35F9922441DBC00065B9A /* AboutTableModelView.swift in Sources */,
 				69B2439222413ACB002F71AD /* HomeViewController.swift in Sources */,
+				69DE6F09224BF3BF00D71A8C /* Fonts.swift in Sources */,
+				69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */,
 				69DE6F05224ACCC500D71A8C /* ViewControllerExtensions.swift in Sources */,
 				69E35F8D2242B1BF00065B9A /* CrowdedDataView.swift in Sources */,
 				69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */,
 				69B243A622414116002F71AD /* AppNavigationController.swift in Sources */,
 				69E35F9B2244258B00065B9A /* AboutTableDataModel.swift in Sources */,
+				69DE6F0B224BF40100D71A8C /* Icons.swift in Sources */,
 				69E35F872242AA1F00065B9A /* CrowdedDataModel.swift in Sources */,
 				69D2799A2245897A0072D899 /* LoadingViewController.swift in Sources */,
 				69D279BC2247F3430072D899 /* LocationMarkerView.swift in Sources */,

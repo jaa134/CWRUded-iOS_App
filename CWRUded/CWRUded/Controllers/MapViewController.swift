@@ -41,7 +41,7 @@ class MapViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: "\u{f279}",
+                 icon: Icons.map,
                  title: " Map")
     }
     
@@ -50,8 +50,8 @@ class MapViewController: UIViewController {
         filterButton.backgroundColor = ColorPallete.darkGrey
         filterButton.layer.cornerRadius = 0.5 * filterButton.bounds.size.width
         filterButton.clipsToBounds = true
-        filterButton.font = UIFont(name: "FontAwesome5Free-Solid", size: 25)
-        filterButton.text = "\u{f0b0}"
+        filterButton.font = Fonts.fontAwesome(size: 35)
+        filterButton.text = Icons.filter
         filterButton.textColor = ColorPallete.white
         
         addFilterTapGesture()
@@ -61,18 +61,10 @@ class MapViewController: UIViewController {
         filterLocationAnnotations(filter: type)
         
         if let type = type {
-            if (type == .academic) {
-                filterButton.text = "\u{f02d}"
-            }
-            else if (type == .dining) {
-                filterButton.text = "\u{f2e7}"
-            }
-            else if (type == .gym) {
-                filterButton.text = "\u{f44b}"
-            }
+            filterButton.text = Icons.from(type: type)
         }
         else {
-            filterButton.text = "\u{f0b0}"
+            filterButton.text = Icons.filter
         }
     }
     

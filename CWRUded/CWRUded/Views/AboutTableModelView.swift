@@ -15,8 +15,8 @@ class ArrowLabel : UILabel {
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         textColor = ColorPallete.grey
-        font = UIFont(name: "FontAwesome5Free-Solid", size: 20)
-        text = "\u{f0dd}"
+        font = Fonts.fontAwesome(size: 20)
+        text = Icons.triangle
         textAlignment = .center;
     }
     
@@ -116,7 +116,7 @@ class AboutTableItemView : UIView {
                                   height: 0)
         titleLabel.textColor = ColorPallete.black
         titleLabel.text = item.title
-        titleLabel.font = UIFont.systemFont(ofSize: 25)
+        titleLabel.font = Fonts.app(size: 25)
         titleLabel.isUserInteractionEnabled = true
         titleLabel.numberOfLines = 10
         titleLabel.sizeToFit()
@@ -128,7 +128,7 @@ class AboutTableItemView : UIView {
                                height: 0)
         contentLabel.textColor = ColorPallete.black
         contentLabel.text = item.content
-        contentLabel.font = UIFont.systemFont(ofSize: 16)
+        contentLabel.font = Fonts.app(size: 16)
         contentLabel.isUserInteractionEnabled = true
         contentLabel.numberOfLines = 10
         contentLabel.sizeToFit()
