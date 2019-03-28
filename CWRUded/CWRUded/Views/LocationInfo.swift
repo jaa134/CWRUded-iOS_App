@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CongestionView : UIView {
+class CongestionBar : UIView {
     public static let height: CGFloat = 12;
     private static let greenColor: [CGFloat] = [51.0, 165.0, 50.0]
     private static let yellowColor: [CGFloat] = [250.0, 220.0, 22.0]
@@ -21,7 +21,7 @@ class CongestionView : UIView {
     fileprivate init(x: CGFloat, y: CGFloat, width: CGFloat, rating: Int) {
         self.rating = max(1, min(rating, 100))
         self.colorView = UIView()
-        super.init(frame: CGRect(x: x, y: y, width: width, height: CongestionView.height))
+        super.init(frame: CGRect(x: x, y: y, width: width, height: CongestionBar.height))
         setupView()
     }
     
@@ -48,7 +48,7 @@ class CongestionView : UIView {
     }
     
     private func roundCorners() {
-        layer.cornerRadius = CongestionView.height / 2
+        layer.cornerRadius = CongestionBar.height / 2
         clipsToBounds = true
     }
     
@@ -60,22 +60,22 @@ class CongestionView : UIView {
         let step: CGFloat
         if (rating <= 50) {
             step = CGFloat(rating) / 50.0
-            r = (CongestionView.greenColor[0] + ((CongestionView.yellowColor[0] - CongestionView.greenColor[0]) * step)) / 255.0
-            g = (CongestionView.greenColor[1] + ((CongestionView.yellowColor[1] - CongestionView.greenColor[1]) * step)) / 255.0
-            b = (CongestionView.greenColor[2] + ((CongestionView.yellowColor[2] - CongestionView.greenColor[2]) * step)) / 255.0
+            r = (CongestionBar.greenColor[0] + ((CongestionBar.yellowColor[0] - CongestionBar.greenColor[0]) * step)) / 255.0
+            g = (CongestionBar.greenColor[1] + ((CongestionBar.yellowColor[1] - CongestionBar.greenColor[1]) * step)) / 255.0
+            b = (CongestionBar.greenColor[2] + ((CongestionBar.yellowColor[2] - CongestionBar.greenColor[2]) * step)) / 255.0
         }
         else {
             step = CGFloat(rating - 50) / 50.0
-            r = (CongestionView.yellowColor[0] + ((CongestionView.redColor[0] - CongestionView.yellowColor[0]) * step)) / 255.0
-            g = (CongestionView.yellowColor[1] + ((CongestionView.redColor[1] - CongestionView.yellowColor[1]) * step)) / 255.0
-            b = (CongestionView.yellowColor[2] + ((CongestionView.redColor[2] - CongestionView.yellowColor[2]) * step)) / 255.0
+            r = (CongestionBar.yellowColor[0] + ((CongestionBar.redColor[0] - CongestionBar.yellowColor[0]) * step)) / 255.0
+            g = (CongestionBar.yellowColor[1] + ((CongestionBar.redColor[1] - CongestionBar.yellowColor[1]) * step)) / 255.0
+            b = (CongestionBar.yellowColor[2] + ((CongestionBar.redColor[2] - CongestionBar.yellowColor[2]) * step)) / 255.0
         }
         
         return UIColor(red: r, green: g, blue: b, alpha: 1)
     }
     
     private func getColorViewRect() -> CGRect {
-        return CGRect(x: 0, y: 0, width: (frame.width * CGFloat(rating) / 100), height: CongestionView.height)
+        return CGRect(x: 0, y: 0, width: (frame.width * CGFloat(rating) / 100), height: CongestionBar.height)
     }
     
     private func addColorView() {
@@ -100,13 +100,13 @@ class CongestionView : UIView {
 
 
 
-class SpaceView : UIView {
+class SpaceInfo : UIView {
     public static let padding_v: CGFloat = 5;
     public static let padding_h: CGFloat = 10;
     public static let titleBarHeight: CGFloat = 25;
     
     fileprivate let space: Space
-    private var congestionView: CongestionView?
+    private var congestionView: CongestionBar?
     
     fileprivate init(space: Space) {
         self.space = space
@@ -137,9 +137,9 @@ class SpaceView : UIView {
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
         
-        let width: CGFloat = screenWidth - (2 * LocationView.padding_h) - (2 * SpaceView.padding_h)
+        let width: CGFloat = screenWidth - (2 * LocationInfo.padding_h) - (2 * SpaceInfo.padding_h)
         let height: CGFloat = 50
-        frame = CGRect(x: SpaceView.padding_h, y: 0, width: width, height: height)
+        frame = CGRect(x: SpaceInfo.padding_h, y: 0, width: width, height: height)
     }
     
     private func setColor() {
@@ -147,7 +147,7 @@ class SpaceView : UIView {
     }
     
     private func setTitle() {
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: SpaceView.titleBarHeight))
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: SpaceInfo.titleBarHeight))
         titleLabel.font = Fonts.app(size: 22)
         titleLabel.text = space.name
         titleLabel.textColor = ColorPallete.white
@@ -155,7 +155,7 @@ class SpaceView : UIView {
     }
     
     private func placeProgressView() {
-        congestionView = CongestionView(x: 0, y: SpaceView.titleBarHeight + 3, width: frame.width, rating: space.congestionRating)
+        congestionView = CongestionBar(x: 0, y: SpaceInfo.titleBarHeight + 3, width: frame.width, rating: space.congestionRating)
         addSubview(congestionView!)
     }
     
@@ -166,17 +166,17 @@ class SpaceView : UIView {
 
 
 
-class LocationView : UIView {
+class LocationInfo : UIView {
     public static let padding_v: CGFloat = 10;
     public static let padding_h: CGFloat = 10;
     public static let titleBarHeight: CGFloat = 40;
     
     fileprivate let location: Location
-    private var spaceViews: [SpaceView]
+    private var spaceViews: [SpaceInfo]
     
     init(location: Location) {
         self.location = location
-        spaceViews = [SpaceView]()
+        spaceViews = [SpaceInfo]()
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
@@ -204,26 +204,26 @@ class LocationView : UIView {
     
     private func createChildViews() {
         for space in location.spaces {
-            spaceViews.append(SpaceView(space: space))
+            spaceViews.append(SpaceInfo(space: space))
         }
     }
     
     private func calcHeight() -> CGFloat {
-        var height: CGFloat = LocationView.titleBarHeight
+        var height: CGFloat = LocationInfo.titleBarHeight
         for spaceView in spaceViews {
             height += spaceView.frame.height
         }
-        height += CGFloat(spaceViews.count + 1) * SpaceView.padding_v
-        return height + (2 * SpaceView.padding_v)
+        height += CGFloat(spaceViews.count + 1) * SpaceInfo.padding_v
+        return height + (2 * SpaceInfo.padding_v)
     }
     
     private func setSize() {
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
         
-        let width: CGFloat = screenWidth - (2 * LocationView.padding_h)
+        let width: CGFloat = screenWidth - (2 * LocationInfo.padding_h)
         let height: CGFloat = calcHeight()
-        frame = CGRect(x: LocationView.padding_h, y: 0, width: width, height: height)
+        frame = CGRect(x: LocationInfo.padding_h, y: 0, width: width, height: height)
     }
     
     private func setColor() {
@@ -236,7 +236,7 @@ class LocationView : UIView {
     }
     
     private func setIcon() {
-        let iconLabel = UILabel(frame: CGRect(x: SpaceView.padding_h, y: 7, width: 50, height: LocationView.titleBarHeight))
+        let iconLabel = UILabel(frame: CGRect(x: SpaceInfo.padding_h, y: 7, width: 50, height: LocationInfo.titleBarHeight))
         iconLabel.font = Fonts.fontAwesome(size: 30)
         iconLabel.text = Icons.from(type: location.type)
         iconLabel.textColor = ColorPallete.white
@@ -244,7 +244,7 @@ class LocationView : UIView {
     }
     
     private func setTitle() {
-        let titleLabel = UILabel(frame: CGRect(x: 60, y: 7, width: frame.width - 60 - SpaceView.padding_h, height: LocationView.titleBarHeight))
+        let titleLabel = UILabel(frame: CGRect(x: 60, y: 7, width: frame.width - 60 - SpaceInfo.padding_h, height: LocationInfo.titleBarHeight))
         titleLabel.font = Fonts.app(size: 30, weight: .medium)
         titleLabel.text = location.name
         titleLabel.textColor = ColorPallete.white
@@ -252,11 +252,11 @@ class LocationView : UIView {
     }
     
     private func placeChildViews() {
-        var height: CGFloat = LocationView.titleBarHeight + (2 * SpaceView.padding_v)
+        var height: CGFloat = LocationInfo.titleBarHeight + (2 * SpaceInfo.padding_v)
         for spaceView in spaceViews {
             spaceView.frame.origin.y = height
             addSubview(spaceView)
-            height += spaceView.frame.height + SpaceView.padding_v
+            height += spaceView.frame.height + SpaceInfo.padding_v
         }
     }
     
@@ -269,94 +269,5 @@ class LocationView : UIView {
                 }
             }
         }
-    }
-}
-
-
-
-class CrowdedDataView : UIView {
-    private var locationViews: [LocationView]
-    
-    init() {
-        self.locationViews = [LocationView]()
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        setupView()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("NSCoding not supported")
-    }
-    
-    private func setupView() {
-        setOptions()
-        createChildViews()
-        setSize()
-        setColor()
-        placeChildViews()
-    }
-    
-    private func setOptions() {
-        isHidden = false
-        isUserInteractionEnabled = false
-    }
-    
-    private func createChildViews() {
-        for location in CrowdedData.singleton.locations {
-            locationViews.append(LocationView(location: location))
-        }
-    }
-    
-    private func calcHeight() -> CGFloat {
-        var height: CGFloat = LocationView.padding_v
-        for locationView in locationViews {
-            if (!locationView.isHidden) {
-                height += locationView.frame.height + LocationView.padding_v
-            }
-        }
-        return height
-    }
-    
-    private func setSize() {
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        
-        let height: CGFloat = calcHeight()
-        let width: CGFloat = screenWidth
-        frame = CGRect(x: 0, y: 0, width: width, height: height)
-    }
-    
-    private func setColor() {
-        backgroundColor = ColorPallete.transparent
-    }
-    
-    private func placeChildViews() {
-        var height: CGFloat = LocationView.padding_v
-        for locationView in locationViews {
-            if (!locationView.isHidden) {
-                locationView.frame.origin.y = height
-                addSubview(locationView)
-                height += locationView.frame.height + LocationView.padding_v
-            }
-        }
-    }
-    
-    public func update() {
-        for location in CrowdedData.singleton.locations {
-            for locationView in locationViews {
-                if (locationView.location.id == location.id) {
-                    locationView.update(location: location)
-                    break
-                }
-            }
-        }
-    }
-    
-    public func filter(filter: Type?) {
-        for locationView in locationViews {
-            locationView.isHidden = filter != nil && locationView.location.type != filter
-        }
-        setSize()
-        placeChildViews()
     }
 }

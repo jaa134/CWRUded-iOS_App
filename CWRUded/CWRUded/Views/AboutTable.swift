@@ -33,7 +33,7 @@ class ArrowLabel : UILabel {
 
 
 
-class AboutTableItemView : UIView {
+class AboutCell : UIView {
     public static let padding_h: CGFloat = 10
     public static let padding_v: CGFloat = 10
     
@@ -81,8 +81,8 @@ class AboutTableItemView : UIView {
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
         
-        let width: CGFloat = screenWidth - (2 * AboutTableItemView.padding_h)
-        frame = CGRect(x: AboutTableItemView.padding_h, y: 0, width: width, height: 0)
+        let width: CGFloat = screenWidth - (2 * AboutCell.padding_h)
+        frame = CGRect(x: AboutCell.padding_h, y: 0, width: width, height: 0)
     }
     
     private func roundCorners() {
@@ -95,24 +95,24 @@ class AboutTableItemView : UIView {
     }
     
     fileprivate func getTitleHeight() -> CGFloat {
-        return titleLabel.frame.height + (2 * AboutTableItemView.padding_v)
+        return titleLabel.frame.height + (2 * AboutCell.padding_v)
     }
     
     fileprivate func getContentHeight() -> CGFloat {
-        return contentLabel.frame.height + AboutTableItemView.padding_v
+        return contentLabel.frame.height + AboutCell.padding_v
     }
     
     private func placeComponents() {
-        arrowLabel.frame = CGRect(x: frame.width - (2.5 * AboutTableItemView.padding_h),
-                                  y: AboutTableItemView.padding_v + ArrowLabel.bottomInset,
+        arrowLabel.frame = CGRect(x: frame.width - (2.5 * AboutCell.padding_h),
+                                  y: AboutCell.padding_v + ArrowLabel.bottomInset,
                                   width: 12,
                                   height: 15)
         arrowLabel.transform = CGAffineTransform(rotationAngle: -.pi/2)
         addSubview(arrowLabel)
         
-        titleLabel.frame = CGRect(x: AboutTableItemView.padding_h,
-                                  y: AboutTableItemView.padding_v,
-                                  width: arrowLabel.frame.origin.x - (2 * AboutTableItemView.padding_h),
+        titleLabel.frame = CGRect(x: AboutCell.padding_h,
+                                  y: AboutCell.padding_v,
+                                  width: arrowLabel.frame.origin.x - (2 * AboutCell.padding_h),
                                   height: 0)
         titleLabel.textColor = ColorPallete.black
         titleLabel.text = item.title
@@ -122,9 +122,9 @@ class AboutTableItemView : UIView {
         titleLabel.sizeToFit()
         addSubview(titleLabel)
         
-        contentLabel.frame = CGRect(x: AboutTableItemView.padding_h,
+        contentLabel.frame = CGRect(x: AboutCell.padding_h,
                                y: getTitleHeight(),
-                               width: frame.width - (2 * AboutTableItemView.padding_h),
+                               width: frame.width - (2 * AboutCell.padding_h),
                                height: 0)
         contentLabel.textColor = ColorPallete.black
         contentLabel.text = item.content
@@ -147,7 +147,7 @@ class AboutTableItemView : UIView {
     }
     
     @objc private func tapped() {
-        if let parent = superview as? AboutTableDataView {
+        if let parent = superview as? AboutTable {
             parent.toggleItem(itemView: self)
         }
     }
@@ -155,13 +155,13 @@ class AboutTableItemView : UIView {
 
 
 
-class AboutTableDataView : UIView {
+class AboutTable : UIView {
     private var isAnimating: Bool
-    private var itemViews: [AboutTableItemView]
+    private var itemViews: [AboutCell]
     
     init() {
         self.isAnimating = false
-        itemViews = [AboutTableItemView]()
+        itemViews = [AboutCell]()
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setupView()
     }
@@ -191,7 +191,7 @@ class AboutTableDataView : UIView {
     
     private func createChildViews() {
         for item in AboutTableData.singleton.items {
-            itemViews.append(AboutTableItemView(item: item))
+            itemViews.append(AboutCell(item: item))
         }
         itemViews = itemViews.sorted(by: { $0.item.order < $1.item.order })
     }
@@ -201,7 +201,7 @@ class AboutTableDataView : UIView {
         for itemView in itemViews {
             height += itemView.frame.height
         }
-        height += CGFloat(itemViews.count + 1) * AboutTableItemView.padding_v
+        height += CGFloat(itemViews.count + 1) * AboutCell.padding_v
         return height
     }
     
@@ -223,7 +223,7 @@ class AboutTableDataView : UIView {
         }
     }
     
-    fileprivate func toggleItem(itemView: AboutTableItemView) {
+    fileprivate func toggleItem(itemView: AboutCell) {
         if (isAnimating) {
             return
         }
@@ -239,7 +239,7 @@ class AboutTableDataView : UIView {
         }
     }
     
-    private func shrinkItem(parentView: UIScrollView, itemView: AboutTableItemView) {
+    private func shrinkItem(parentView: UIScrollView, itemView: AboutCell) {
         //itemView.rotateArrow()
         let itemsToShift = itemViews[itemView.item.order+1..<itemViews.count]
         let itemYChange = itemView.getContentHeight()
@@ -260,7 +260,7 @@ class AboutTableDataView : UIView {
                         self.isAnimating = false })
     }
     
-    private func expandItem(parentView: UIScrollView, itemView: AboutTableItemView) {
+    private func expandItem(parentView: UIScrollView, itemView: AboutCell) {
         //itemView.rotateArrow()
         let itemsToShift = itemViews[itemView.item.order+1..<itemViews.count]
         let itemYChange = itemView.getContentHeight()
@@ -286,11 +286,11 @@ class AboutTableDataView : UIView {
     }
     
     private func placeChildViews() {
-        var height: CGFloat = AboutTableItemView.padding_v
+        var height: CGFloat = AboutCell.padding_v
         for itemView in itemViews {
             itemView.frame.origin.y = height
             addSubview(itemView)
-            height += itemView.frame.height + AboutTableItemView.padding_v
+            height += itemView.frame.height + AboutCell.padding_v
         }
     }
 }

@@ -98,6 +98,31 @@ class CrowdedData {
         return filteredLocations
     }
     
+    func favoriteLocations() -> [Location] {
+        let simpleLocations = AppSettings.singleton.favoriteLocations()
+        var favoriteLocations = [Location]()
+        for simpleLocation in simpleLocations {
+            for location in locations {
+                if (location.id == simpleLocation.id) {
+                    favoriteLocations.append(location)
+                    break;
+                }
+            }
+        }
+        return favoriteLocations
+    }
+    
+    func nonFavoriteFilteredLocations(filter: Type?) -> [Location] {
+        let simpleLocations = AppSettings.singleton.favoriteLocations()
+        var nonFavoriteLocations = [Location]()
+        for location in self.filteredLocations(filter: filter) {
+            if (simpleLocations.allSatisfy({ location.id != $0.id })) {
+                nonFavoriteLocations.append(location)
+            }
+        }
+        return nonFavoriteLocations
+    }
+    
     func order() {
         for i in 0..<locations.count {
             locations[i].spaces = locations[i].spaces.sorted(by: { $0.name < $1.name })

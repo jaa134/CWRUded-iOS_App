@@ -13,15 +13,15 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleIconLabel: UILabel!
     @IBOutlet weak var titleTextLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var filterIcon: UILabel!
     @IBOutlet weak var filterText: UILabel!
     @IBOutlet weak var filterTypeIcon: UILabel!
     @IBOutlet weak var filterTypeText: UILabel!
     
-    //private var crowdedDataView: CrowdedDataView?
-    private var locationsTable: LocationsTable?
+    private var selectedFilter: Type?
+    private var tableData: [(key: String, value: [Location])]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +35,9 @@ class HomeViewController: UIViewController {
     
     private func setupView() {
         setTitle()
-        setScrollView()
-        placeScrollViewContent()
         setInitialFilter()
+        setTableView()
+        updateTableData()
         addFilterTapGesture()
     }
     
@@ -49,8 +49,29 @@ class HomeViewController: UIViewController {
                  title: " Home")
     }
     
-    private func setScrollView() {
-        scrollView.backgroundColor = ColorPallete.clay
+    private func setTableView() {
+        tableView.backgroundColor = ColorPallete.clay
+        tableView.allowsMultipleSelection = false
+        
+        tableData = [(key: String, value: [Location])]()
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+    }
+    
+    private func updateTableData() {
+        tableData = [(key: String, value: [Location])]()
+        
+        let favoriteLocations = CrowdedData.singleton.favoriteLocations()
+        if (!favoriteLocations.isEmpty) {
+            tableData.append((key: "Favorite Locations", value: favoriteLocations))
+        }
+        
+        let nonFavoriteFilteredLocations = CrowdedData.singleton.nonFavoriteFilteredLocations(filter: selectedFilter)
+        if (!nonFavoriteFilteredLocations.isEmpty) {
+            tableData.append((key: "Other Locations", value: nonFavoriteFilteredLocations))
+        }
+        
+        tableView.reloadData()
     }
     
     private func setInitialFilter() {
@@ -75,8 +96,8 @@ class HomeViewController: UIViewController {
     }
     
     private func setFilter(type: Type?) {
-        locationsTable?.filter(filter: type)
-        updateScrollHeight()
+        selectedFilter = type
+        updateTableData()
         
         if let type = type {
             switch (type) {
@@ -118,20 +139,6 @@ class HomeViewController: UIViewController {
         self.present(filterActionSheet, animated: true, completion: nil)
     }
     
-    private func placeScrollViewContent() {
-        scrollView.subviews.forEach { $0.removeFromSuperview() }
-        locationsTable = LocationsTable(onCellTapped: { cell in self.performSegue(withIdentifier: "toInfo", sender: cell) })
-        scrollView.addSubview(locationsTable!)
-        updateScrollHeight()
-    }
-    
-    private func updateScrollHeight() {
-        let screensize: CGRect = UIScreen.main.bounds
-        let scrollWidth: CGFloat = screensize.width
-        let scrollHeight: CGFloat = locationsTable!.frame.height
-        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
-    }
-    
     private func pressButton(button: UIButton) {
         button.backgroundColor = ColorPallete.grey
     }
@@ -150,6 +157,39 @@ class HomeViewController: UIViewController {
             guard let locationCell = sender as? LocationCell else { return }
             infoViewController.location = locationCell.location
         }
+    }
+}
+
+extension HomeViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return tableData.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData[section].value.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! LocationCell
+        let location = tableData[indexPath.section].value[indexPath.item]
+        cell.setupView(location: location)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return tableData[section].key
+    }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return LocationCell.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "toInfo", sender: tableView.cellForRow(at: indexPath))
     }
 }
 

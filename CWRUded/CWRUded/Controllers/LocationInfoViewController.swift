@@ -19,8 +19,9 @@ class LocationInfoViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     public var location: Location?
-    private var locationView: LocationView?
+    private var locationView: LocationInfo?
     private var directionsButton: ActionButton?
+    private var favoriteButton: ActionButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class LocationInfoViewController: UIViewController {
         setScrollView()
         setLocationView()
         setDirectionsButton()
+        setFavoriteButton()
         Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateLocationViewContent), userInfo: nil, repeats: true)
     }
     
@@ -55,7 +57,7 @@ class LocationInfoViewController: UIViewController {
     
     private func setLocationView() {
         scrollView.subviews.forEach({ $0.removeFromSuperview() })
-        locationView = LocationView(location: location!)
+        locationView = LocationInfo(location: location!)
         locationView!.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
     }
@@ -73,7 +75,7 @@ class LocationInfoViewController: UIViewController {
     private func setDirectionsButton() {
         self.directionsButton = ActionButton(text: "Directions",
                                              textFont: Fonts.app(size: 23, weight: .bold),
-                                             icon: Icons.route,
+                                             icon: Icons.compass,
                                              iconFont: Fonts.fontAwesome(size: 18),
                                              backgroundColor: ColorPallete.darkGrey,
                                              foregroundColor: ColorPallete.white,
@@ -94,9 +96,28 @@ class LocationInfoViewController: UIViewController {
         mapItem.openInMaps(launchOptions: launchOptions)
     }
     
+    private func setFavoriteButton() {
+        self.favoriteButton = ActionButton(text: "Favorite",
+                                             textFont: Fonts.app(size: 23, weight: .bold),
+                                             icon: Icons.heart,
+                                             iconFont: Fonts.fontAwesome(size: 18),
+                                             backgroundColor: ColorPallete.darkGrey,
+                                             foregroundColor: ColorPallete.white,
+                                             frame: CGRect(x: 10,
+                                                           y: directionsButton!.frame.origin.y + directionsButton!.frame.height + 10,
+                                                           width: UIScreen.main.bounds.width - 20,
+                                                           height: 40),
+                                             action: { self.favoriteButtonTapped() })
+        
+        scrollView.addSubview(self.favoriteButton!)
+    }
+    
+    private func favoriteButtonTapped() {
+        guard let location = location else { return }
+        
+    }
+    
     private func setScrollHeight() {
-        let paddingSpace: CGFloat = 30
-        scrollView.contentSize = CGSize(width: view.frame.width,
-                                        height: paddingSpace + locationView!.frame.height + directionsButton!.frame.height)
+        //best way to set the height?
     }
 }

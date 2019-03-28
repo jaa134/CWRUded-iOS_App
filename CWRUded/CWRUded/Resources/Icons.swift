@@ -20,7 +20,8 @@ class Icons {
     static let dumbbell = "\u{f44b}"
     static let triangle = "\u{f0dd}"
     static let arrow = "\u{f105}"
-    static let route = "\u{f4d7}"
+    static let compass = "\u{f14e}"
+    static let heart = "\u{f004}"
     
     public static func from(type: Type) -> String {
         switch type {

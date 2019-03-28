@@ -40,7 +40,7 @@ class AboutViewController: UIViewController {
     
     func placeScrollViewContent() {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        let aboutTableDataView = AboutTableDataView()
+        let aboutTableDataView = AboutTable()
         scrollView.addSubview(aboutTableDataView)
     }
 }
