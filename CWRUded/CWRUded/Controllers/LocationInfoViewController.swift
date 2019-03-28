@@ -20,9 +20,6 @@ class LocationInfoViewController: UIViewController {
     
     public var location: Location?
     private var locationView: LocationInfo?
-    private var directionsButton: ActionButton?
-    private var favoriteToggleContainer: UIView?
-    private var blacklistToggleContainer: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +34,7 @@ class LocationInfoViewController: UIViewController {
     private func setupView() {
         setTitle()
         setScrollView()
-        setLocationView()
-        setDirectionsButton()
-        setFavoriteToggle()
-        setBlacklistToggle()
+        layoutComponents()
         setScrollHeight()
         Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateLocationViewContent), userInfo: nil, repeats: true)
     }
@@ -58,13 +52,6 @@ class LocationInfoViewController: UIViewController {
         scrollView.backgroundColor = ColorPallete.clay
     }
     
-    private func setLocationView() {
-        scrollView.subviews.forEach({ $0.removeFromSuperview() })
-        locationView = LocationInfo(location: location!)
-        locationView!.transform = CGAffineTransform(translationX: 0, y: 10)
-        scrollView.addSubview(locationView!)
-    }
-    
     @objc private func updateLocationViewContent() {
         for location in CrowdedData.singleton.locations {
             if (self.location!.id == location.id) {
@@ -75,19 +62,45 @@ class LocationInfoViewController: UIViewController {
         self.locationView!.update(location: self.location!)
     }
     
-    private func setDirectionsButton() {
-        self.directionsButton = ActionButton(text: "Directions",
-                                             textFont: Fonts.app(size: 23, weight: .bold),
-                                             icon: Icons.compass,
-                                             iconFont: Fonts.fontAwesome(size: 18),
-                                             backgroundColor: ColorPallete.darkGrey,
-                                             foregroundColor: ColorPallete.white,
-                                             frame: CGRect(x: 10,
-                                                           y: locationView!.frame.height + 20,
-                                                           width: UIScreen.main.bounds.width - 20,
-                                                           height: 40),
-                                             action: { self.directionsButtonTapped() })
-        scrollView.addSubview(self.directionsButton!)
+    private func layoutComponents() {
+        locationView = LocationInfo(location: location!)
+        locationView!.transform = CGAffineTransform(translationX: 0, y: 10)
+        scrollView.addSubview(locationView!)
+        
+        let containerWidth = UIScreen.main.bounds.width - 20
+        let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
+        let favoriteToggleRow = self.favoriteToggle(x: 10, y: directionsButton.frame.origin.y + directionsButton.frame.height + 10, width: containerWidth - 20)
+        let blacklistToggleRow = self.blacklistToggle(x: 10, y: favoriteToggleRow.frame.origin.y + favoriteToggleRow.frame.height + 10, width: containerWidth - 20)
+        let actionsContainer = UIView()
+        actionsContainer.addSubview(directionsButton)
+        actionsContainer.addSubview(favoriteToggleRow)
+        actionsContainer.addSubview(blacklistToggleRow)
+        
+        //actionsContainer.isUserInteractionEnabled = true
+        actionsContainer.frame.origin.x = 10
+        actionsContainer.frame.origin.y = locationView!.frame.origin.y + locationView!.frame.height + 10
+        actionsContainer.frame.size.width = containerWidth
+        actionsContainer.frame.size.height = directionsButton.frame.height + favoriteToggleRow.frame.height + blacklistToggleRow.frame.height + 40
+        actionsContainer.backgroundColor = ColorPallete.white
+        actionsContainer.layer.cornerRadius = 5
+        actionsContainer.clipsToBounds = true
+        scrollView.addSubview(actionsContainer)
+        
+        
+    }
+    
+    private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {
+        return ActionButton(text: "Directions",
+                            textFont: Fonts.app(size: 23, weight: .bold),
+                            icon: Icons.compass,
+                            iconFont: Fonts.fontAwesome(size: 18),
+                            backgroundColor: ColorPallete.darkGrey,
+                            foregroundColor: ColorPallete.white,
+                            frame: CGRect(x: x,
+                                          y: y,
+                                          width: width,
+                                          height: 40),
+                            action: { self.directionsButtonTapped() })
     }
     
     private func directionsButtonTapped() {
@@ -101,11 +114,11 @@ class LocationInfoViewController: UIViewController {
         mapItem.openInMaps(launchOptions: launchOptions)
     }
     
-    private func setFavoriteToggle() {
-        favoriteToggleContainer = UIView(frame: CGRect(x: 0,
-                                                       y: directionsButton!.frame.origin.y + directionsButton!.frame.height + 10,
-                                                       width: UIScreen.main.bounds.width,
-                                                       height: 40))
+    private func favoriteToggle(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
+        let favoriteToggleContainer = UIView(frame: CGRect(x: x,
+                                                           y: y,
+                                                           width: width,
+                                                           height: 40))
         
         let iconLabel = UILabel()
         iconLabel.text = Icons.heart
@@ -130,24 +143,24 @@ class LocationInfoViewController: UIViewController {
         toggleSwitch.addTarget(self, action: #selector(favoriteToggled), for: .valueChanged)
         toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
         
-        favoriteToggleContainer!.addSubview(iconLabel)
-        favoriteToggleContainer!.addSubview(textLabel)
-        favoriteToggleContainer!.addSubview(toggleSwitch)
+        favoriteToggleContainer.addSubview(iconLabel)
+        favoriteToggleContainer.addSubview(textLabel)
+        favoriteToggleContainer.addSubview(toggleSwitch)
         
         iconLabel.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 40))
         iconLabel.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .leading, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .leading, multiplier: 1, constant: 0))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .leading, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .leading, multiplier: 1, constant: 0))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
         textLabel.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 25))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: iconLabel, attribute: .trailing, multiplier: 1, constant: 0))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: iconLabel, attribute: .trailing, multiplier: 1, constant: 0))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .trailing, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .trailing, multiplier: 1, constant: -10))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
-        favoriteToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .trailing, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .trailing, multiplier: 1, constant: -10))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
+        favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
-        scrollView.addSubview(self.favoriteToggleContainer!)
+        return favoriteToggleContainer
     }
     
     @objc private func favoriteToggled(sender: UISwitch) {
@@ -159,11 +172,11 @@ class LocationInfoViewController: UIViewController {
         }
     }
     
-    private func setBlacklistToggle() {
-        blacklistToggleContainer = UIView(frame: CGRect(x: 0,
-                                                        y: favoriteToggleContainer!.frame.origin.y + favoriteToggleContainer!.frame.height + 5,
-                                                        width: UIScreen.main.bounds.width,
-                                                        height: 40))
+    private func blacklistToggle(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
+        let blacklistToggleContainer = UIView(frame: CGRect(x: x,
+                                                            y: y,
+                                                            width: width,
+                                                            height: 40))
         
         let iconLabel = UILabel()
         iconLabel.text = Icons.ban
@@ -188,24 +201,24 @@ class LocationInfoViewController: UIViewController {
         toggleSwitch.addTarget(self, action: #selector(blacklistToggled), for: .valueChanged)
         toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
         
-        blacklistToggleContainer!.addSubview(iconLabel)
-        blacklistToggleContainer!.addSubview(textLabel)
-        blacklistToggleContainer!.addSubview(toggleSwitch)
+        blacklistToggleContainer.addSubview(iconLabel)
+        blacklistToggleContainer.addSubview(textLabel)
+        blacklistToggleContainer.addSubview(toggleSwitch)
         
         iconLabel.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 40))
         iconLabel.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 20))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .leading, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .leading, multiplier: 1, constant: 0))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .leading, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .leading, multiplier: 1, constant: 0))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: iconLabel, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
         textLabel.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 25))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: iconLabel, attribute: .trailing, multiplier: 1, constant: 0))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: iconLabel, attribute: .trailing, multiplier: 1, constant: 0))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .trailing, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .trailing, multiplier: 1, constant: -10))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
-        blacklistToggleContainer!.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .trailing, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .trailing, multiplier: 1, constant: -10))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
+        blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
-        scrollView.addSubview(self.blacklistToggleContainer!)
+        return blacklistToggleContainer
     }
     
     @objc private func blacklistToggled(sender: UISwitch) {

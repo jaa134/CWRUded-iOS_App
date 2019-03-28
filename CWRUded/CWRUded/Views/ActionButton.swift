@@ -132,7 +132,7 @@ class ActionButton : UIView {
         if gesture.state == .began {
             onPress()
         } else if  gesture.state == .ended {
-            onRelease()
+            onRelease(tapPoint: gesture.location(in: self))
         }
     }
     
@@ -142,10 +142,13 @@ class ActionButton : UIView {
         })
     }
     
-    private func onRelease() {
+    private func onRelease(tapPoint: CGPoint) {
         UIView.animate(withDuration: 0.05, animations: {
             self.subviews.forEach({ $0.layer.opacity = 1 })
         })
-        action()
+        
+        if (self.bounds.contains(tapPoint)) {
+            action()
+        }
     }
 }
