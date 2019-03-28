@@ -18,11 +18,13 @@
 		69B243A622414116002F71AD /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B243A522414116002F71AD /* AppNavigationController.swift */; };
 		69D2799A2245897A0072D899 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279992245897A0072D899 /* LoadingViewController.swift */; };
 		69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279B92247DF9E0072D899 /* MapViewController.swift */; };
-		69D279BC2247F3430072D899 /* LocationMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279BB2247F3430072D899 /* LocationMarkerView.swift */; };
 		69DE6F05224ACCC500D71A8C /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F04224ACCC500D71A8C /* ViewControllerExtensions.swift */; };
 		69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F06224BF34D00D71A8C /* ActionButton.swift */; };
 		69DE6F09224BF3BF00D71A8C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F08224BF3BF00D71A8C /* Fonts.swift */; };
 		69DE6F0B224BF40100D71A8C /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F0A224BF40100D71A8C /* Icons.swift */; };
+		69DE6F0D224C42E600D71A8C /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F0C224C42E600D71A8C /* AppSettings.swift */; };
+		69DE6F0F224C6EB000D71A8C /* LocationsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DE6F0E224C6EB000D71A8C /* LocationsTable.swift */; };
+		69DE6F10224C749200D71A8C /* LocationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D279BB2247F3430072D899 /* LocationMarker.swift */; };
 		69E35F7F224282E100065B9A /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69E35F7E224282E100065B9A /* fa-solid-900.ttf */; };
 		69E35F872242AA1F00065B9A /* CrowdedDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E35F862242AA1F00065B9A /* CrowdedDataModel.swift */; };
 		69E35F8D2242B1BF00065B9A /* CrowdedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */; };
@@ -45,11 +47,13 @@
 		69B243A522414116002F71AD /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		69D279992245897A0072D899 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		69D279B92247DF9E0072D899 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		69D279BB2247F3430072D899 /* LocationMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMarkerView.swift; sourceTree = "<group>"; };
+		69D279BB2247F3430072D899 /* LocationMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMarker.swift; sourceTree = "<group>"; };
 		69DE6F04224ACCC500D71A8C /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
 		69DE6F06224BF34D00D71A8C /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		69DE6F08224BF3BF00D71A8C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		69DE6F0A224BF40100D71A8C /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		69DE6F0C224C42E600D71A8C /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		69DE6F0E224C6EB000D71A8C /* LocationsTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTable.swift; sourceTree = "<group>"; };
 		69E35F7E224282E100065B9A /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
 		69E35F862242AA1F00065B9A /* CrowdedDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdedDataModel.swift; sourceTree = "<group>"; };
 		69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdedDataView.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				69E35F862242AA1F00065B9A /* CrowdedDataModel.swift */,
+				69DE6F0C224C42E600D71A8C /* AppSettings.swift */,
 				69E35F9A2244258B00065B9A /* AboutTableDataModel.swift */,
 			);
 			path = Models;
@@ -147,8 +152,9 @@
 		69E35F892242AD3F00065B9A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				69D279BB2247F3430072D899 /* LocationMarkerView.swift */,
+				69D279BB2247F3430072D899 /* LocationMarker.swift */,
 				69DE6F06224BF34D00D71A8C /* ActionButton.swift */,
+				69DE6F0E224C6EB000D71A8C /* LocationsTable.swift */,
 				69E35F8C2242B1BF00065B9A /* CrowdedDataView.swift */,
 				69E35F9822441DBC00065B9A /* AboutTableModelView.swift */,
 			);
@@ -227,7 +233,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69DE6F10224C749200D71A8C /* LocationMarker.swift in Sources */,
 				69B2439422413ACB002F71AD /* SettingsViewController.swift in Sources */,
+				69DE6F0D224C42E600D71A8C /* AppSettings.swift in Sources */,
 				69B2439022413ACB002F71AD /* AppDelegate.swift in Sources */,
 				69A9161B22485BD40093434D /* LocationInfoViewController.swift in Sources */,
 				69B243A422413B95002F71AD /* AboutViewController.swift in Sources */,
@@ -241,10 +249,10 @@
 				69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */,
 				69B243A622414116002F71AD /* AppNavigationController.swift in Sources */,
 				69E35F9B2244258B00065B9A /* AboutTableDataModel.swift in Sources */,
+				69DE6F0F224C6EB000D71A8C /* LocationsTable.swift in Sources */,
 				69DE6F0B224BF40100D71A8C /* Icons.swift in Sources */,
 				69E35F872242AA1F00065B9A /* CrowdedDataModel.swift in Sources */,
 				69D2799A2245897A0072D899 /* LoadingViewController.swift in Sources */,
-				69D279BC2247F3430072D899 /* LocationMarkerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

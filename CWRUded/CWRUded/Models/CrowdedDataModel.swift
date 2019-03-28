@@ -34,6 +34,8 @@ struct Location : Decodable {
     public let longitude: Double
     public let latitude: Double
     
+    public var displayCount: String? { return String(spaces.count) + " " + (spaces.count != 1 ? "Locations" : "Location") }
+    
     fileprivate init(id: Int, name: String, type: Type, spaces: [Space], longitude: Double, latitude: Double) {
         self.id = id
         self.name = name

@@ -20,7 +20,7 @@ class LocationInfoViewController: UIViewController {
     
     public var location: Location?
     private var locationView: LocationView?
-    private var directionsButton: UIButton?
+    private var directionsButton: ActionButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,21 +71,19 @@ class LocationInfoViewController: UIViewController {
     }
     
     private func setDirectionsButton() {
-        let button = UIButton(type: .system)
-        button.frame = CGRect(x: 10, y: locationView!.frame.height + 20, width: UIScreen.main.bounds.width - 20, height: 40)
-        button.backgroundColor = ColorPallete.darkGrey
-        button.setTitle("Directions", for: .normal)
-        button.setTitleColor(ColorPallete.white, for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = Fonts.app(size: 23, weight: .bold)
-        button.layer.cornerRadius = 5
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(directionsButtonTapped), for: .touchUpInside)
-        self.directionsButton = button
-        scrollView.addSubview(directionsButton!)
+        self.directionsButton = ActionButton(text: "Directions",
+                                             textFont: Fonts.app(size: 23, weight: .bold),
+                                             icon: Icons.route,
+                                             iconFont: Fonts.fontAwesome(size: 18),
+                                             backgroundColor: ColorPallete.darkGrey,
+                                             foregroundColor: ColorPallete.white,
+                                             frame: CGRect(x: 10, y: locationView!.frame.height + 20, width: UIScreen.main.bounds.width - 20, height: 40),
+                                             action: { self.directionsButtonTapped() })
+        
+        scrollView.addSubview(self.directionsButton!)
     }
     
-    @objc private func directionsButtonTapped(sender: UIButton!) {
+    private func directionsButtonTapped() {
         guard let location = location else { return }
         let addressDict = [CNPostalAddressStreetKey: location.name]
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -94,7 +92,6 @@ class LocationInfoViewController: UIViewController {
         mapItem.name = location.name
         let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
         mapItem.openInMaps(launchOptions: launchOptions)
-        
     }
     
     private func setScrollHeight() {

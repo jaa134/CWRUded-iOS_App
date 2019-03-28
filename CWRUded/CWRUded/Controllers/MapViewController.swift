@@ -50,7 +50,7 @@ class MapViewController: UIViewController {
         filterButton.backgroundColor = ColorPallete.darkGrey
         filterButton.layer.cornerRadius = 0.5 * filterButton.bounds.size.width
         filterButton.clipsToBounds = true
-        filterButton.font = Fonts.fontAwesome(size: 35)
+        filterButton.font = Fonts.fontAwesome(size: 25)
         filterButton.text = Icons.filter
         filterButton.textColor = ColorPallete.white
         
@@ -94,7 +94,7 @@ class MapViewController: UIViewController {
     }
     
     private func registerCustomPins() {
-        mapView.register(LocationMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(LocationMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
     private func setInitialMapLocation() {
@@ -126,7 +126,7 @@ class MapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toInfo" {
             guard let infoViewController = segue.destination as? LocationInfoViewController else { return }
-            guard let markerView = sender as? LocationMarkerView else { return }
+            guard let markerView = sender as? LocationMarker else { return }
             guard let annotation = markerView.annotation as? LocationAnnotation else { return }
             infoViewController.location = annotation.location
         }
@@ -135,17 +135,17 @@ class MapViewController: UIViewController {
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let view = view as? LocationMarkerView else { return }
+        guard let view = view as? LocationMarker else { return }
         view.icon?.isHidden = true
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        guard let view = view as? LocationMarkerView else { return }
+        guard let view = view as? LocationMarker else { return }
         view.icon?.isHidden = false
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        guard let view = view as? LocationMarkerView else { return }
+        guard let view = view as? LocationMarker else { return }
         performSegue(withIdentifier: "toInfo", sender: view)
     }
     

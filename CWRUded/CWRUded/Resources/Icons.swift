@@ -14,13 +14,13 @@ class Icons {
     static let cog = "\u{f013}"
     static let question = "\u{f128}"
     static let info = "\u{f129}"
-    
     static let filter = "\u{f0b0}"
     static let book = "\u{f02d}"
     static let utensils = "\u{f2e7}"
     static let dumbbell = "\u{f44b}"
-    
     static let triangle = "\u{f0dd}"
+    static let arrow = "\u{f105}"
+    static let route = "\u{f4d7}"
     
     public static func from(type: Type) -> String {
         switch type {

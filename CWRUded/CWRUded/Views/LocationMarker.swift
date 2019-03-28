@@ -13,7 +13,7 @@ class LocationAnnotation: NSObject, MKAnnotation {
     public let location: Location
     
     var title: String? { return location.name }
-    var subtitle: String? { return String(location.spaces.count) + " " + (location.spaces.count != 1 ? "locations" : "location") }
+    var subtitle: String? { return location.displayCount }
     var coordinate: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude) }
     var markerTintColor: UIColor
     
@@ -24,7 +24,7 @@ class LocationAnnotation: NSObject, MKAnnotation {
     }
 }
 
-class LocationMarkerView: MKMarkerAnnotationView {
+class LocationMarker: MKMarkerAnnotationView {
     var icon: UILabel?
     
     override var annotation: MKAnnotation? {

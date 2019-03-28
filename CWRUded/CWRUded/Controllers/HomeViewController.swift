@@ -20,7 +20,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var filterTypeIcon: UILabel!
     @IBOutlet weak var filterTypeText: UILabel!
     
-    private var crowdedDataView: CrowdedDataView?
+    //private var crowdedDataView: CrowdedDataView?
+    private var locationsTable: LocationsTable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,6 @@ class HomeViewController: UIViewController {
         placeScrollViewContent()
         setInitialFilter()
         addFilterTapGesture()
-        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateScrollViewContent), userInfo: nil, repeats: true)
     }
     
     private func setTitle() {
@@ -75,7 +75,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setFilter(type: Type?) {
-        crowdedDataView?.filter(filter: type)
+        locationsTable?.filter(filter: type)
         updateScrollHeight()
         
         if let type = type {
@@ -120,20 +120,16 @@ class HomeViewController: UIViewController {
     
     private func placeScrollViewContent() {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        crowdedDataView = CrowdedDataView()
-        scrollView.addSubview(crowdedDataView!)
+        locationsTable = LocationsTable(onCellTapped: { cell in self.performSegue(withIdentifier: "toInfo", sender: cell) })
+        scrollView.addSubview(locationsTable!)
         updateScrollHeight()
     }
     
     private func updateScrollHeight() {
         let screensize: CGRect = UIScreen.main.bounds
         let scrollWidth: CGFloat = screensize.width
-        let scrollHeight: CGFloat = crowdedDataView!.frame.height
+        let scrollHeight: CGFloat = locationsTable!.frame.height
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollHeight)
-    }
-    
-    @objc private func updateScrollViewContent() {
-        self.crowdedDataView!.update()
     }
     
     private func pressButton(button: UIButton) {
@@ -145,6 +141,14 @@ class HomeViewController: UIViewController {
             UIView.transition(with: button, duration: 0.25, options: .curveEaseInOut, animations: {
                 button.backgroundColor = color
             })
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toInfo" {
+            guard let infoViewController = segue.destination as? LocationInfoViewController else { return }
+            guard let locationCell = sender as? LocationCell else { return }
+            infoViewController.location = locationCell.location
         }
     }
 }
