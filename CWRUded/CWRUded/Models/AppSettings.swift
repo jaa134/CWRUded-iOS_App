@@ -48,15 +48,26 @@ class AppSettings {
         }
         else {
             //overwrite corrupted data
-            updateFavoriteLocations(locations: defaultFavoriteLocations())
+            updateFavoriteLocations(with: defaultFavoriteLocations())
             return defaultFavoriteLocations()
         }
     }
     
-    public func updateFavoriteLocations(locations: [SimpleLocation]) {
+    private func updateFavoriteLocations(with locations: [SimpleLocation]) {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.favoriteLocations)
     }
     
+    public func addFavoriteLocation(location: Location) {
+        var favorites = favoriteLocations()
+        favorites.append(SimpleLocation(id: location.id, name: location.name))
+        updateFavoriteLocations(with: favorites)
+    }
+    
+    public func removeFavoriteLocation(location: Location) {
+        var favorites = favoriteLocations()
+        favorites.removeAll(where: { simpleLocation in simpleLocation.id == location.id })
+        updateFavoriteLocations(with: favorites)
+    }
     
     private func defaultBlacklistedLocations() -> [SimpleLocation] {
         return []
@@ -69,12 +80,24 @@ class AppSettings {
         }
         else {
             //overwrite corrupted data
-            updateBlacklistedLocations(locations: defaultBlacklistedLocations())
+            updateBlacklistedLocations(with: defaultBlacklistedLocations())
             return defaultBlacklistedLocations()
         }
     }
     
-    public func updateBlacklistedLocations(locations: [SimpleLocation]) {
+    private func updateBlacklistedLocations(with locations: [SimpleLocation]) {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.blacklistedLocations)
+    }
+    
+    public func addBlacklistedLocation(location: Location) {
+        var blacklisted = blacklistedLocations()
+        blacklisted.append(SimpleLocation(id: location.id, name: location.name))
+        updateBlacklistedLocations(with: blacklisted)
+    }
+    
+    public func removeBlacklistedLocation(location: Location) {
+        var blacklisted = blacklistedLocations()
+        blacklisted.removeAll(where: { simpleLocation in simpleLocation.id == location.id })
+        updateBlacklistedLocations(with: blacklisted)
     }
 }

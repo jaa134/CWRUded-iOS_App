@@ -90,7 +90,9 @@ class CrowdedData {
     
     func filteredLocations(filter: Type?) -> [Location] {
         var filteredLocations = [Location]()
-        for location in locations {
+        let blacklistedLocations = AppSettings.singleton.blacklistedLocations()
+        let visibleLocations = locations.filter({ location in !blacklistedLocations.contains(where: { blocked in blocked.id == location.id }) })
+        for location in visibleLocations {
             if (filter == nil || location.type == filter) {
                 filteredLocations.append(location)
             }

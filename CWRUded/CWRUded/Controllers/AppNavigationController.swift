@@ -24,7 +24,7 @@ class AppNavigationController: UITabBarController {
         //adjustTabHeight()
     }
     
-    func changeTabFont() {
+    private func changeTabFont() {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 14)!], for: .focused)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 14)!], for: .selected)
@@ -32,7 +32,7 @@ class AppNavigationController: UITabBarController {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 14)!], for: .highlighted)
     }
     
-    func adjustTabHeight() {
+    private func adjustTabHeight() {
         let newTabBarHeight = defaultTabBarHeight
         var newFrame = tabBar.frame
         newFrame.size.height = newTabBarHeight

@@ -31,13 +31,13 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        updateTableData()
     }
     
     private func setupView() {
         setTitle()
         setInitialFilter()
         setTableView()
-        updateTableData()
         addFilterTapGesture()
     }
     

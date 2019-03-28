@@ -18,6 +18,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var filterButton: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
+    private var selectedFilter: Type?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -26,6 +28,7 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        placeLocationAnnotations()
     }
     
     private func setupView() {
@@ -34,7 +37,6 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         registerCustomPins()
         setInitialMapLocation()
-        placeLocationAnnotations()
     }
     
     private func setTitle() {
@@ -58,7 +60,8 @@ class MapViewController: UIViewController {
     }
     
     private func setFilter(type: Type?) {
-        filterLocationAnnotations(filter: type)
+        selectedFilter = type
+        placeLocationAnnotations()
         
         if let type = type {
             filterButton.text = Icons.from(type: type)
@@ -109,17 +112,10 @@ class MapViewController: UIViewController {
     }
     
     private func placeLocationAnnotations() {
-        for location in CrowdedData.singleton.locations {
+        mapView.removeAnnotations(mapView.annotations)
+        for location in CrowdedData.singleton.filteredLocations(filter: selectedFilter) {
             let annotation = LocationAnnotation(location: location)
             mapView.addAnnotation(annotation)
-        }
-    }
-    
-    private func filterLocationAnnotations(filter: Type?) {
-        for annotation in mapView.annotations {
-            guard let annotation = annotation as? LocationAnnotation else { continue }
-            guard let annotationView = mapView.view(for: annotation) else { continue }
-            annotationView.isHidden = filter != nil && annotation.location.type != filter
         }
     }
     

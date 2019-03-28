@@ -22,6 +22,7 @@ class Icons {
     static let arrow = "\u{f105}"
     static let compass = "\u{f14e}"
     static let heart = "\u{f004}"
+    static let ban = "\u{f05e}"
     
     public static func from(type: Type) -> String {
         switch type {
