@@ -13,7 +13,9 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleIconLabel: UILabel!
     @IBOutlet weak var titleTextLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tableView: UITableView!
+    
+    private var tableData: [Setting]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +24,8 @@ class SettingsViewController: UIViewController {
     
     private func setupView() {
         setTitle()
-        setScrollView()
+        updateTableData()
+        setTableView()
     }
     
     private func setTitle() {
@@ -33,7 +36,43 @@ class SettingsViewController: UIViewController {
                  title: " Settings")
     }
     
-    private func setScrollView() {
-        scrollView.backgroundColor = ColorPallete.clay
+    private func setTableView() {
+        tableView.backgroundColor = ColorPallete.clay
+        tableView.allowsMultipleSelection = false
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+    }
+    
+    private func updateTableData() {
+        tableData = [Setting]()
+        tableData.append(Setting(icon: Icons.refresh, name: "Refresh Rate", onClick: {}))
+        tableData.append(Setting(icon: Icons.heart, name: "Favorite Locations", onClick: {}))
+        tableData.append(Setting(icon: Icons.ban, name: "Hidden Locations", onClick: {}))
+    }
+}
+
+extension SettingsViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.tableData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
+        let setting = self.tableData![indexPath.item]
+        cell.setupView(setting: setting)
+        return cell
+    }
+}
+
+extension SettingsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return SettingCell.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

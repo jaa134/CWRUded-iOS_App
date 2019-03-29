@@ -8,11 +8,6 @@
 
 import Foundation
 
-struct SimpleLocation : Codable {
-    let id: Int
-    let name: String
-}
-
 class AppSettings {
     class Keys {
         static let refreshRate = "REFRESH_RATE"
@@ -29,7 +24,7 @@ class AppSettings {
     }
     
     private func defaultRefreshRate() -> TimeInterval {
-        return 15.0
+        return 5.0
     }
     
     public func refreshRate() -> TimeInterval {

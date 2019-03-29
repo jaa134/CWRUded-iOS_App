@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		692E037D224E9F8C00F9652D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E037C224E9F8C00F9652D /* SettingCell.swift */; };
 		69A9161B22485BD40093434D /* LocationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9161A22485BD40093434D /* LocationInfoViewController.swift */; };
 		69B2439022413ACB002F71AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2438F22413ACB002F71AD /* AppDelegate.swift */; };
 		69B2439222413ACB002F71AD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2439122413ACB002F71AD /* HomeViewController.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		692E037C224E9F8C00F9652D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		69A9161A22485BD40093434D /* LocationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoViewController.swift; sourceTree = "<group>"; };
 		69B2438C22413ACB002F71AD /* CWRUded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWRUded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B2438F22413ACB002F71AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				69DE6F06224BF34D00D71A8C /* ActionButton.swift */,
 				69DE6F0E224C6EB000D71A8C /* LocationCell.swift */,
 				69E35F8C2242B1BF00065B9A /* LocationInfo.swift */,
+				692E037C224E9F8C00F9652D /* SettingCell.swift */,
 				69E35F9822441DBC00065B9A /* AboutTable.swift */,
 			);
 			path = Views;
@@ -244,6 +247,7 @@
 				69B2439222413ACB002F71AD /* HomeViewController.swift in Sources */,
 				69DE6F09224BF3BF00D71A8C /* Fonts.swift in Sources */,
 				69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */,
+				692E037D224E9F8C00F9652D /* SettingCell.swift in Sources */,
 				69DE6F05224ACCC500D71A8C /* ViewControllerExtensions.swift in Sources */,
 				69E35F8D2242B1BF00065B9A /* LocationInfo.swift in Sources */,
 				69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */,

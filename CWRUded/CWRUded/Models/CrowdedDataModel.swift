@@ -26,6 +26,11 @@ struct Space : Decodable {
     }
 }
 
+struct SimpleLocation : Codable {
+    let id: Int
+    let name: String
+}
+
 struct Location : Decodable {
     public let id: Int
     public let name: String

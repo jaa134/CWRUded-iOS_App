@@ -17,7 +17,7 @@ class LocationCell : UITableViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
     
-    public var location: Location?
+    public private(set) var location: Location?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,5 +94,49 @@ class LocationCell : UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         //self.contentView.backgroundColor = highlighted ? .blue : .clear
+    }
+}
+
+class LocationHeader: UITableViewHeaderFooterView {
+    public static let height: CGFloat = 32;
+    
+    public private(set) var titleLabel: UILabel!
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    
+    public func setupView() {
+        setBackground()
+        setTitle()
+        setColor()
+    }
+    
+    private func setBackground() {
+        backgroundView = UIView()
+    }
+    
+    private func setTitle() {
+        textLabel!.isHidden = true
+        
+        titleLabel = UILabel(frame: .zero)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+        
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 10))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
+    }
+    
+    private func setColor() {
+        contentView.backgroundColor = ColorPallete.navyBlue
+        titleLabel!.textColor = ColorPallete.white
     }
 }

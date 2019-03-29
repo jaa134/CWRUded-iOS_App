@@ -16,7 +16,7 @@ class AppNavigationController: UITabBarController {
         super.viewDidLoad()
         self.delegate = self
         //changeTabFont()
-        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: AppSettings.singleton.refreshRate(), target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
     }
     
     override func viewWillLayoutSubviews() {

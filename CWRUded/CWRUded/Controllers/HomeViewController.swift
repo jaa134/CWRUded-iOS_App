@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
         tableView.allowsMultipleSelection = false
         
         tableData = [(key: String, value: [Location])]()
+        self.tableView.register(LocationHeader.self, forHeaderFooterViewReuseIdentifier: "LocationHeader")
         self.tableView.dataSource = self
         self.tableView.delegate = self
     }
@@ -182,6 +183,16 @@ extension HomeViewController: UITableViewDataSource {
 }
 
 extension HomeViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return LocationHeader.height
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "LocationHeader") as! LocationHeader
+        view.titleLabel.text = self.tableData[section].key
+        return view
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return LocationCell.height
