@@ -54,15 +54,41 @@ class SettingsViewController: UIViewController {
         tableData.append(Setting(icon: Icons.refresh,
                                  iconColor: ColorPallete.lightBlue,
                                  name: "Refresh Rate",
-                                 onClick: {  }))
+                                 onClick: { self.openRefreshRateMenu() }))
         tableData.append(Setting(icon: Icons.heart,
                                  iconColor: ColorPallete.red,
                                  name: "Favorite Locations",
-                                 onClick: { self.performSegue(withIdentifier: "toFavoriteLocations", sender: nil) }))
+                                 onClick: { self.segueToFavorites() }))
         tableData.append(Setting(icon: Icons.ban,
                                  iconColor: ColorPallete.red,
                                  name: "Hidden Locations",
-                                 onClick: { self.performSegue(withIdentifier: "toBlacklistedLocations", sender: nil) }))
+                                 onClick: { self.segueToBlacklist() }))
+    }
+    
+    private func openRefreshRateMenu() {
+        let rateActionSheet = UIAlertController(title: "Refresh Rate", message: "Select an option to choose how often the application will retrieve data. A higher interval will limit data usage.", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let secs5 = UIAlertAction(title: "5 seconds", style: UIAlertAction.Style.default) { (action) in AppSettings.singleton.updateRefreshRate(interval: 5) }
+        let secs10 = UIAlertAction(title: "10 seconds", style: UIAlertAction.Style.default) { (action) in AppSettings.singleton.updateRefreshRate(interval: 10) }
+        let secs30 = UIAlertAction(title: "30 seconds", style: UIAlertAction.Style.default) { (action) in AppSettings.singleton.updateRefreshRate(interval: 30) }
+        let secs60 = UIAlertAction(title: "60 seconds", style: UIAlertAction.Style.default) { (action) in AppSettings.singleton.updateRefreshRate(interval: 60) }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel)
+        
+        rateActionSheet.addAction(secs5)
+        rateActionSheet.addAction(secs10)
+        rateActionSheet.addAction(secs30)
+        rateActionSheet.addAction(secs60)
+        rateActionSheet.addAction(cancelAction)
+        
+        self.present(rateActionSheet, animated: true, completion: nil)
+    }
+    
+    private func segueToFavorites() {
+        performSegue(withIdentifier: "toFavoriteLocations", sender: nil)
+    }
+    
+    private func segueToBlacklist() {
+        performSegue(withIdentifier: "toBlacklistedLocations", sender: nil)
     }
 }
 

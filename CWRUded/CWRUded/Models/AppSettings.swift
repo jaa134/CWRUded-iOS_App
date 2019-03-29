@@ -31,6 +31,9 @@ class AppSettings {
         return defaults.object(forKey: Keys.refreshRate) as? TimeInterval ?? defaultRefreshRate()
     }
     
+    public func updateRefreshRate(interval: TimeInterval) {
+        defaults.set(interval, forKey: AppSettings.Keys.refreshRate)
+    }
     
     private func defaultFavoriteLocations() -> [SimpleLocation] {
         return []
@@ -49,7 +52,7 @@ class AppSettings {
     }
     
     private func updateFavoriteLocations(with locations: [SimpleLocation]) {
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.favoriteLocations)
+        defaults.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.favoriteLocations)
     }
     
     public func addFavoriteLocation(location: Location) {
@@ -81,7 +84,7 @@ class AppSettings {
     }
     
     private func updateBlacklistedLocations(with locations: [SimpleLocation]) {
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.blacklistedLocations)
+        defaults.set(try? PropertyListEncoder().encode(locations), forKey: AppSettings.Keys.blacklistedLocations)
     }
     
     public func addBlacklistedLocation(location: Location) {

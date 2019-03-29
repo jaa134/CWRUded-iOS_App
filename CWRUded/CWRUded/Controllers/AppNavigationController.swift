@@ -9,19 +9,23 @@
 import UIKit
 
 class AppNavigationController: UITabBarController {
+    private var updateJob = Timer()
     
     fileprivate lazy var defaultTabBarHeight = { tabBar.frame.size.height }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        //changeTabFont()
-        Timer.scheduledTimer(timeInterval: AppSettings.singleton.refreshRate(), target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+        adjustUpdateTimer(interval: AppSettings.singleton.refreshRate())
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         //adjustTabHeight()
+    }
+    
+    private func adjustUpdateTimer(interval: TimeInterval) {
+        updateJob = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(self.updateData), userInfo: nil, repeats: true)
     }
     
     private func changeTabFont() {
