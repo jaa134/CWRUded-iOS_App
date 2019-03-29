@@ -16,4 +16,5 @@ class ColorPallete {
     static let grey = UIColor(red: 130/255.0, green: 130/255.0, blue: 130/255.0, alpha: 1)
     static let darkGrey = UIColor(red: 100/255.0, green: 100/255.0, blue: 100/255.0, alpha: 1)
     static let clay = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
+    static let red = UIColor(red: 227/255.0, green: 27/255.0, blue: 35/255.0, alpha: 1)
 }

@@ -1,21 +1,22 @@
 //
-//  SettingsViewController.swift
+//  FavoriteLocationsController.swift
 //  CWRUded
 //
-//  Created by Jacob Alspaw on 3/19/19.
+//  Created by Jacob Alspaw on 3/29/19.
 //  Copyright © 2019 Jacob Alspaw. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController {
+class FavoriteLocationsController : UIViewController {
     
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleIconLabel: UILabel!
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    private var tableData: [Setting]!
+    private var tableData: [Item]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,7 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func setupView() {
@@ -37,8 +38,8 @@ class SettingsViewController: UIViewController {
         setTitle(container: titleView,
                  iconLabel: titleIconLabel,
                  textLabel: titleTextLabel,
-                 icon: Icons.cog,
-                 title: " Settings")
+                 icon: Icons.heart,
+                 title: " Favorites")
     }
     
     private func setTableView() {
@@ -50,36 +51,43 @@ class SettingsViewController: UIViewController {
     }
     
     private func updateTableData() {
-        tableData = [Setting]()
-        tableData.append(Setting(icon: Icons.refresh, name: "Refresh Rate", onClick: { self.performSegue(withIdentifier: "toRefreshRate", sender: nil) }))
-        tableData.append(Setting(icon: Icons.heart, name: "Favorite Locations", onClick: { self.performSegue(withIdentifier: "toFavoriteLocations", sender: nil) }))
-        tableData.append(Setting(icon: Icons.ban, name: "Hidden Locations", onClick: { self.performSegue(withIdentifier: "toBlacklistedLocations", sender: nil) }))
+        tableData = [Item]()
+        let favorites = AppSettings.singleton.favoriteLocations()
+        for location in CrowdedData.singleton.locations {
+            tableData.append(Item(name: location.name,
+                                  icon: Icons.heart,
+                                  iconColor: ColorPallete.red,
+                                  isSelected: favorites.contains(where: { $0.id == location.id }),
+                                  onSelect: { AppSettings.singleton.addFavoriteLocation(location: location) },
+                                  onDeselect: { AppSettings.singleton.removeFavoriteLocation(location: location) }))
+        }
     }
 }
 
-extension SettingsViewController: UITableViewDataSource {
+extension FavoriteLocationsController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tableData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
-        let setting = self.tableData![indexPath.item]
-        cell.setupView(setting: setting)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
+        let location = self.tableData![indexPath.item]
+        cell.setupView(item: location)
         return cell
     }
 }
 
-extension SettingsViewController: UITableViewDelegate {
+extension FavoriteLocationsController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return SettingCell.height
+        return SelectionCell.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let setting = self.tableData![indexPath.item]
-        setting.onClick()
+        let cell = tableView.cellForRow(at: indexPath) as! SelectionCell
+        cell.toggle()
     }
 }
+
