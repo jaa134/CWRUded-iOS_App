@@ -51,9 +51,18 @@ class SettingsViewController: UIViewController {
     
     private func updateTableData() {
         tableData = [Setting]()
-        tableData.append(Setting(icon: Icons.refresh, name: "Refresh Rate", onClick: { self.performSegue(withIdentifier: "toRefreshRate", sender: nil) }))
-        tableData.append(Setting(icon: Icons.heart, name: "Favorite Locations", onClick: { self.performSegue(withIdentifier: "toFavoriteLocations", sender: nil) }))
-        tableData.append(Setting(icon: Icons.ban, name: "Hidden Locations", onClick: { self.performSegue(withIdentifier: "toBlacklistedLocations", sender: nil) }))
+        tableData.append(Setting(icon: Icons.refresh,
+                                 iconColor: ColorPallete.lightBlue,
+                                 name: "Refresh Rate",
+                                 onClick: {  }))
+        tableData.append(Setting(icon: Icons.heart,
+                                 iconColor: ColorPallete.red,
+                                 name: "Favorite Locations",
+                                 onClick: { self.performSegue(withIdentifier: "toFavoriteLocations", sender: nil) }))
+        tableData.append(Setting(icon: Icons.ban,
+                                 iconColor: ColorPallete.red,
+                                 name: "Hidden Locations",
+                                 onClick: { self.performSegue(withIdentifier: "toBlacklistedLocations", sender: nil) }))
     }
 }
 

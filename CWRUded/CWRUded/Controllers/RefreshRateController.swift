@@ -16,6 +16,8 @@ class RefreshRateController : UIViewController {
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    private var tableData: [Item]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -28,6 +30,8 @@ class RefreshRateController : UIViewController {
     
     private func setupView() {
         setTitle()
+        updateTableData()
+        setTableView()
     }
     
     private func setTitle() {
@@ -36,5 +40,69 @@ class RefreshRateController : UIViewController {
                  textLabel: titleTextLabel,
                  icon: Icons.refresh,
                  title: " Update")
+    }
+    
+    private func setTableView() {
+        tableView.backgroundColor = ColorPallete.clay
+        tableView.allowsMultipleSelection = false
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+    }
+    
+    private func updateTableData() {
+        tableData = [Item]()
+        let rate = AppSettings.singleton.refreshRate()
+        tableData.append(Item(name: "5 seconds",
+                              icon: Icons.check,
+                              iconColor: ColorPallete.green,
+                              isSelected: rate == 5,
+                              onSelect: { AppSettings. },
+                              onDeselect: {  }))
+        tableData.append(Item(name: "10 seconds",
+                              icon: Icons.check,
+                              iconColor: ColorPallete.green,
+                              isSelected: rate == 10,
+                              onSelect: {  },
+                              onDeselect: {  }))
+        tableData.append(Item(name: "30 seconds",
+                              icon: Icons.check,
+                              iconColor: ColorPallete.green,
+                              isSelected: rate == 20,
+                              onSelect: {  },
+                              onDeselect: {  }))
+        tableData.append(Item(name: "60 seconds",
+                              icon: Icons.check,
+                              iconColor: ColorPallete.green,
+                              isSelected: rate == 60,
+                              onSelect: {  },
+                              onDeselect: {  }))
+    }
+}
+
+extension RefreshRateController : UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.tableData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
+        let location = self.tableData![indexPath.item]
+        cell.setupView(item: location)
+        return cell
+    }
+}
+
+extension RefreshRateController : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return SelectionCell.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let cell = tableView.cellForRow(at: indexPath) as! SelectionCell
+        cell.toggle()
     }
 }

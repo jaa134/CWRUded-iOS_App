@@ -24,6 +24,7 @@ class Icons {
     static let heart = "\u{f004}"
     static let ban = "\u{f05e}"
     static let refresh = "\u{f2f1}"
+    static let check = "\u{f00c}"
     
     public static func from(type: Type) -> String {
         switch type {

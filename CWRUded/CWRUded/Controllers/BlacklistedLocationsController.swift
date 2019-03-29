@@ -44,7 +44,7 @@ class BlacklistedLocationsController : UIViewController {
     
     private func setTableView() {
         tableView.backgroundColor = ColorPallete.clay
-        tableView.allowsMultipleSelection = false
+        tableView.allowsMultipleSelection = true
         
         self.tableView.dataSource = self
         self.tableView.delegate = self

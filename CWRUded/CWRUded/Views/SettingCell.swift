@@ -51,7 +51,7 @@ class SettingCell : UITableViewCell {
         iconLabel.font = Fonts.fontAwesome(size: 20)
         iconLabel.text = setting.icon
         iconLabel.textAlignment = .center
-        iconLabel.textColor = ColorPallete.grey
+        iconLabel.textColor = setting.iconColor
         iconLabel.baselineAdjustment = .alignCenters
     }
     
@@ -85,6 +85,7 @@ class SettingCell : UITableViewCell {
 
 struct Setting {
     let icon: String
+    let iconColor: UIColor
     let name: String
     let onClick: () -> ()
 }

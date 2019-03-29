@@ -10,7 +10,6 @@
 		692E037D224E9F8C00F9652D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E037C224E9F8C00F9652D /* SettingCell.swift */; };
 		692E037F224EC3D500F9652D /* FavoriteLocationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E037E224EC3D500F9652D /* FavoriteLocationsController.swift */; };
 		692E0381224EC3F000F9652D /* BlacklistedLocationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E0380224EC3F000F9652D /* BlacklistedLocationsController.swift */; };
-		692E0383224EC40F00F9652D /* RefreshRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E0382224EC40F00F9652D /* RefreshRateController.swift */; };
 		692E0385224EC8B200F9652D /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692E0384224EC8B200F9652D /* SelectionCell.swift */; };
 		69A9161B22485BD40093434D /* LocationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9161A22485BD40093434D /* LocationInfoViewController.swift */; };
 		69B2439022413ACB002F71AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2438F22413ACB002F71AD /* AppDelegate.swift */; };
@@ -42,7 +41,6 @@
 		692E037C224E9F8C00F9652D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		692E037E224EC3D500F9652D /* FavoriteLocationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteLocationsController.swift; sourceTree = "<group>"; };
 		692E0380224EC3F000F9652D /* BlacklistedLocationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlacklistedLocationsController.swift; sourceTree = "<group>"; };
-		692E0382224EC40F00F9652D /* RefreshRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshRateController.swift; sourceTree = "<group>"; };
 		692E0384224EC8B200F9652D /* SelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		69A9161A22485BD40093434D /* LocationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoViewController.swift; sourceTree = "<group>"; };
 		69B2438C22413ACB002F71AD /* CWRUded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWRUded.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,7 +119,6 @@
 				69B243A322413B94002F71AD /* AboutViewController.swift */,
 				69A9161A22485BD40093434D /* LocationInfoViewController.swift */,
 				692E0380224EC3F000F9652D /* BlacklistedLocationsController.swift */,
-				692E0382224EC40F00F9652D /* RefreshRateController.swift */,
 				69DE6F04224ACCC500D71A8C /* ViewControllerExtensions.swift */,
 				69D279B92247DF9E0072D899 /* MapViewController.swift */,
 				692E037E224EC3D500F9652D /* FavoriteLocationsController.swift */,
@@ -262,7 +259,6 @@
 				69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */,
 				692E037D224E9F8C00F9652D /* SettingCell.swift in Sources */,
 				692E037F224EC3D500F9652D /* FavoriteLocationsController.swift in Sources */,
-				692E0383224EC40F00F9652D /* RefreshRateController.swift in Sources */,
 				69DE6F05224ACCC500D71A8C /* ViewControllerExtensions.swift in Sources */,
 				69E35F8D2242B1BF00065B9A /* LocationInfo.swift in Sources */,
 				69D279BA2247DF9E0072D899 /* MapViewController.swift in Sources */,
