@@ -55,6 +55,10 @@ class HomeViewController: UIViewController {
         
         tableData = [(key: String, value: [Location])]()
         self.tableView.register(LocationHeader.self, forHeaderFooterViewReuseIdentifier: "LocationHeader")
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 1));
+        self.tableView.tableHeaderView!.isHidden = true
+        self.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 1));
+        self.tableView.tableFooterView!.isHidden = true
         self.tableView.dataSource = self
         self.tableView.delegate = self
     }
@@ -185,7 +189,7 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return LocationHeader.height
+        return section == 0 ? LocationHeader.height : LocationHeader.height + LocationHeader.paddingTop
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

@@ -84,11 +84,20 @@ class SelectionCell : UITableViewCell {
     }
 }
 
-struct Item {
+class Item {
     let name: String
     let icon: String
     let iconColor: UIColor
     public fileprivate(set) var isSelected: Bool
     let onSelect: () -> ()
     let onDeselect: () -> ()
+    
+    init (name: String, icon: String, iconColor: UIColor, isSelected: Bool, onSelect: @escaping () -> (), onDeselect: @escaping () -> ()) {
+        self.name = name
+        self.icon = icon
+        self.iconColor = iconColor
+        self.isSelected = isSelected
+        self.onSelect = onSelect
+        self.onDeselect = onDeselect
+    }
 }

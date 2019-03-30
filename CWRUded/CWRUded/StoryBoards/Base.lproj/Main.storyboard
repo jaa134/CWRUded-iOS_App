@@ -61,7 +61,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hr6-fe-ilE">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hr6-fe-ilE">
                                         <rect key="frame" x="217" y="25" width="28" height="0.0"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="28" id="tAb-Lj-u4V"/>
@@ -91,7 +91,7 @@
                                     <constraint firstItem="fTg-hv-C3a" firstAttribute="centerY" secondItem="sz1-D6-AUf" secondAttribute="centerY" id="BFr-7B-prc"/>
                                     <constraint firstItem="zzG-uI-0gh" firstAttribute="centerY" secondItem="sz1-D6-AUf" secondAttribute="centerY" id="J1G-tw-S2G"/>
                                     <constraint firstItem="VeO-zn-2Gz" firstAttribute="centerY" secondItem="sz1-D6-AUf" secondAttribute="centerY" id="Qwa-XZ-kma"/>
-                                    <constraint firstItem="fTg-hv-C3a" firstAttribute="leading" secondItem="hr6-fe-ilE" secondAttribute="trailing" id="fnM-24-xSS"/>
+                                    <constraint firstItem="fTg-hv-C3a" firstAttribute="leading" secondItem="hr6-fe-ilE" secondAttribute="trailing" constant="10" id="fnM-24-xSS"/>
                                     <constraint firstItem="hr6-fe-ilE" firstAttribute="centerY" secondItem="sz1-D6-AUf" secondAttribute="centerY" id="g8Y-4T-fyq"/>
                                     <constraint firstItem="hr6-fe-ilE" firstAttribute="leading" secondItem="VeO-zn-2Gz" secondAttribute="trailing" id="jTC-eV-yyj"/>
                                     <constraint firstAttribute="trailing" secondItem="fTg-hv-C3a" secondAttribute="trailing" constant="20" id="kgW-TK-Wgg"/>
@@ -100,18 +100,18 @@
                                     <constraint firstItem="zzG-uI-0gh" firstAttribute="leading" secondItem="sz1-D6-AUf" secondAttribute="leading" constant="20" id="wwh-GL-pRq"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CEA-b9-JsZ">
-                                <rect key="frame" x="0.0" y="154" width="375" height="414"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CEA-b9-JsZ">
+                                <rect key="frame" x="0.0" y="153" width="375" height="414"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" id="dTQ-mg-ioc" customClass="LocationCell" customModule="CWRUded" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTQ-mg-ioc" id="5mp-sg-bDg">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4K-Lj-Wqv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4K-Lj-Wqv">
                                                     <rect key="frame" x="15" y="9.5" width="25" height="25"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -291,7 +291,7 @@
         <!--Favorite Locations Controller-->
         <scene sceneID="cid-zJ-gyI">
             <objects>
-                <viewController id="yLz-ip-3TP" customClass="FavoriteLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="yLz-ip-3TP" customClass="FavoriteLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a3A-Pf-8ft">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -332,7 +332,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M2C-yb-an5">
-                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectionCell" id="oeu-yK-112" customClass="SelectionCell" customModule="CWRUded" customModuleProvider="target">
@@ -402,7 +402,7 @@
         <!--Blacklisted Locations Controller-->
         <scene sceneID="iG2-qn-0ag">
             <objects>
-                <viewController id="J9n-Tw-eNO" customClass="BlacklistedLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="J9n-Tw-eNO" customClass="BlacklistedLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KoF-U6-dR6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -443,7 +443,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vO4-rq-mq5">
-                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectionCell" id="HgD-py-wJA" customClass="SelectionCell" customModule="CWRUded" customModuleProvider="target">

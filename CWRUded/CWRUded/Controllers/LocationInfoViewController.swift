@@ -18,6 +18,9 @@ class LocationInfoViewController: UIViewController {
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    private var favoriteToggle: UISwitch!
+    private var blacklistToggle: UISwitch!
+    
     public var location: Location?
     private var locationView: LocationInfo?
     
@@ -69,14 +72,13 @@ class LocationInfoViewController: UIViewController {
         
         let containerWidth = UIScreen.main.bounds.width - 20
         let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
-        let favoriteToggleRow = self.favoriteToggle(x: 10, y: directionsButton.frame.origin.y + directionsButton.frame.height + 10, width: containerWidth - 20)
-        let blacklistToggleRow = self.blacklistToggle(x: 10, y: favoriteToggleRow.frame.origin.y + favoriteToggleRow.frame.height + 10, width: containerWidth - 20)
+        let favoriteToggleRow = self.favoriteContainer(x: 10, y: directionsButton.frame.origin.y + directionsButton.frame.height + 10, width: containerWidth - 20)
+        let blacklistToggleRow = self.blacklistContainer(x: 10, y: favoriteToggleRow.frame.origin.y + favoriteToggleRow.frame.height + 10, width: containerWidth - 20)
         let actionsContainer = UIView()
         actionsContainer.addSubview(directionsButton)
         actionsContainer.addSubview(favoriteToggleRow)
         actionsContainer.addSubview(blacklistToggleRow)
         
-        //actionsContainer.isUserInteractionEnabled = true
         actionsContainer.frame.origin.x = 10
         actionsContainer.frame.origin.y = locationView!.frame.origin.y + locationView!.frame.height + 10
         actionsContainer.frame.size.width = containerWidth
@@ -85,8 +87,6 @@ class LocationInfoViewController: UIViewController {
         actionsContainer.layer.cornerRadius = 5
         actionsContainer.clipsToBounds = true
         scrollView.addSubview(actionsContainer)
-        
-        
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {
@@ -114,7 +114,7 @@ class LocationInfoViewController: UIViewController {
         mapItem.openInMaps(launchOptions: launchOptions)
     }
     
-    private func favoriteToggle(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
+    private func favoriteContainer(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
         let favoriteToggleContainer = UIView(frame: CGRect(x: x,
                                                            y: y,
                                                            width: width,
@@ -123,7 +123,7 @@ class LocationInfoViewController: UIViewController {
         let iconLabel = UILabel()
         iconLabel.text = Icons.heart
         iconLabel.font = Fonts.fontAwesome(size: 18)
-        iconLabel.textColor = ColorPallete.black
+        iconLabel.textColor = ColorPallete.red
         iconLabel.backgroundColor = ColorPallete.transparent
         iconLabel.textAlignment = .center
         iconLabel.baselineAdjustment = .alignCenters
@@ -160,19 +160,23 @@ class LocationInfoViewController: UIViewController {
         favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
         favoriteToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: favoriteToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
+        favoriteToggle = toggleSwitch
         return favoriteToggleContainer
     }
     
-    @objc private func favoriteToggled(sender: UISwitch) {
-        if (sender.isOn) {
+    @objc private func favoriteToggled() {
+        if (favoriteToggle.isOn) {
             AppSettings.singleton.addFavoriteLocation(location: location!)
+            //does not trigger the other toggles event so we hanbdle it below
+            blacklistToggle.setOn(false, animated: true)
+            blacklistToggled()
         }
         else {
             AppSettings.singleton.removeFavoriteLocation(location: location!)
         }
     }
     
-    private func blacklistToggle(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
+    private func blacklistContainer(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
         let blacklistToggleContainer = UIView(frame: CGRect(x: x,
                                                             y: y,
                                                             width: width,
@@ -181,7 +185,7 @@ class LocationInfoViewController: UIViewController {
         let iconLabel = UILabel()
         iconLabel.text = Icons.ban
         iconLabel.font = Fonts.fontAwesome(size: 18)
-        iconLabel.textColor = ColorPallete.black
+        iconLabel.textColor = ColorPallete.red
         iconLabel.backgroundColor = ColorPallete.transparent
         iconLabel.textAlignment = .center
         iconLabel.baselineAdjustment = .alignCenters
@@ -218,12 +222,16 @@ class LocationInfoViewController: UIViewController {
         blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: 10))
         blacklistToggleContainer.addConstraint(NSLayoutConstraint(item: toggleSwitch, attribute: .centerY, relatedBy: .equal, toItem: blacklistToggleContainer, attribute: .centerY, multiplier: 1, constant: 0))
         
+        blacklistToggle = toggleSwitch
         return blacklistToggleContainer
     }
     
-    @objc private func blacklistToggled(sender: UISwitch) {
-        if (sender.isOn) {
+    @objc private func blacklistToggled() {
+        if (blacklistToggle.isOn) {
             AppSettings.singleton.addBlacklistedLocation(location: location!)
+            //does not trigger the other toggles event so we hanbdle it below
+            favoriteToggle.setOn(false, animated: true)
+            favoriteToggled()
         }
         else {
             AppSettings.singleton.removeBlacklistedLocation(location: location!)

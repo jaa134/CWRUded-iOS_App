@@ -33,10 +33,11 @@ class MapViewController: UIViewController {
     
     private func setupView() {
         setTitle()
+        setMapView()
         setFilterButton()
-        mapView.delegate = self
         registerCustomPins()
         setInitialMapLocation()
+        Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(updateAnnotationViews), userInfo: nil, repeats: true)
     }
     
     private func setTitle() {
@@ -45,6 +46,10 @@ class MapViewController: UIViewController {
                  textLabel: titleTextLabel,
                  icon: Icons.map,
                  title: " Map")
+    }
+    
+    private func setMapView() {
+        mapView.delegate = self
     }
     
     private func setFilterButton() {
@@ -119,8 +124,16 @@ class MapViewController: UIViewController {
         }
     }
     
+    @objc private func updateAnnotationViews() {
+        for annotation in mapView.annotations {
+            if let view = mapView.view(for: annotation) as? LocationMarker {
+                view.update()
+            }
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toInfo" {
+        if (segue.identifier == "toInfo") {
             guard let infoViewController = segue.destination as? LocationInfoViewController else { return }
             guard let markerView = sender as? LocationMarker else { return }
             guard let annotation = markerView.annotation as? LocationAnnotation else { return }

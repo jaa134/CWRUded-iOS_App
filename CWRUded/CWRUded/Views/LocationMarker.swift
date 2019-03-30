@@ -15,11 +15,9 @@ class LocationAnnotation: NSObject, MKAnnotation {
     var title: String? { return location.name }
     var subtitle: String? { return location.displayCount }
     var coordinate: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude) }
-    var markerTintColor: UIColor
     
     init(location: Location) {
         self.location = location
-        self.markerTintColor = ColorPallete.navyBlue
         super.init()
     }
 }
@@ -33,7 +31,7 @@ class LocationMarker: MKMarkerAnnotationView {
             canShowCallout = true
             calloutOffset = CGPoint(x: 0, y: 20)
             rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            markerTintColor = annotation.markerTintColor
+            markerTintColor = LocationMarker.getColor(annotation: annotation)
             glyphText = ""
             displayPriority = .required
             
@@ -56,5 +54,19 @@ class LocationMarker: MKMarkerAnnotationView {
             
             addSubview(icon!)
         }
+    }
+    
+    private static func getColor(annotation: LocationAnnotation) -> UIColor {
+        let spaces = annotation.location.spaces
+        var avgRating = 0
+        spaces.forEach({ avgRating += $0.congestionRating })
+        return ColorPallete.congestionColor(min: 0, max: 100, current: CGFloat(avgRating / spaces.count))
+    }
+    
+    public func update() {
+        print ((self.annotation as! LocationAnnotation).location.id)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.markerTintColor = LocationMarker.getColor(annotation: (self.annotation as! LocationAnnotation))
+        })
     }
 }

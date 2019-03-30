@@ -97,9 +97,11 @@ class LocationCell : UITableViewCell {
     }
 }
 
-class LocationHeader: UITableViewHeaderFooterView {
+class LocationHeader : UITableViewHeaderFooterView {
     public static let height: CGFloat = 32;
+    public static let paddingTop: CGFloat = 0;
     
+    public private(set) var titleLabelContainer: UIView!
     public private(set) var titleLabel: UILabel!
     
     override init(reuseIdentifier: String?) {
@@ -113,30 +115,37 @@ class LocationHeader: UITableViewHeaderFooterView {
     }
     
     public func setupView() {
-        setBackground()
         setTitle()
         setColor()
-    }
-    
-    private func setBackground() {
-        backgroundView = UIView()
     }
     
     private func setTitle() {
         textLabel!.isHidden = true
         
+        titleLabelContainer = UIView()
+        titleLabelContainer.translatesAutoresizingMaskIntoConstraints = false
+        titleLabelContainer.addConstraint(NSLayoutConstraint(item: titleLabelContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: LocationHeader.height))
+        contentView.addSubview(titleLabelContainer)
+        
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabelContainer, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabelContainer, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1, constant: 0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabelContainer, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0))
+        
         titleLabel = UILabel(frame: .zero)
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        titleLabel.textAlignment = .center
+        titleLabel.textAlignment = .left
+        titleLabel.baselineAdjustment = .alignCenters
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
+        titleLabelContainer.addSubview(titleLabel)
         
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 10))
-        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: titleLabelContainer, attribute: .leading, multiplier: 1, constant: 10))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: titleLabelContainer, attribute: .trailing, multiplier: 1, constant: 10))
+        contentView.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: titleLabelContainer, attribute: .centerY, multiplier: 1, constant: 0))
     }
     
     private func setColor() {
-        contentView.backgroundColor = ColorPallete.navyBlue
+        contentView.backgroundColor = ColorPallete.clay
+        titleLabelContainer.backgroundColor = ColorPallete.navyBlue
         titleLabel!.textColor = ColorPallete.white
     }
 }

@@ -11,9 +11,6 @@ import UIKit
 
 class CongestionBar : UIView {
     public static let height: CGFloat = 12;
-    private static let greenColor: [CGFloat] = [51.0, 165.0, 50.0]
-    private static let yellowColor: [CGFloat] = [250.0, 220.0, 22.0]
-    private static let redColor: [CGFloat] = [204.0, 50.0, 50.0]
     
     private var rating: Int
     private var colorView: UIView
@@ -53,25 +50,7 @@ class CongestionBar : UIView {
     }
     
     private func getMaskColor() -> UIColor {
-        let r: CGFloat
-        let g: CGFloat
-        let b: CGFloat
-        
-        let step: CGFloat
-        if (rating <= 50) {
-            step = CGFloat(rating) / 50.0
-            r = (CongestionBar.greenColor[0] + ((CongestionBar.yellowColor[0] - CongestionBar.greenColor[0]) * step)) / 255.0
-            g = (CongestionBar.greenColor[1] + ((CongestionBar.yellowColor[1] - CongestionBar.greenColor[1]) * step)) / 255.0
-            b = (CongestionBar.greenColor[2] + ((CongestionBar.yellowColor[2] - CongestionBar.greenColor[2]) * step)) / 255.0
-        }
-        else {
-            step = CGFloat(rating - 50) / 50.0
-            r = (CongestionBar.yellowColor[0] + ((CongestionBar.redColor[0] - CongestionBar.yellowColor[0]) * step)) / 255.0
-            g = (CongestionBar.yellowColor[1] + ((CongestionBar.redColor[1] - CongestionBar.yellowColor[1]) * step)) / 255.0
-            b = (CongestionBar.yellowColor[2] + ((CongestionBar.redColor[2] - CongestionBar.yellowColor[2]) * step)) / 255.0
-        }
-        
-        return UIColor(red: r, green: g, blue: b, alpha: 1)
+        return ColorPallete.congestionColor(min: 0, max: 100, current: CGFloat(rating))
     }
     
     private func getColorViewRect() -> CGRect {

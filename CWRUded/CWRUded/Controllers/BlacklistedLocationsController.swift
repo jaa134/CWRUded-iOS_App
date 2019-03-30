@@ -58,7 +58,9 @@ class BlacklistedLocationsController : UIViewController {
                                   icon: Icons.ban,
                                   iconColor: ColorPallete.red,
                                   isSelected: blacklist.contains(where: { $0.id == location.id }),
-                                  onSelect: { AppSettings.singleton.addBlacklistedLocation(location: location) },
+                                  onSelect: {
+                                    AppSettings.singleton.addBlacklistedLocation(location: location)
+                                    AppSettings.singleton.removeFavoriteLocation(location: location) },
                                   onDeselect: { AppSettings.singleton.removeBlacklistedLocation(location: location) }))
         }
     }

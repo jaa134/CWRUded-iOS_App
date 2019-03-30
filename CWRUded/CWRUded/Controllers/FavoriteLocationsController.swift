@@ -58,14 +58,16 @@ class FavoriteLocationsController : UIViewController {
                                   icon: Icons.heart,
                                   iconColor: ColorPallete.red,
                                   isSelected: favorites.contains(where: { $0.id == location.id }),
-                                  onSelect: { AppSettings.singleton.addFavoriteLocation(location: location) },
+                                  onSelect: {
+                                    AppSettings.singleton.addFavoriteLocation(location: location)
+                                    AppSettings.singleton.removeBlacklistedLocation(location: location) },
                                   onDeselect: { AppSettings.singleton.removeFavoriteLocation(location: location) }))
         }
     }
 }
 
 extension FavoriteLocationsController : UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tableData.count
     }
