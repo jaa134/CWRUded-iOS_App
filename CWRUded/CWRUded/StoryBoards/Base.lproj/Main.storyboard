@@ -245,9 +245,6 @@
                                     <constraint firstItem="aeU-jO-8TE" firstAttribute="leading" secondItem="ciJ-E7-T9e" secondAttribute="trailing" constant="15" id="mIM-wF-bQ7"/>
                                 </constraints>
                             </view>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lwx-JF-gHC">
-                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
-                            </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2f-tJ-Xig">
                                 <rect key="frame" x="315" y="558" width="50" height="50"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -265,11 +262,7 @@
                             <constraint firstItem="ZqV-30-gbp" firstAttribute="top" secondItem="ElP-HD-IU5" secondAttribute="top" id="4Yh-Ch-zxv"/>
                             <constraint firstItem="ElP-HD-IU5" firstAttribute="bottom" secondItem="f2f-tJ-Xig" secondAttribute="bottom" constant="10" id="684-2a-Wbz"/>
                             <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="f2f-tJ-Xig" secondAttribute="trailing" constant="10" id="ET2-M3-HFT"/>
-                            <constraint firstItem="Lwx-JF-gHC" firstAttribute="top" secondItem="ElP-HD-IU5" secondAttribute="top" constant="90" id="G0b-HT-1VZ"/>
-                            <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="Lwx-JF-gHC" secondAttribute="trailing" id="LEN-1B-xnR"/>
-                            <constraint firstItem="Lwx-JF-gHC" firstAttribute="leading" secondItem="ElP-HD-IU5" secondAttribute="leading" id="eIB-ri-YMm"/>
                             <constraint firstItem="ElP-HD-IU5" firstAttribute="trailing" secondItem="ZqV-30-gbp" secondAttribute="trailing" id="g8q-FV-Bam"/>
-                            <constraint firstItem="ElP-HD-IU5" firstAttribute="bottom" secondItem="Lwx-JF-gHC" secondAttribute="bottom" id="mF5-8M-Ahc"/>
                             <constraint firstItem="ZqV-30-gbp" firstAttribute="leading" secondItem="ElP-HD-IU5" secondAttribute="leading" id="o9g-UE-d7n"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ElP-HD-IU5"/>
@@ -277,7 +270,6 @@
                     <navigationItem key="navigationItem" id="a5w-G3-rez"/>
                     <connections>
                         <outlet property="filterButton" destination="f2f-tJ-Xig" id="cqV-5v-wYn"/>
-                        <outlet property="mapView" destination="Lwx-JF-gHC" id="XEW-OO-9hz"/>
                         <outlet property="titleIconLabel" destination="ciJ-E7-T9e" id="mwp-nX-FVi"/>
                         <outlet property="titleTextLabel" destination="aeU-jO-8TE" id="ohd-JT-4aR"/>
                         <outlet property="titleView" destination="ZqV-30-gbp" id="MAf-6R-a6L"/>
@@ -291,7 +283,7 @@
         <!--Favorite Locations Controller-->
         <scene sceneID="cid-zJ-gyI">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="yLz-ip-3TP" customClass="FavoriteLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yLz-ip-3TP" customClass="FavoriteLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a3A-Pf-8ft">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -332,7 +324,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M2C-yb-an5">
-                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectionCell" id="oeu-yK-112" customClass="SelectionCell" customModule="CWRUded" customModuleProvider="target">
@@ -402,7 +394,7 @@
         <!--Blacklisted Locations Controller-->
         <scene sceneID="iG2-qn-0ag">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="J9n-Tw-eNO" customClass="BlacklistedLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="J9n-Tw-eNO" customClass="BlacklistedLocationsController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KoF-U6-dR6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -443,7 +435,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vO4-rq-mq5">
-                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectionCell" id="HgD-py-wJA" customClass="SelectionCell" customModule="CWRUded" customModuleProvider="target">
@@ -513,7 +505,7 @@
         <!--Location Info View Controller-->
         <scene sceneID="0KU-2H-Mwz">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="1DE-Wk-e8n" customClass="LocationInfoViewController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1DE-Wk-e8n" customClass="LocationInfoViewController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qza-ta-KG4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -554,7 +546,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rV8-FA-FXZ">
-                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
                         </subviews>
@@ -777,7 +769,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKJ-fm-reM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2192.8000000000002" y="823.53823088455783"/>
+            <point key="canvasLocation" x="1249" y="824"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="kN5-aH-YjC">
@@ -850,7 +842,8 @@
         <!--Map-->
         <scene sceneID="Kfb-2f-0nV">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hfn-Ul-ez6" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k4q-lr-XBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hfn-Ul-ez6" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="4Es-hj-NCN"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="csD-J5-b0h">
@@ -862,14 +855,14 @@
                         <segue destination="FAu-EL-ECK" kind="relationship" relationship="rootViewController" id="FSC-UF-bem"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k4q-lr-XBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-412" y="824"/>
         </scene>
         <!--Home-->
         <scene sceneID="y7W-iB-s94">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O1L-39-htD" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="shH-3T-FUZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O1L-39-htD" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WuE-Hb-Mf9">
@@ -881,14 +874,14 @@
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="6le-FL-cl5"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="shH-3T-FUZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1231.2" y="823.53823088455783"/>
         </scene>
         <!--Settings-->
         <scene sceneID="17z-OZ-riY">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Uo8-uf-lsM" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RSo-d2-dUJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Uo8-uf-lsM" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="cog" id="cPa-gy-q4n"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZzF-Je-w9S">
@@ -900,7 +893,6 @@
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="mFj-9m-ePA"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RSo-d2-dUJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="424.80000000000001" y="823.53823088455783"/>
         </scene>

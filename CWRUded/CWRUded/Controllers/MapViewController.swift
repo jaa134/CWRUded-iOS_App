@@ -16,7 +16,9 @@ class MapViewController: UIViewController {
     @IBOutlet weak var titleIconLabel: UILabel!
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var filterButton: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
+    
+    var mapView: MKMapView!
+    var updateTimer: Timer!
     
     private var selectedFilter: Type?
     
@@ -27,17 +29,17 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        placeLocationAnnotations()
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     private func setupView() {
         setTitle()
-        setMapView()
         setFilterButton()
-        registerCustomPins()
-        setInitialMapLocation()
-        Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(updateAnnotationViews), userInfo: nil, repeats: true)
+        setMapView()
     }
     
     private func setTitle() {
@@ -49,7 +51,29 @@ class MapViewController: UIViewController {
     }
     
     private func setMapView() {
+        mapView = MKMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
+        view.addSubview(mapView)
+        view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0))
+        view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: 90))
+        view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0))
+        
+        
+        setInitialMapLocation()
+        registerCustomPins()
+        placeLocationAnnotations()
+        updateTimer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(updateAnnotationViews), userInfo: nil, repeats: true)
+    }
+    
+    private func unsetMapView() {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeFromSuperview()
+        mapView = nil
+        
+        updateTimer.invalidate()
+        updateTimer = nil
     }
     
     private func setFilterButton() {
@@ -60,6 +84,7 @@ class MapViewController: UIViewController {
         filterButton.font = Fonts.fontAwesome(size: 25)
         filterButton.text = Icons.filter
         filterButton.textColor = ColorPallete.white
+        filterButton.layer.zPosition = 9999
         
         addFilterTapGesture()
     }
@@ -106,8 +131,8 @@ class MapViewController: UIViewController {
     }
     
     private func setInitialMapLocation() {
-        let campusCoordinates = CLLocationCoordinate2D(latitude: 41.508303, longitude: -81.606210)
-        centerMapOnLocation(location: campusCoordinates, radius: 1000)
+        let campusCoordinates = CLLocationCoordinate2D(latitude: 41.506750, longitude: -81.606210)
+        centerMapOnLocation(location: campusCoordinates, radius: 1200)
         
     }
     

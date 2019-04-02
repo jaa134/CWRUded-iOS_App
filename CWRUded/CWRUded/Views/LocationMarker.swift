@@ -64,7 +64,6 @@ class LocationMarker: MKMarkerAnnotationView {
     }
     
     public func update() {
-        print ((self.annotation as! LocationAnnotation).location.id)
         UIView.animate(withDuration: 0.5, animations: {
             self.markerTintColor = LocationMarker.getColor(annotation: (self.annotation as! LocationAnnotation))
         })
