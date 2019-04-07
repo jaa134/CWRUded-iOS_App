@@ -842,7 +842,6 @@
         <!--Map-->
         <scene sceneID="Kfb-2f-0nV">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k4q-lr-XBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hfn-Ul-ez6" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="4Es-hj-NCN"/>
                     <toolbarItems/>
@@ -855,13 +854,13 @@
                         <segue destination="FAu-EL-ECK" kind="relationship" relationship="rootViewController" id="FSC-UF-bem"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k4q-lr-XBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-412" y="824"/>
         </scene>
         <!--Home-->
         <scene sceneID="y7W-iB-s94">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="shH-3T-FUZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O1L-39-htD" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="acW-dT-cKf"/>
                     <toolbarItems/>
@@ -874,13 +873,13 @@
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="6le-FL-cl5"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="shH-3T-FUZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1231.2" y="823.53823088455783"/>
         </scene>
         <!--Settings-->
         <scene sceneID="17z-OZ-riY">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RSo-d2-dUJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Uo8-uf-lsM" customClass="StackNavigationController" customModule="CWRUded" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="cog" id="cPa-gy-q4n"/>
                     <toolbarItems/>
@@ -893,6 +892,7 @@
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="mFj-9m-ePA"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RSo-d2-dUJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="424.80000000000001" y="823.53823088455783"/>
         </scene>

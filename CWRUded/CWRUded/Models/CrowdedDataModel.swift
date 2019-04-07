@@ -14,7 +14,7 @@ enum Type : String, Codable {
     case gym
 }
 
-struct Space : Decodable {
+struct Space : Codable {
     public let id: Int
     public let name: String
     public let congestionRating: Int
@@ -31,7 +31,7 @@ struct SimpleLocation : Codable {
     let name: String
 }
 
-struct Location : Decodable {
+struct Location : Codable {
     public let id: Int
     public let name: String
     public let type: Type
