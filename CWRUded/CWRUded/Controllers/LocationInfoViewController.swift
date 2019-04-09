@@ -63,21 +63,12 @@ class LocationInfoViewController: UIViewController {
             }
         }
         self.locationView!.update(location: self.location!)
-        
-        chart.view.removeFromSuperview()
-        chart = nil
-        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
-        scrollView.addSubview(chart.view)
     }
     
     private func layoutComponents() {
         locationView = LocationInfo(location: location!)
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
-        
-        
-        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
-        scrollView.addSubview(chart.view)
         
         let containerWidth = UIScreen.main.bounds.width - 20
         let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
@@ -89,52 +80,13 @@ class LocationInfoViewController: UIViewController {
         actionsContainer.addSubview(blacklistToggleRow)
         
         actionsContainer.frame.origin.x = 10
-        actionsContainer.frame.origin.y = chart.view.frame.origin.y + chart.view.frame.height + 10
+        actionsContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
         actionsContainer.frame.size.width = containerWidth
         actionsContainer.frame.size.height = directionsButton.frame.height + favoriteToggleRow.frame.height + blacklistToggleRow.frame.height + 40
         actionsContainer.backgroundColor = ColorPallete.white
         actionsContainer.layer.cornerRadius = 5
         actionsContainer.clipsToBounds = true
         scrollView.addSubview(actionsContainer)
-    }
-    
-    private func historyChart(x: CGFloat, y: CGFloat, width: CGFloat) -> LineChart {
-        var chartSettings = ChartSettings()
-        chartSettings.leading = -50
-        chartSettings.top = 10
-        chartSettings.trailing = 10
-        chartSettings.bottom = -50
-        chartSettings.labelsToAxisSpacingX = 20
-        chartSettings.labelsToAxisSpacingY = 20
-        let numDataPoints = location?.spaces.map({ return $0.history.count }).max() ?? 10
-        let xAxisConfig = ChartAxisConfig(from: 1, to: Double(numDataPoints), by: 1)
-        let yAxisConfig = ChartAxisConfig(from: 0, to: 100, by: 10)
-        let xAxisLabelSettings = ChartLabelSettings()
-        let yAxisLabelSettings = ChartLabelSettings()
-        let guidelinesConfig = GuidelinesConfig()
-        
-        let chartConfig = ChartConfigXY(chartSettings: chartSettings,
-                                        xAxisConfig: xAxisConfig,
-                                        yAxisConfig: yAxisConfig,
-                                        xAxisLabelSettings: xAxisLabelSettings,
-                                        yAxisLabelSettings: yAxisLabelSettings,
-                                        guidelinesConfig: guidelinesConfig)
-        
-        let frame = CGRect(x: x, y: y, width: width, height: 300)
-        let chart = LineChart(
-            frame: frame,
-            chartConfig: chartConfig,
-            xTitle: "",
-            yTitle: "",
-            lines: [
-                (chartPoints: [(1, 22), (2, 45), (3, 41), (4, 22), (5, 66), (6, 49), (7, 77), (8, 35), (9, 27), (10, 77)], color: UIColor.red),
-                (chartPoints: [(1, 54), (2, 63), (3, 41), (4, 72), (5, 66), (6, 79), (7, 47), (8, 35), (9, 57), (10, 17)], color: UIColor.blue)
-            ]
-        )
-        chart.view.backgroundColor = ColorPallete.white
-        chart.view.layer.cornerRadius = 5
-        chart.view.clipsToBounds = true
-        return chart
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {
