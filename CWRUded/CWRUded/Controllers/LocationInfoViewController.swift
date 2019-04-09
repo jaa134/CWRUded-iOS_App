@@ -21,6 +21,8 @@ class LocationInfoViewController: UIViewController {
     public var location: Location?
     private var locationView: LocationInfo!
     
+    private var chart: LineChart!
+    
     private var favoriteToggle: UISwitch!
     private var blacklistToggle: UISwitch!
     
@@ -63,12 +65,19 @@ class LocationInfoViewController: UIViewController {
             }
         }
         self.locationView!.update(location: self.location!)
+        
+        chart.clearView()
+        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
+        scrollView.addSubview(chart.view)
     }
     
     private func layoutComponents() {
         locationView = LocationInfo(location: location!)
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
+        
+        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
+        scrollView.addSubview(chart.view)
         
         let containerWidth = UIScreen.main.bounds.width - 20
         let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
@@ -80,13 +89,65 @@ class LocationInfoViewController: UIViewController {
         actionsContainer.addSubview(blacklistToggleRow)
         
         actionsContainer.frame.origin.x = 10
-        actionsContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
+        actionsContainer.frame.origin.y = chart.view.frame.origin.y + chart.view.frame.height + 10
         actionsContainer.frame.size.width = containerWidth
         actionsContainer.frame.size.height = directionsButton.frame.height + favoriteToggleRow.frame.height + blacklistToggleRow.frame.height + 40
         actionsContainer.backgroundColor = ColorPallete.white
         actionsContainer.layer.cornerRadius = 5
         actionsContainer.clipsToBounds = true
         scrollView.addSubview(actionsContainer)
+    }
+    
+    private func historyChart(x: CGFloat, y: CGFloat, width: CGFloat) -> LineChart {
+        var chartSettings = ChartSettings()
+        chartSettings.leading = -50
+        chartSettings.top = 10
+        chartSettings.trailing = 13
+        chartSettings.bottom = -50
+        chartSettings.labelsToAxisSpacingX = 20
+        chartSettings.labelsToAxisSpacingY = 20
+        let numDataPoints = location?.spaces.map({ return $0.history.count }).max() ?? 10
+        let xAxisConfig = ChartAxisConfig(from: 1, to: Double(numDataPoints), by: 1)
+        let yAxisConfig = ChartAxisConfig(from: 0, to: 100, by: 10)
+        let xAxisLabelSettings = ChartLabelSettings()
+        let yAxisLabelSettings = ChartLabelSettings()
+        let guidelinesConfig = GuidelinesConfig()
+        
+        let chartConfig = ChartConfigXY(chartSettings: chartSettings,
+                                        xAxisConfig: xAxisConfig,
+                                        yAxisConfig: yAxisConfig,
+                                        xAxisLabelSettings: xAxisLabelSettings,
+                                        yAxisLabelSettings: yAxisLabelSettings,
+                                        guidelinesConfig: guidelinesConfig)
+        
+        let lineColors = [UIColor.red,
+                          UIColor.blue,
+                          UIColor.green,
+                          UIColor.cyan,
+                          UIColor.yellow,
+                          UIColor.purple,
+                          UIColor.magenta,
+                          UIColor.orange,
+                          UIColor.gray,
+                          UIColor.brown]
+        
+        var data = [LineChart.ChartLine]()
+        for (si, space) in location!.spaces.enumerated() {
+            var points = [(Double, Double)]()
+            for (ri, rating) in space.history.sorted(by: { r1, r2 in r1.createdOn < r2.createdOn }).enumerated() {
+                points.append((Double(ri + 1), Double(rating.value)))
+            }
+            let lineColor = lineColors[si % lineColors.count]
+            data.append((chartPoints: points, color: lineColor))
+        }
+        
+        let frame = CGRect(x: x, y: y, width: width, height: 200)
+        let chart = LineChart( frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: data)
+        chart.view.backgroundColor = ColorPallete.white
+        chart.view.layer.cornerRadius = 5
+        chart.view.clipsToBounds = true
+        
+        return chart
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {

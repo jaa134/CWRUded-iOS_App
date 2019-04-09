@@ -41,7 +41,7 @@ class SelectionCell : UITableViewCell {
     }
     
     private func setColor() {
-        backgroundColor = ColorPallete.clay
+        backgroundColor = ColorPallete.transparent
     }
     
     private func setTitle() {

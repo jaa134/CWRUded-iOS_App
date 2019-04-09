@@ -46,7 +46,7 @@ class LocationCell : UITableViewCell {
     }
     
     private func setColor() {
-        backgroundColor = ColorPallete.clay
+        backgroundColor = ColorPallete.transparent
     }
     
     private func setIcon() {

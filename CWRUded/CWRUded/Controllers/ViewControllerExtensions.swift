@@ -15,7 +15,7 @@ extension UIViewController {
         container.layer.masksToBounds = false
         container.layer.shadowColor = UIColor.black.cgColor
         container.layer.shadowOpacity = 0.5
-        container.layer.shadowOffset = CGSize(width: 0, height: 1)
+        container.layer.shadowOffset = CGSize(width: 0, height: 2)
         container.layer.shadowRadius = 1
         var rect = container.bounds
         rect.size.width = UIScreen.main.bounds.width
