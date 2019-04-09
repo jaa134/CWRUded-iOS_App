@@ -14,15 +14,25 @@ enum Type : String, Codable {
     case gym
 }
 
-struct Space : Codable {
+class Rating : Codable {
+    public let value: Int
+    public let createdOn: Date
+    
+    fileprivate init(value: Int, createdOn: Date) {
+        self.value = value
+        self.createdOn = createdOn
+    }
+}
+
+class Space : Codable {
     public let id: Int
     public let name: String
-    public let congestionRating: Int
+    public fileprivate(set) var history: [Rating]
     
-    fileprivate init(id: Int, name: String, congestionRating: Int) {
+    fileprivate init(id: Int, name: String, history: [Rating]) {
         self.id = id
         self.name = name
-        self.congestionRating = congestionRating
+        self.history = history
     }
 }
 
@@ -31,23 +41,23 @@ struct SimpleLocation : Codable {
     let name: String
 }
 
-struct Location : Codable {
+class Location : Codable {
     public let id: Int
-    public let name: String
     public let type: Type
-    public fileprivate(set) var spaces: [Space]
-    public let longitude: Double
+    public let name: String
     public let latitude: Double
+    public let longitude: Double
+    public fileprivate(set) var spaces: [Space]
     
     public var displayCount: String? { return String(spaces.count) + " " + (spaces.count != 1 ? "Locations" : "Location") }
     
-    fileprivate init(id: Int, name: String, type: Type, spaces: [Space], longitude: Double, latitude: Double) {
+    fileprivate init(id: Int, type: Type, name: String, latitude: Double, longitude: Double, spaces: [Space]) {
         self.id = id
-        self.name = name
         self.type = type
-        self.spaces = spaces
-        self.longitude = longitude
+        self.name = name
         self.latitude = latitude
+        self.longitude = longitude
+        self.spaces = spaces
     }
 }
 
@@ -81,12 +91,31 @@ class CrowdedData {
                 onDataError()
                 return
             }
-            guard let locations = try? JSONDecoder().decode([Location].self, from: data) else {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601Full)
+            guard let locationsFromServer = try? decoder.decode([Location].self, from: data) else {
                 print("Error: Couldn't decode data into Locations set...")
                 onDataError()
                 return
             }
-            self.locations = locations
+            
+            //do not simply replace. We use classes so we can pass by reference around the app
+            for locationFromServer in locationsFromServer {
+                if let existingLocation = self.locations.first(where: { $0.id == locationFromServer.id }) {
+                    for spaceFromServer in locationFromServer.spaces {
+                        if let existingSpace = existingLocation.spaces.first(where: { $0.id == spaceFromServer.id }) {
+                            existingSpace.history = spaceFromServer.history
+                        }
+                        else {
+                            existingLocation.spaces.append(spaceFromServer)
+                        }
+                    }
+                }
+                else {
+                    self.locations.append(locationFromServer)
+                }
+            }
+            
             onSuccess()
         }
         

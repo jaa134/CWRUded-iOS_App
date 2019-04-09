@@ -58,14 +58,16 @@ class LocationMarker: MKMarkerAnnotationView {
     
     private static func getColor(annotation: LocationAnnotation) -> UIColor {
         let spaces = annotation.location.spaces
-        var avgRating = 0
-        spaces.forEach({ avgRating += $0.congestionRating })
-        return ColorPallete.congestionColor(min: 0, max: 100, current: CGFloat(avgRating / spaces.count))
+        var sum = 0
+        for space in spaces {
+            guard let mostRecentRating = space.history.last else { return ColorPallete.navyBlue }
+            sum += mostRecentRating.value
+        }
+        return ColorPallete.congestionColor(min: 0, max: 100, current: CGFloat(sum / spaces.count))
     }
     
     public func update() {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.markerTintColor = LocationMarker.getColor(annotation: (self.annotation as! LocationAnnotation))
-        })
+        //animating this doesnt do anything :(
+        self.markerTintColor = LocationMarker.getColor(annotation: (self.annotation as! LocationAnnotation))
     }
 }

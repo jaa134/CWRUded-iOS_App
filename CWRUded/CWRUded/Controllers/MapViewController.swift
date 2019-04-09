@@ -64,7 +64,7 @@ class MapViewController: UIViewController {
         setInitialMapLocation()
         registerCustomPins()
         placeLocationAnnotations()
-        updateTimer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(updateAnnotationViews), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(updateAnnotationViews), userInfo: nil, repeats: true)
     }
     
     private func unsetMapView() {

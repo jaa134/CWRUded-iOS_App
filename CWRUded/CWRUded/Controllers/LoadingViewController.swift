@@ -90,6 +90,8 @@ class LoadingViewController: UIViewController {
     func onUpdateDataError() {
         DispatchQueue.main.async {
             let message = "The server encountered an error. Would you like to try again?"
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
             let alert = UIAlertController(title: "Server Error", message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: { action in self.loadAppData() }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { action in self.showErrorHandlers()}))
@@ -100,6 +102,8 @@ class LoadingViewController: UIViewController {
     private func onUpdateSuccess() {
         CrowdedData.singleton.order()
         DispatchQueue.main.async {
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.stopAnimating()
             self.performSegue(withIdentifier: "toHome", sender: self)
         }
     }

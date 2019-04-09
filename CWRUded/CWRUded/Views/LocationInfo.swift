@@ -134,12 +134,14 @@ class SpaceInfo : UIView {
     }
     
     private func placeProgressView() {
-        congestionView = CongestionBar(x: 0, y: SpaceInfo.titleBarHeight + 3, width: frame.width, rating: space.congestionRating)
+        let mostRecentRatingValue = space.history.last?.value ?? 0
+        congestionView = CongestionBar(x: 0, y: SpaceInfo.titleBarHeight + 3, width: frame.width, rating: mostRecentRatingValue)
         addSubview(congestionView!)
     }
     
     fileprivate func update(space: Space) {
-        congestionView!.update(rating: space.congestionRating)
+        guard let mostRecentRating = space.history.last else { return }
+        congestionView!.update(rating: mostRecentRating.value)
     }
 }
 
