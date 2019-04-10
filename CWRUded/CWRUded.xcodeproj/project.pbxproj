@@ -129,6 +129,7 @@
 		699CA906225D3560006DF7C2 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA892225D3560006DF7C2 /* Optional.swift */; };
 		699CA939225D5A0D006DF7C2 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA938225D5A0D006DF7C2 /* CGRect.swift */; };
 		699CA93B225D5CBC006DF7C2 /* LegendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */; };
+		699CA93D225E7458006DF7C2 /* HistoryGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA93C225E7458006DF7C2 /* HistoryGraph.swift */; };
 		69A9161B22485BD40093434D /* LocationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9161A22485BD40093434D /* LocationInfoViewController.swift */; };
 		69B2439022413ACB002F71AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2438F22413ACB002F71AD /* AppDelegate.swift */; };
 		69B2439222413ACB002F71AD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2439122413ACB002F71AD /* HomeViewController.swift */; };
@@ -278,6 +279,7 @@
 		699CA892225D3560006DF7C2 /* Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
 		699CA938225D5A0D006DF7C2 /* CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendLabel.swift; sourceTree = "<group>"; };
+		699CA93C225E7458006DF7C2 /* HistoryGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGraph.swift; sourceTree = "<group>"; };
 		69A9161A22485BD40093434D /* LocationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoViewController.swift; sourceTree = "<group>"; };
 		69B2438C22413ACB002F71AD /* CWRUded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWRUded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B2438F22413ACB002F71AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 				692E037C224E9F8C00F9652D /* SettingCell.swift */,
 				69E35F9822441DBC00065B9A /* AboutTable.swift */,
 				699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */,
+				699CA93C225E7458006DF7C2 /* HistoryGraph.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				699CA8FF225D3560006DF7C2 /* ChartViewAnimators.swift in Sources */,
 				699CA8E8225D3560006DF7C2 /* ChartConfig.swift in Sources */,
 				699CA8EA225D3560006DF7C2 /* BarsChart.swift in Sources */,
+				699CA93D225E7458006DF7C2 /* HistoryGraph.swift in Sources */,
 				699CA8DE225D3560006DF7C2 /* ChartAxisYHighLayerDefault.swift in Sources */,
 				699CA8F7225D3560006DF7C2 /* HandlingLabel.swift in Sources */,
 				69DE6F07224BF34D00D71A8C /* ActionButton.swift in Sources */,

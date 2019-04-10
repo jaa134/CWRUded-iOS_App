@@ -24,7 +24,7 @@ class LocationInfoViewController: UIViewController {
     private var historyContainer: UIView!
     private var chartIcon: UILabel!
     private var chartTitle: UILabel!
-    private var chartGraph: LineChart!
+    private var chartGraph: HistoryGraph!
     
     private var favoriteToggle: UISwitch!
     private var blacklistToggle: UISwitch!
@@ -69,9 +69,9 @@ class LocationInfoViewController: UIViewController {
         }
         self.locationView!.update(location: self.location)
         
-        chartGraph.clearView()
-        chartGraph = historyChart(x: 0, y: chartTitle.frame.height + 5, width: UIScreen.main.bounds.width - 20)
-        historyContainer.addSubview(chartGraph.view)
+        chartGraph.chart.clearView()
+        chartGraph = HistoryGraph(location: location, frame: CGRect(x: 0, y: chartTitle.frame.height + 10, width: UIScreen.main.bounds.width - 20, height: 300))
+        historyContainer.addSubview(chartGraph.chart.view)
     }
     
     private func layoutComponents() {
@@ -79,43 +79,40 @@ class LocationInfoViewController: UIViewController {
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
         
-        //var chartBackdrop = UIView(frame: CGRect(x: 13, y: 47, width: UIScreen.main.bounds.width - 46, height: 179))
-        //chartBackdrop.backgroundColor = ColorPallete.green
+        
+        //let graphHeight = 179
+        //for i in 0...graphHeight {
+        //    let frame = CGRect(x: 13,
+        //                       y: CGFloat(47 + graphHeight - i),
+        //                       width: UIScreen.main.bounds.width - 46,
+        //                       height: 1)
+        //    let chartBackdrop = UIView(frame: frame)
+        //    chartBackdrop.backgroundColor = ColorPallete.congestionColor(min: 0, max: CGFloat(graphHeight), current: CGFloat(i)).withAlphaComponent(0.60)
+        //    historyContainer.addSubview(chartBackdrop)
+       // }
+        
         historyContainer = UIView()
-        
-        let graphHeight = 179
-        for i in 0...graphHeight {
-            let frame = CGRect(x: 13,
-                               y: CGFloat(47 + graphHeight - i),
-                               width: UIScreen.main.bounds.width - 46,
-                               height: 1)
-            let chartBackdrop = UIView(frame: frame)
-            chartBackdrop.backgroundColor = ColorPallete.congestionColor(min: 0, max: CGFloat(graphHeight), current: CGFloat(i)).withAlphaComponent(0.60)
-            historyContainer.addSubview(chartBackdrop)
-        }
-        
         chartIcon = historyChartIcon(x: 15, y: 10, width: 30)
         chartTitle = historyChartTitle(x: 55, y: 10, width: UIScreen.main.bounds.width - 90)
-        chartGraph = historyChart(x: 0, y: chartTitle.frame.height + 5, width: UIScreen.main.bounds.width - 20)
-        
+        chartGraph = HistoryGraph(location: location, frame: CGRect(x: 0, y: chartTitle.frame.height + 10, width: UIScreen.main.bounds.width - 20, height: 300))
         historyContainer.addSubview(chartIcon)
         historyContainer.addSubview(chartTitle)
-        historyContainer.addSubview(chartGraph.view)
+        historyContainer.addSubview(chartGraph.chart.view)
         
         historyContainer.frame.origin.x = 10
         historyContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
         historyContainer.frame.size.width = UIScreen.main.bounds.width - 20
-        historyContainer.frame.size.height = chartGraph.view.frame.height + chartTitle.frame.height + 5
+        historyContainer.frame.size.height = chartGraph.chart.view.frame.height + chartTitle.frame.height + 10
         historyContainer.backgroundColor = ColorPallete.white
         historyContainer.layer.cornerRadius = 5
         historyContainer.clipsToBounds = true
         scrollView.addSubview(historyContainer)
         
+        let actionsContainer = UIView()
         let containerWidth = UIScreen.main.bounds.width - 20
         let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
         let favoriteToggleRow = self.favoriteContainer(x: 10, y: directionsButton.frame.origin.y + directionsButton.frame.height + 10, width: containerWidth - 20)
         let blacklistToggleRow = self.blacklistContainer(x: 10, y: favoriteToggleRow.frame.origin.y + favoriteToggleRow.frame.height + 10, width: containerWidth - 20)
-        let actionsContainer = UIView()
         actionsContainer.addSubview(directionsButton)
         actionsContainer.addSubview(favoriteToggleRow)
         actionsContainer.addSubview(blacklistToggleRow)
@@ -144,40 +141,6 @@ class LocationInfoViewController: UIViewController {
         chartTitle.font = Fonts.app(size: 28, weight: .medium)
         chartTitle.text = "Historical Trend"
         return chartTitle
-    }
-    
-    private func historyChart(x: CGFloat, y: CGFloat, width: CGFloat) -> LineChart {
-        var chartSettings = ChartSettings()
-        chartSettings.leading = -50
-        chartSettings.top = 10
-        chartSettings.trailing = 13
-        chartSettings.bottom = -50
-        chartSettings.labelsToAxisSpacingX = 20
-        chartSettings.labelsToAxisSpacingY = 20
-        let numDataPoints = location?.spaces.map({ return $0.history.count }).max() ?? 10
-        let xAxisConfig = ChartAxisConfig(from: 1, to: Double(numDataPoints), by: 1)
-        let yAxisConfig = ChartAxisConfig(from: 0, to: 100, by: 10)
-        let xAxisLabelSettings = ChartLabelSettings()
-        let yAxisLabelSettings = ChartLabelSettings()
-        let guidelinesConfig = GuidelinesConfig()
-        
-        let chartConfig = ChartConfigXY(chartSettings: chartSettings,
-                                        xAxisConfig: xAxisConfig,
-                                        yAxisConfig: yAxisConfig,
-                                        xAxisLabelSettings: xAxisLabelSettings,
-                                        yAxisLabelSettings: yAxisLabelSettings,
-                                        guidelinesConfig: guidelinesConfig)
-        
-        var points = [(Double, Double)]()
-        for (i, rating) in location.averagedOrderedHistory().enumerated() {
-            points.append((Double(i + 1), rating))
-        }
-        
-        let frame = CGRect(x: x, y: y, width: width, height: 200)
-        let chart = LineChart(frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: [(chartPoints: points, color: ColorPallete.navyBlue)])
-        chart.view.backgroundColor = ColorPallete.transparent
-        
-        return chart
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {
@@ -339,3 +302,4 @@ class LocationInfoViewController: UIViewController {
         scrollView.contentSize = contentRect.size
     }
 }
+

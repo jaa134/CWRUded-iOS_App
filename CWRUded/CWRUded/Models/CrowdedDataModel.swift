@@ -60,7 +60,7 @@ class Location : Codable {
         self.spaces = spaces
     }
     
-    public func averagedOrderedHistory() -> [Double] {
+    public func averagedOrderedHistory() -> [Rating] {
         var uniqueTimestamps = [Date]()
         for space in spaces {
             for rating in space.history {
@@ -88,10 +88,13 @@ class Location : Codable {
             }
         }
         
-        var averages = [Double]()
+        var averages = [Rating]()
         for i in 0..<numHistoryPoints {
-            averages.append(Double(sums[i]) / Double(samples[i]))
+            let averageValue = sums[i] / samples[i]
+            let timestamp = uniqueTimestamps[i]
+            averages.append(Rating(value: averageValue, createdOn: timestamp))
         }
+        
         return averages
     }
 }
