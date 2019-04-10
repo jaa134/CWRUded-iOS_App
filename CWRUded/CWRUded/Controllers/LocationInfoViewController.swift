@@ -21,7 +21,9 @@ class LocationInfoViewController: UIViewController {
     public var location: Location?
     private var locationView: LocationInfo!
     
+    private var historyContainer: UIView!
     private var chart: LineChart!
+    private var legend: UIView!
     
     private var favoriteToggle: UISwitch!
     private var blacklistToggle: UISwitch!
@@ -67,8 +69,8 @@ class LocationInfoViewController: UIViewController {
         self.locationView!.update(location: self.location!)
         
         chart.clearView()
-        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
-        scrollView.addSubview(chart.view)
+        chart = historyChart(x: 0, y: 0, width: UIScreen.main.bounds.width - 20)
+        historyContainer.addSubview(chart.view)
     }
     
     private func layoutComponents() {
@@ -76,8 +78,20 @@ class LocationInfoViewController: UIViewController {
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
         
-        chart = historyChart(x: 10, y: locationView.frame.origin.y + locationView.frame.height + 10, width: UIScreen.main.bounds.width - 20)
-        scrollView.addSubview(chart.view)
+        chart = historyChart(x: 0, y: 0, width: UIScreen.main.bounds.width - 20)
+        legend = historyLegend(x: 10, y: chart.frame.height - 5, width: UIScreen.main.bounds.width - 40)
+        historyContainer = UIView()
+        historyContainer.addSubview(chart.view)
+        historyContainer.addSubview(legend)
+        
+        historyContainer.frame.origin.x = 10
+        historyContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
+        historyContainer.frame.size.width = UIScreen.main.bounds.width - 20
+        historyContainer.frame.size.height = chart.view.frame.height + legend.frame.height
+        historyContainer.backgroundColor = ColorPallete.white
+        historyContainer.layer.cornerRadius = 5
+        historyContainer.clipsToBounds = true
+        scrollView.addSubview(historyContainer)
         
         let containerWidth = UIScreen.main.bounds.width - 20
         let directionsButton = self.directionsButton(x: 10, y: 10, width: containerWidth - 20)
@@ -89,7 +103,7 @@ class LocationInfoViewController: UIViewController {
         actionsContainer.addSubview(blacklistToggleRow)
         
         actionsContainer.frame.origin.x = 10
-        actionsContainer.frame.origin.y = chart.view.frame.origin.y + chart.view.frame.height + 10
+        actionsContainer.frame.origin.y = historyContainer.frame.origin.y + historyContainer.frame.height + 10
         actionsContainer.frame.size.width = containerWidth
         actionsContainer.frame.size.height = directionsButton.frame.height + favoriteToggleRow.frame.height + blacklistToggleRow.frame.height + 40
         actionsContainer.backgroundColor = ColorPallete.white
@@ -120,34 +134,41 @@ class LocationInfoViewController: UIViewController {
                                         yAxisLabelSettings: yAxisLabelSettings,
                                         guidelinesConfig: guidelinesConfig)
         
-        let lineColors = [UIColor.red,
-                          UIColor.blue,
-                          UIColor.green,
-                          UIColor.cyan,
-                          UIColor.yellow,
-                          UIColor.purple,
-                          UIColor.magenta,
-                          UIColor.orange,
-                          UIColor.gray,
-                          UIColor.brown]
-        
         var data = [LineChart.ChartLine]()
         for (si, space) in location!.spaces.enumerated() {
             var points = [(Double, Double)]()
             for (ri, rating) in space.history.sorted(by: { r1, r2 in r1.createdOn < r2.createdOn }).enumerated() {
                 points.append((Double(ri + 1), Double(rating.value)))
             }
-            let lineColor = lineColors[si % lineColors.count]
+            let lineColor = ColorPallete.chartLineColors[si % ColorPallete.chartLineColors.count]
             data.append((chartPoints: points, color: lineColor))
         }
         
         let frame = CGRect(x: x, y: y, width: width, height: 200)
-        let chart = LineChart( frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: data)
-        chart.view.backgroundColor = ColorPallete.white
-        chart.view.layer.cornerRadius = 5
-        chart.view.clipsToBounds = true
+        let chart = LineChart(frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: data)
+        chart.view.backgroundColor = ColorPallete.transparent
         
         return chart
+    }
+    
+    private func historyLegend(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
+        let frame = CGRect(x: x, y: y, width: width, height: 0)
+        let legend = UIView(frame: frame)
+        
+        var row: CGFloat = 0
+        var x: CGFloat = 5
+        for (i, space) in location!.spaces.enumerated() {
+            let text = space.name
+            let color = ColorPallete.chartLineColors[i % ColorPallete.chartLineColors.count]
+            let label = LegendLabel(text: text, color: color)
+            label.frame.origin.x = x;
+            legend.addSubview(label)
+            row += 1
+            x += label.frame.width + 10
+        }
+        
+        legend.frame.size.height = row * LegendLabel.height
+        return legend
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {

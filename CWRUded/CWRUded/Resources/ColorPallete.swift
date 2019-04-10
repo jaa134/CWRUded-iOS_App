@@ -24,6 +24,17 @@ class ColorPallete {
     private static let congestion_y: [CGFloat] = [250.0, 220.0, 22.0]
     private static let congestion_r: [CGFloat] = [227.0, 27.0, 35.0]
     
+    public static let chartLineColors = [UIColor.red,
+                                          UIColor.blue,
+                                          UIColor.green,
+                                          UIColor.cyan,
+                                          UIColor.yellow,
+                                          UIColor.purple,
+                                          UIColor.magenta,
+                                          UIColor.orange,
+                                          UIColor.gray,
+                                          UIColor.brown]
+    
     public static func congestionColor(min: CGFloat, max: CGFloat, current: CGFloat) -> UIColor {
         let r: CGFloat
         let g: CGFloat

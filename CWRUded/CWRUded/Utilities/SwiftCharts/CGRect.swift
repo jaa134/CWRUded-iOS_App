@@ -1,15 +1,19 @@
 //
 //  CGRect.swift
-//  SwiftCharts
+//  ChartLegends
 //
-//  Created by ischuetz on 13/08/16.
-//  Copyright © 2016 ivanschuetz. All rights reserved.
+//  Created by Ivan Schuetz on 02/01/2017.
+//  Copyright © 2017 Ivan Schuetz. All rights reserved.
 //
 
 import UIKit
 
 extension CGRect {
 
+    var center: CGPoint {
+        return CGPoint(x: minX + width / 2, y: minY + height / 2)
+    }
+    
     public func insetBy(dx: CGFloat = 0, dy: CGFloat = 0, dw: CGFloat = 0, dh: CGFloat = 0) -> CGRect {
         return CGRect(
             x: origin.x + dx,
@@ -26,12 +30,8 @@ extension CGRect {
             (p1: CGPoint(x: maxX, y: maxY), p2: CGPoint(x: minX, y: maxY)),
             (p1: CGPoint(x: minX, y: maxY), p2: CGPoint(x: minX, y: minY))
         ]
-    }
-    var center: CGPoint {
-        return CGPoint(x: width / 2, y: height / 2)
-    }
+    }    
     
-
     /**
      Calculates the bounding rectangle of a rectangle after it's rotated.
      
@@ -44,5 +44,5 @@ extension CGRect {
     public func boundingRectAfterRotating(radians: CGFloat) -> CGRect {
         return applying(CGAffineTransform(rotationAngle: radians))
     }
-
+    
 }

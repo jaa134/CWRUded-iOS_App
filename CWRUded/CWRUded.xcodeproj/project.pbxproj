@@ -100,7 +100,6 @@
 		699CA8E8225D3560006DF7C2 /* ChartConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA871225D3560006DF7C2 /* ChartConfig.swift */; };
 		699CA8E9225D3560006DF7C2 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA872225D3560006DF7C2 /* LineChart.swift */; };
 		699CA8EA225D3560006DF7C2 /* BarsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA873225D3560006DF7C2 /* BarsChart.swift */; };
-		699CA8EB225D3560006DF7C2 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA874225D3560006DF7C2 /* CGRect.swift */; };
 		699CA8EC225D3560006DF7C2 /* ChartDrawerFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA876225D3560006DF7C2 /* ChartDrawerFunctions.swift */; };
 		699CA8ED225D3560006DF7C2 /* ChartLabelDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA877225D3560006DF7C2 /* ChartLabelDrawer.swift */; };
 		699CA8EE225D3560006DF7C2 /* ChartContextDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA878225D3560006DF7C2 /* ChartContextDrawer.swift */; };
@@ -128,6 +127,8 @@
 		699CA904225D3560006DF7C2 /* ChartViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA890225D3560006DF7C2 /* ChartViewAnimator.swift */; };
 		699CA905225D3560006DF7C2 /* ChartPointEllipseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA891225D3560006DF7C2 /* ChartPointEllipseView.swift */; };
 		699CA906225D3560006DF7C2 /* Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA892225D3560006DF7C2 /* Optional.swift */; };
+		699CA939225D5A0D006DF7C2 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA938225D5A0D006DF7C2 /* CGRect.swift */; };
+		699CA93B225D5CBC006DF7C2 /* LegendLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */; };
 		69A9161B22485BD40093434D /* LocationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9161A22485BD40093434D /* LocationInfoViewController.swift */; };
 		69B2439022413ACB002F71AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2438F22413ACB002F71AD /* AppDelegate.swift */; };
 		69B2439222413ACB002F71AD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B2439122413ACB002F71AD /* HomeViewController.swift */; };
@@ -248,7 +249,6 @@
 		699CA871225D3560006DF7C2 /* ChartConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartConfig.swift; sourceTree = "<group>"; };
 		699CA872225D3560006DF7C2 /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		699CA873225D3560006DF7C2 /* BarsChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarsChart.swift; sourceTree = "<group>"; };
-		699CA874225D3560006DF7C2 /* CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		699CA876225D3560006DF7C2 /* ChartDrawerFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDrawerFunctions.swift; sourceTree = "<group>"; };
 		699CA877225D3560006DF7C2 /* ChartLabelDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelDrawer.swift; sourceTree = "<group>"; };
 		699CA878225D3560006DF7C2 /* ChartContextDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartContextDrawer.swift; sourceTree = "<group>"; };
@@ -276,6 +276,8 @@
 		699CA890225D3560006DF7C2 /* ChartViewAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewAnimator.swift; sourceTree = "<group>"; };
 		699CA891225D3560006DF7C2 /* ChartPointEllipseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartPointEllipseView.swift; sourceTree = "<group>"; };
 		699CA892225D3560006DF7C2 /* Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
+		699CA938225D5A0D006DF7C2 /* CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendLabel.swift; sourceTree = "<group>"; };
 		69A9161A22485BD40093434D /* LocationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoViewController.swift; sourceTree = "<group>"; };
 		69B2438C22413ACB002F71AD /* CWRUded.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CWRUded.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B2438F22413ACB002F71AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 		699CA815225D3560006DF7C2 /* SwiftCharts */ = {
 			isa = PBXGroup;
 			children = (
+				699CA938225D5A0D006DF7C2 /* CGRect.swift */,
 				699CA816225D3560006DF7C2 /* ChartCoordsSpace.swift */,
 				699CA817225D3560006DF7C2 /* Array_String.swift */,
 				699CA818225D3560006DF7C2 /* ChartAxisValueArray.swift */,
@@ -346,7 +349,6 @@
 				699CA86E225D3560006DF7C2 /* ChartViewsConflictSolver.swift */,
 				699CA86F225D3560006DF7C2 /* Pannable.swift */,
 				699CA870225D3560006DF7C2 /* Convenience */,
-				699CA874225D3560006DF7C2 /* CGRect.swift */,
 				699CA875225D3560006DF7C2 /* Drawers */,
 				699CA87A225D3560006DF7C2 /* ChartPoint */,
 				699CA87E225D3560006DF7C2 /* Views */,
@@ -608,6 +610,7 @@
 				692E0384224EC8B200F9652D /* SelectionCell.swift */,
 				692E037C224E9F8C00F9652D /* SettingCell.swift */,
 				69E35F9822441DBC00065B9A /* AboutTable.swift */,
+				699CA93A225D5CBC006DF7C2 /* LegendLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				699CA8C0225D3560006DF7C2 /* Int.swift in Sources */,
 				699CA905225D3560006DF7C2 /* ChartPointEllipseView.swift in Sources */,
 				699CA8CB225D3560006DF7C2 /* ChartAxisYLowLayerDefault.swift in Sources */,
+				699CA939225D5A0D006DF7C2 /* CGRect.swift in Sources */,
 				699CA8C7225D3560006DF7C2 /* ChartAxisXLowLayerDefault.swift in Sources */,
 				699CA8BC225D3560006DF7C2 /* ChartViewSelectorBrightness.swift in Sources */,
 				699CA8C8225D3560006DF7C2 /* ChartAxisValuesGeneratorDate.swift in Sources */,
@@ -769,8 +773,8 @@
 				699CA8AE225D3560006DF7C2 /* ChartAxisValueDouble.swift in Sources */,
 				699CA89E225D3560006DF7C2 /* ChartCandleStickLayer.swift in Sources */,
 				69B243A622414116002F71AD /* AppNavigationController.swift in Sources */,
-				699CA8EB225D3560006DF7C2 /* CGRect.swift in Sources */,
 				699CA8C1225D3560006DF7C2 /* Globals.swift in Sources */,
+				699CA93B225D5CBC006DF7C2 /* LegendLabel.swift in Sources */,
 				699CA8F1225D3560006DF7C2 /* ChartPoint.swift in Sources */,
 				699CA8A7225D3560006DF7C2 /* ChartPointsTrackerLayer.swift in Sources */,
 				699CA900225D3560006DF7C2 /* ChartLinesView.swift in Sources */,
