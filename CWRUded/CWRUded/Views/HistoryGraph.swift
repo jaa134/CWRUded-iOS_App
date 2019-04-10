@@ -92,10 +92,11 @@ class HistoryGraph {
         
         let coordsSpace = ChartCoordsSpaceLeftBottomSingleAxis(chartSettings: chartSettings, chartFrame: chartFrame, xModel: xModel, yModel: yModel)
         let (xAxisLayer, yAxisLayer, innerFrame) = (coordsSpace.xAxisLayer, coordsSpace.yAxisLayer, coordsSpace.chartInnerFrame)
-        let lineModel = ChartLineModel(chartPoints: chartPoints, lineColor: UIColor.red, lineWidth: 2, animDuration: 1, animDelay: 0)
-        let chartPointsLineLayer = ChartPointsLineLayer(xAxis: xAxisLayer.axis, yAxis: yAxisLayer.axis, lineModels: [lineModel], delayInit: false)
+        let lineModel = ChartLineModel(chartPoints: chartPoints, lineColor: ColorPallete.black, lineWidth: 1, animDuration: 1, animDelay: 0)
+        //let chartPointsLineLayer = ChartPointsLineLayer(xAxis: xAxisLayer.axis, yAxis: yAxisLayer.axis, lineModels: [lineModel], delayInit: false)
+        let chartPointsLineLayer = ChartPointsLineLayer(xAxis: xAxisLayer.axis, yAxis: yAxisLayer.axis, lineModels: [lineModel], pathGenerator: CubicLinePathGenerator(tension1: 0.3, tension2: 0.3), delayInit: false)
         
-        let guidelinesLayerSettings = ChartGuideLinesLayerSettings(linesColor: UIColor.black, linesWidth: 0.3)
+        let guidelinesLayerSettings = ChartGuideLinesLayerSettings(linesColor: ColorPallete.black, linesWidth: 0.3)
         let guidelinesLayer = ChartGuideLinesLayer(xAxisLayer: xAxisLayer, yAxisLayer: yAxisLayer, settings: guidelinesLayerSettings)
         
         let chart = Chart(
@@ -108,6 +109,23 @@ class HistoryGraph {
                 guidelinesLayer,
                 chartPointsLineLayer]
         )
+        
+        let backdropFrame = CGRect(x: innerFrame.origin.x + 28,
+                                   y: innerFrame.origin.y,
+                                   width: innerFrame.width - 28,
+                                   height: innerFrame.height - 40)
+        let backdrop = UIView(frame: backdropFrame)
+        backdrop.layer.zPosition = -1000
+        for i in 0...Int(backdropFrame.height) {
+            let frame = CGRect(x: 0,
+                               y: backdropFrame.height - CGFloat(i),
+                               width: backdropFrame.width,
+                               height: 1)
+            let gradientView = UIView(frame: frame)
+            gradientView.backgroundColor = ColorPallete.congestionColor(min: 0, max: backdropFrame.height, current: CGFloat(i)).withAlphaComponent(0.60)
+            backdrop.addSubview(gradientView)
+        }
+        chart.view.addSubview(backdrop)
         
         self.chart = chart
     }

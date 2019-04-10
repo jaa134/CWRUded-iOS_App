@@ -79,18 +79,6 @@ class LocationInfoViewController: UIViewController {
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
         
-        
-        //let graphHeight = 179
-        //for i in 0...graphHeight {
-        //    let frame = CGRect(x: 13,
-        //                       y: CGFloat(47 + graphHeight - i),
-        //                       width: UIScreen.main.bounds.width - 46,
-        //                       height: 1)
-        //    let chartBackdrop = UIView(frame: frame)
-        //    chartBackdrop.backgroundColor = ColorPallete.congestionColor(min: 0, max: CGFloat(graphHeight), current: CGFloat(i)).withAlphaComponent(0.60)
-        //    historyContainer.addSubview(chartBackdrop)
-       // }
-        
         historyContainer = UIView()
         chartIcon = historyChartIcon(x: 15, y: 10, width: 30)
         chartTitle = historyChartTitle(x: 55, y: 10, width: UIScreen.main.bounds.width - 90)
