@@ -69,7 +69,7 @@ class LocationInfoViewController: UIViewController {
         self.locationView!.update(location: self.location!)
         
         chart.clearView()
-        chart = historyChart(x: 0, y: 0, width: UIScreen.main.bounds.width - 20)
+        chart = historyChart(x: 0, y: 30, width: UIScreen.main.bounds.width - 20)
         historyContainer.addSubview(chart.view)
     }
     
@@ -78,8 +78,8 @@ class LocationInfoViewController: UIViewController {
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
         
-        chart = historyChart(x: 0, y: 0, width: UIScreen.main.bounds.width - 20)
-        legend = historyLegend(x: 10, y: chart.frame.height - 5, width: UIScreen.main.bounds.width - 40)
+        chart = historyChart(x: 0, y: 30, width: UIScreen.main.bounds.width - 20)
+        legend = historyLegend(x: 10, y: chart.frame.origin.y + chart.frame.height - 5, width: UIScreen.main.bounds.width - 40)
         historyContainer = UIView()
         historyContainer.addSubview(chart.view)
         historyContainer.addSubview(legend)
@@ -87,7 +87,7 @@ class LocationInfoViewController: UIViewController {
         historyContainer.frame.origin.x = 10
         historyContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
         historyContainer.frame.size.width = UIScreen.main.bounds.width - 20
-        historyContainer.frame.size.height = chart.view.frame.height + legend.frame.height
+        historyContainer.frame.size.height = chart.view.frame.height + legend.frame.height + 30
         historyContainer.backgroundColor = ColorPallete.white
         historyContainer.layer.cornerRadius = 5
         historyContainer.clipsToBounds = true
@@ -155,19 +155,25 @@ class LocationInfoViewController: UIViewController {
         let frame = CGRect(x: x, y: y, width: width, height: 0)
         let legend = UIView(frame: frame)
         
-        var row: CGFloat = 0
-        var x: CGFloat = 5
+        var x: CGFloat = 3
+        var y: CGFloat = 0
         for (i, space) in location!.spaces.enumerated() {
             let text = space.name
             let color = ColorPallete.chartLineColors[i % ColorPallete.chartLineColors.count]
             let label = LegendLabel(text: text, color: color)
-            label.frame.origin.x = x;
             legend.addSubview(label)
-            row += 1
-            x += label.frame.width + 10
+            
+            if ((x + label.expectedWidth) > (legend.frame.width - 10)) {
+                x = 3
+                y += LegendLabel.height + 3
+            }
+            
+            legend.addConstraint(NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: legend, attribute: .leading, multiplier: 1, constant: x))
+            legend.addConstraint(NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: legend, attribute: .top, multiplier: 1, constant: y))
+            x += label.expectedWidth + 25
         }
         
-        legend.frame.size.height = row * LegendLabel.height
+        legend.frame.size.height = y + LegendLabel.height
         return legend
     }
     
