@@ -13,7 +13,7 @@ struct HistoryGraphDefaults {
     
     fileprivate static var chartSettings: ChartSettings {
         var chartSettings = ChartSettings()
-        chartSettings.leading = 10
+        chartSettings.leading = 20
         chartSettings.top = 10
         chartSettings.trailing = 40
         chartSettings.bottom = 10
@@ -82,7 +82,7 @@ class HistoryGraph {
         
         let history = location.averagedOrderedHistory()
         let chartPoints = history.map({ r in HistoryGraph.createChartPoint(date: r.createdOn, percent: Double(r.value), displayFormatter: displayFormatter) })
-        let yValues = stride(from: 0, through: 100, by: 10).map({ ChartAxisValuePercent($0, labelSettings: labelSettings) })
+        let yValues = stride(from: 0, through: 100, by: 10).map({ EmptyAxisValue($0, labelSettings: labelSettings) })
         let xValues = history.map({ r in HistoryGraph.createDateAxisValue(r.createdOn, displayFormatter: displayFormatter) })
         
         let xModel = ChartAxisModel(axisValues: xValues, axisTitleLabel: ChartAxisLabel(text: "Timestamp", settings: labelSettings))
@@ -110,13 +110,13 @@ class HistoryGraph {
                 chartPointsLineLayer]
         )
         
-        let backdropFrame = CGRect(x: innerFrame.origin.x + 28,
+        let backdropFrame = CGRect(x: innerFrame.origin.x,
                                    y: innerFrame.origin.y,
-                                   width: innerFrame.width - 28,
+                                   width: innerFrame.width,
                                    height: innerFrame.height - 40)
         let backdrop = UIView(frame: backdropFrame)
         backdrop.layer.zPosition = -1000
-        for i in 0...Int(backdropFrame.height) {
+        for i in 1...Int(backdropFrame.height) {
             let frame = CGRect(x: 0,
                                y: backdropFrame.height - CGFloat(i),
                                width: backdropFrame.width,
@@ -131,7 +131,7 @@ class HistoryGraph {
     }
     
     private static func createChartPoint(date: Date, percent: Double, displayFormatter: DateFormatter) -> ChartPoint {
-        return ChartPoint(x: createDateAxisValue(date, displayFormatter: displayFormatter), y: ChartAxisValuePercent(percent))
+        return ChartPoint(x: createDateAxisValue(date, displayFormatter: displayFormatter), y: EmptyAxisValue(percent))
     }
     
     private static func createDateAxisValue(_ date: Date, displayFormatter: DateFormatter) -> ChartAxisValue {
@@ -143,5 +143,11 @@ class HistoryGraph {
 fileprivate class ChartAxisValuePercent: ChartAxisValueDouble {
     override var description: String {
         return "\(formatter.string(from: NSNumber(value: scalar))!)%"
+    }
+}
+
+class EmptyAxisValue: ChartAxisValueDouble {
+    override var description: String {
+        return ""
     }
 }
