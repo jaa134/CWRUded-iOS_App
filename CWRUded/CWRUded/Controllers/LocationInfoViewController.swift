@@ -18,12 +18,13 @@ class LocationInfoViewController: UIViewController {
     @IBOutlet weak var titleTextLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    public var location: Location?
+    public var location: Location!
     private var locationView: LocationInfo!
     
     private var historyContainer: UIView!
-    private var chart: LineChart!
-    private var legend: UIView!
+    private var chartIcon: UILabel!
+    private var chartTitle: UILabel!
+    private var chartGraph: LineChart!
     
     private var favoriteToggle: UISwitch!
     private var blacklistToggle: UISwitch!
@@ -61,33 +62,50 @@ class LocationInfoViewController: UIViewController {
     
     @objc private func updateLocationViewContent() {
         for location in CrowdedData.singleton.locations {
-            if (self.location!.id == location.id) {
+            if (self.location.id == location.id) {
                 self.location = location
                 break;
             }
         }
-        self.locationView!.update(location: self.location!)
+        self.locationView!.update(location: self.location)
         
-        chart.clearView()
-        chart = historyChart(x: 0, y: 30, width: UIScreen.main.bounds.width - 20)
-        historyContainer.addSubview(chart.view)
+        chartGraph.clearView()
+        chartGraph = historyChart(x: 0, y: chartTitle.frame.height + 5, width: UIScreen.main.bounds.width - 20)
+        historyContainer.addSubview(chartGraph.view)
     }
     
     private func layoutComponents() {
-        locationView = LocationInfo(location: location!)
+        locationView = LocationInfo(location: location)
         locationView.transform = CGAffineTransform(translationX: 0, y: 10)
         scrollView.addSubview(locationView!)
         
-        chart = historyChart(x: 0, y: 30, width: UIScreen.main.bounds.width - 20)
-        legend = historyLegend(x: 10, y: chart.frame.origin.y + chart.frame.height - 5, width: UIScreen.main.bounds.width - 40)
+        //var chartBackdrop = UIView(frame: CGRect(x: 13, y: 47, width: UIScreen.main.bounds.width - 46, height: 179))
+        //chartBackdrop.backgroundColor = ColorPallete.green
         historyContainer = UIView()
-        historyContainer.addSubview(chart.view)
-        historyContainer.addSubview(legend)
+        
+        let graphHeight = 179
+        for i in 0...graphHeight {
+            let frame = CGRect(x: 13,
+                               y: CGFloat(47 + graphHeight - i),
+                               width: UIScreen.main.bounds.width - 46,
+                               height: 1)
+            let chartBackdrop = UIView(frame: frame)
+            chartBackdrop.backgroundColor = ColorPallete.congestionColor(min: 0, max: CGFloat(graphHeight), current: CGFloat(i)).withAlphaComponent(0.60)
+            historyContainer.addSubview(chartBackdrop)
+        }
+        
+        chartIcon = historyChartIcon(x: 15, y: 10, width: 30)
+        chartTitle = historyChartTitle(x: 55, y: 10, width: UIScreen.main.bounds.width - 90)
+        chartGraph = historyChart(x: 0, y: chartTitle.frame.height + 5, width: UIScreen.main.bounds.width - 20)
+        
+        historyContainer.addSubview(chartIcon)
+        historyContainer.addSubview(chartTitle)
+        historyContainer.addSubview(chartGraph.view)
         
         historyContainer.frame.origin.x = 10
         historyContainer.frame.origin.y = locationView.frame.origin.y + locationView.frame.height + 10
         historyContainer.frame.size.width = UIScreen.main.bounds.width - 20
-        historyContainer.frame.size.height = chart.view.frame.height + legend.frame.height + 30
+        historyContainer.frame.size.height = chartGraph.view.frame.height + chartTitle.frame.height + 5
         historyContainer.backgroundColor = ColorPallete.white
         historyContainer.layer.cornerRadius = 5
         historyContainer.clipsToBounds = true
@@ -112,6 +130,22 @@ class LocationInfoViewController: UIViewController {
         scrollView.addSubview(actionsContainer)
     }
     
+    private func historyChartIcon(x: CGFloat, y: CGFloat, width: CGFloat) -> UILabel {
+        let frame = CGRect(x: x, y: y, width: width, height: 32)
+        let chartIcon = UILabel(frame: frame)
+        chartIcon.font = Fonts.fontAwesome(size: 25)
+        chartIcon.text = Icons.history
+        return chartIcon
+    }
+    
+    private func historyChartTitle(x: CGFloat, y: CGFloat, width: CGFloat) -> UILabel {
+        let frame = CGRect(x: x, y: y, width: width, height: 32)
+        let chartTitle = UILabel(frame: frame)
+        chartTitle.font = Fonts.app(size: 28, weight: .medium)
+        chartTitle.text = "Historical Trend"
+        return chartTitle
+    }
+    
     private func historyChart(x: CGFloat, y: CGFloat, width: CGFloat) -> LineChart {
         var chartSettings = ChartSettings()
         chartSettings.leading = -50
@@ -134,47 +168,16 @@ class LocationInfoViewController: UIViewController {
                                         yAxisLabelSettings: yAxisLabelSettings,
                                         guidelinesConfig: guidelinesConfig)
         
-        var data = [LineChart.ChartLine]()
-        for (si, space) in location!.spaces.enumerated() {
-            var points = [(Double, Double)]()
-            for (ri, rating) in space.history.sorted(by: { r1, r2 in r1.createdOn < r2.createdOn }).enumerated() {
-                points.append((Double(ri + 1), Double(rating.value)))
-            }
-            let lineColor = ColorPallete.chartLineColors[si % ColorPallete.chartLineColors.count]
-            data.append((chartPoints: points, color: lineColor))
+        var points = [(Double, Double)]()
+        for (i, rating) in location.averagedOrderedHistory().enumerated() {
+            points.append((Double(i + 1), rating))
         }
         
         let frame = CGRect(x: x, y: y, width: width, height: 200)
-        let chart = LineChart(frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: data)
+        let chart = LineChart(frame: frame, chartConfig: chartConfig, xTitle: "", yTitle: "", lines: [(chartPoints: points, color: ColorPallete.navyBlue)])
         chart.view.backgroundColor = ColorPallete.transparent
         
         return chart
-    }
-    
-    private func historyLegend(x: CGFloat, y: CGFloat, width: CGFloat) -> UIView {
-        let frame = CGRect(x: x, y: y, width: width, height: 0)
-        let legend = UIView(frame: frame)
-        
-        var x: CGFloat = 3
-        var y: CGFloat = 0
-        for (i, space) in location!.spaces.enumerated() {
-            let text = space.name
-            let color = ColorPallete.chartLineColors[i % ColorPallete.chartLineColors.count]
-            let label = LegendLabel(text: text, color: color)
-            legend.addSubview(label)
-            
-            if ((x + label.expectedWidth) > (legend.frame.width - 10)) {
-                x = 3
-                y += LegendLabel.height + 3
-            }
-            
-            legend.addConstraint(NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: legend, attribute: .leading, multiplier: 1, constant: x))
-            legend.addConstraint(NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: legend, attribute: .top, multiplier: 1, constant: y))
-            x += label.expectedWidth + 25
-        }
-        
-        legend.frame.size.height = y + LegendLabel.height
-        return legend
     }
     
     private func directionsButton(x: CGFloat, y: CGFloat, width: CGFloat) -> ActionButton {
@@ -227,7 +230,7 @@ class LocationInfoViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let toggleSwitch = UISwitch()
-        toggleSwitch.isOn = AppSettings.singleton.favoriteLocations().contains(where: { simpleLocation in simpleLocation.id == self.location!.id })
+        toggleSwitch.isOn = AppSettings.singleton.favoriteLocations().contains(where: { simpleLocation in simpleLocation.id == self.location.id })
         toggleSwitch.addTarget(self, action: #selector(favoriteToggled), for: .valueChanged)
         toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
         
@@ -254,13 +257,13 @@ class LocationInfoViewController: UIViewController {
     
     @objc private func favoriteToggled() {
         if (favoriteToggle.isOn) {
-            AppSettings.singleton.addFavoriteLocation(location: location!)
+            AppSettings.singleton.addFavoriteLocation(location: location)
             //does not trigger the other toggles event so we hanbdle it below
             blacklistToggle.setOn(false, animated: true)
             blacklistToggled()
         }
         else {
-            AppSettings.singleton.removeFavoriteLocation(location: location!)
+            AppSettings.singleton.removeFavoriteLocation(location: location)
         }
     }
     
@@ -289,7 +292,7 @@ class LocationInfoViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let toggleSwitch = UISwitch()
-        toggleSwitch.isOn = AppSettings.singleton.blacklistedLocations().contains(where: { simpleLocation in simpleLocation.id == self.location!.id })
+        toggleSwitch.isOn = AppSettings.singleton.blacklistedLocations().contains(where: { simpleLocation in simpleLocation.id == self.location.id })
         toggleSwitch.addTarget(self, action: #selector(blacklistToggled), for: .valueChanged)
         toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
         
@@ -316,13 +319,13 @@ class LocationInfoViewController: UIViewController {
     
     @objc private func blacklistToggled() {
         if (blacklistToggle.isOn) {
-            AppSettings.singleton.addBlacklistedLocation(location: location!)
+            AppSettings.singleton.addBlacklistedLocation(location: location)
             //does not trigger the other toggles event so we hanbdle it below
             favoriteToggle.setOn(false, animated: true)
             favoriteToggled()
         }
         else {
-            AppSettings.singleton.removeBlacklistedLocation(location: location!)
+            AppSettings.singleton.removeBlacklistedLocation(location: location)
         }
     }
     

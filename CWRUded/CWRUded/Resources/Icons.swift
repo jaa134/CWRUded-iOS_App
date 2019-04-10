@@ -25,6 +25,7 @@ class Icons {
     static let ban = "\u{f05e}"
     static let refresh = "\u{f2f1}"
     static let check = "\u{f00c}"
+    static let history = "\u{f1da}"
     
     public static func from(type: Type) -> String {
         switch type {

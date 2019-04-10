@@ -59,6 +59,41 @@ class Location : Codable {
         self.longitude = longitude
         self.spaces = spaces
     }
+    
+    public func averagedOrderedHistory() -> [Double] {
+        var uniqueTimestamps = [Date]()
+        for space in spaces {
+            for rating in space.history {
+                if (!uniqueTimestamps.contains(rating.createdOn)) {
+                    uniqueTimestamps.append(rating.createdOn)
+                }
+            }
+        }
+        
+        let numHistoryPoints = uniqueTimestamps.count
+        
+        var sums = [Int]()
+        var samples = [Int]()
+        for _ in 0..<numHistoryPoints {
+            sums.append(0)
+            samples.append(0)
+        }
+        
+        for space in spaces {
+            for rating in space.history {
+                if let index = uniqueTimestamps.firstIndex(of: rating.createdOn) {
+                    sums[index] += rating.value
+                    samples[index] += 1
+                }
+            }
+        }
+        
+        var averages = [Double]()
+        for i in 0..<numHistoryPoints {
+            averages.append(Double(sums[i]) / Double(samples[i]))
+        }
+        return averages
+    }
 }
 
 class CrowdedData {

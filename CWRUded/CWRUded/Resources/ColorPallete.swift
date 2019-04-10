@@ -40,15 +40,16 @@ class ColorPallete {
         let g: CGFloat
         let b: CGFloat
         
+        let halfRange = (max - min) / 2
         let step: CGFloat
-        if (current <= ((max - min) / 2)) {
-            step = current / 50
+        if (current <= halfRange) {
+            step = current / halfRange
             r = (ColorPallete.congestion_g[0] + ((ColorPallete.congestion_y[0] - ColorPallete.congestion_g[0]) * step)) / 255.0
             g = (ColorPallete.congestion_g[1] + ((ColorPallete.congestion_y[1] - ColorPallete.congestion_g[1]) * step)) / 255.0
             b = (ColorPallete.congestion_g[2] + ((ColorPallete.congestion_y[2] - ColorPallete.congestion_g[2]) * step)) / 255.0
         }
         else {
-            step = (current - 50) / 50
+            step = (current / halfRange) - 1
             r = (ColorPallete.congestion_y[0] + ((ColorPallete.congestion_r[0] - ColorPallete.congestion_y[0]) * step)) / 255.0
             g = (ColorPallete.congestion_y[1] + ((ColorPallete.congestion_r[1] - ColorPallete.congestion_y[1]) * step)) / 255.0
             b = (ColorPallete.congestion_y[2] + ((ColorPallete.congestion_r[2] - ColorPallete.congestion_y[2]) * step)) / 255.0
